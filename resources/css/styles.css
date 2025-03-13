@@ -1,0 +1,24 @@
+ /* Navbar estilos */
+ .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(10, 10, 10, 0.9); /* Negro semi-transparente */
+    backdrop-filter: blur(10px); /* Efecto de difuminado */
+    transition: background-color 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.navbar.scrolled {
+    background-color: rgba(0, 0, 0, 1); /* Negro sólido cuando se hace scroll */
+}
+
+/* Estilos para el menú hamburguesa */
+.menu {
+    display: none;
+}
+
+.menu.open {
+    display: block;
+}

@@ -5,32 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'DevCloud Partners')</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Navbar estilos */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(10, 10, 10, 0.9); /* Negro semi-transparente */
-            backdrop-filter: blur(10px); /* Efecto de difuminado */
-            transition: background-color 0.3s ease-in-out;
-            z-index: 1000;
-        }
-
-        .navbar.scrolled {
-            background-color: rgba(0, 0, 0, 1); /* Negro sólido cuando se hace scroll */
-        }
-
-        /* Estilos para el menú hamburguesa */
-        .menu {
-            display: none;
-        }
-
-        .menu.open {
-            display: block;
-        }
-    </style>
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 </head>
 <body class="bg-black text-white">
 
@@ -69,25 +44,20 @@
         @yield('content')
     </div>
 
-    <footer class="py-6 bg-gray-900 text-white text-center mt-20">
-        <p>&copy; 2025 DevCloud Partners - Todos los derechos reservados.</p>
+    <!-- Footer con logo -->
+    <footer class="py-8 bg-gray-900 text-white mt-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-6 md:mb-0">
+                    <img src="/images/logodev.png" alt="DevCloud Partners" class="h-10">
+                </div>
+                <div class="text-center md:text-right">
+                    <p>&copy; 2025 DevCloud Partners - Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
     </footer>
 
-    <!-- Script para manejar el menú y scroll -->
-    <script>
-        document.getElementById("menu-toggle").addEventListener("click", function () {
-            document.getElementById("mobile-menu").classList.toggle("open");
-        });
-
-        window.addEventListener("scroll", function() {
-            let navbar = document.querySelector(".navbar");
-            if (window.scrollY > 50) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
-        });
-    </script>
-
+    <script src="{{ asset('js/jsdelapagina.js') }}"></script>
 </body>
 </html>

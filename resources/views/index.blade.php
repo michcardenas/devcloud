@@ -11,7 +11,7 @@
         <div class="relative z-10 max-w-4xl">
             <h1 class="text-5xl font-bold">Soluciones Cloud a la Medida de tu Negocio</h1>
             <p class="mt-4 text-lg">Optimiza, escala y protege tu infraestructura con nuestras soluciones en la nube.</p>
-            <a href="#contacto" class="mt-6 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg">
+            <a href="#contacto" class="mt-6 btn btn-primary py-3 px-6 rounded-lg">
                 Contáctanos
             </a>
         </div>
@@ -44,7 +44,7 @@
     </section>
 
     <!-- Sección de Contacto -->
-    <section id="contacto" class="py-20 bg-green-600 text-white text-center">
+    <section id="contacto" class="py-20 text-white text-center bg-devcloud">
         <h2 class="text-4xl font-bold">Contáctanos</h2>
         <p class="text-lg mt-4">Agenda una reunión con nuestros expertos</p>
 
@@ -52,7 +52,7 @@
             <input type="text" placeholder="Tu Nombre" class="block w-full p-3 rounded-lg mb-4 text-gray-900">
             <input type="email" placeholder="Tu Correo" class="block w-full p-3 rounded-lg mb-4 text-gray-900">
             <textarea placeholder="Tu Mensaje" class="block w-full p-3 rounded-lg mb-4 text-gray-900"></textarea>
-            <button class="bg-white text-green-600 font-bold py-3 px-6 rounded-lg">Enviar</button>
+            <button class="mt-6 btn btn-primary py-3 px-6 rounded-lg">Enviar</button>
         </form>
     </section>
 
