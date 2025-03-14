@@ -16,88 +16,8 @@
     
     <!-- Alpine.js CDN (si no está incluido en tus scripts) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="{{ asset('css/admin-styles.css') }}" rel="stylesheet">
     
-    <style>
-        /* Estilos personalizados para el tema oscuro con los colores solicitados */
-        .admin-navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 50;
-            transition: background-color 0.3s ease-in-out;
-        }
-        
-        .admin-navbar.scrolled {
-            background-color: rgba(0, 0, 0, 1);
-        }
-        
-        .admin-sidebar {
-            background-color: rgba(10, 10, 10, 0.95);
-            border-right: 1px solid #1f1f1f;
-            transition: all 0.3s ease;
-        }
-        
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            color: #c9fcfe;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-        
-        .sidebar-link:hover {
-            background-color: #145b73;
-            border-left-color: #c9fcfe;
-        }
-        
-        .sidebar-link.active {
-            background-color: #0d4559;
-            border-left-color: #c9fcfe;
-        }
-        
-        /* Botones personalizados */
-        .admin-btn {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .admin-btn-primary {
-            background-color: #145b73;
-            color: #c9fcfe;
-        }
-        
-        .admin-btn-primary:hover {
-            background-color: #0d4559;
-            box-shadow: 0 0 15px rgba(20, 91, 115, 0.6);
-            transform: translateY(-2px);
-        }
-        
-        .admin-btn-outline {
-            border: 2px solid #145b73;
-            color: #c9fcfe;
-            background-color: transparent;
-        }
-        
-        .admin-btn-outline:hover {
-            background-color: #145b73;
-            color: #c9fcfe;
-            box-shadow: 0 0 15px rgba(20, 91, 115, 0.4);
-        }
-        
-        .admin-card {
-            background-color: #0a0a0a;
-            border: 1px solid #1f1f1f;
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-    </style>
 </head>
 <body class="font-sans antialiased bg-gray-900 text-gray-200">
     <div x-data="{ open: false, sidebarOpen: true }">

@@ -1,0 +1,228 @@
+/* Variables para mejor mantenimiento y rendimiento */
+:root {
+    --primary-blue: #145b73;
+    --primary-blue-dark: #0d4559;
+    --primary-light: #c9fcfe;
+    --bg-dark: #030e12;
+    --bg-card: #0a0a0a;
+    --bg-card-hover: #101010;
+    --border-dark: #1f1f1f;
+    --text-light: #e5e5e5;
+    --transition-normal: 0.2s ease;
+    --transition-fast: 0.15s ease;
+    --shadow-normal: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 0 15px rgba(20, 91, 115, 0.4);
+  }
+  
+  /* Optimizaciones generales para rendimiento */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    background-color: var(--bg-dark);
+    color: var(--primary-light);
+    font-family: 'Figtree', sans-serif;
+    
+    /* Optimizar rendering */
+    will-change: scroll-position;
+    backface-visibility: hidden;
+  }
+  
+  /* Estilos para el layout de autenticación */
+  .auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .auth-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: var(--shadow-normal);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .auth-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-btn {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--transition-normal), transform var(--transition-normal);
+    background-color: var(--primary-blue);
+    color: var(--primary-light);
+  }
+  
+  .auth-btn:hover {
+    background-color: var(--primary-blue-dark);
+  }
+  
+  /* Optimización de inputs y campos de formulario */
+  input[type=text], input:where(:not([type])), input[type=email], 
+  input[type=url], input[type=password], input[type=number], 
+  input[type=date], input[type=datetime-local], input[type=month], 
+  input[type=search], input[type=tel], input[type=time], 
+  input[type=week], [multiple], textarea, select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    --tw-shadow: 0 0 #0000;
+    border-color: var(--border-dark);
+    color: var(--text-light);
+  }
+  
+  .focus\:ring-2:focus {
+    --tw-ring-color: var(--primary-light);
+    --tw-ring-opacity: 0.5;
+  }
+  
+  /* Estilos optimizados para la navbar */
+  .admin-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(10, 10, 10, 0.95);
+    /* Reducir intensidad del blur para mejor rendimiento */
+    backdrop-filter: blur(5px);
+    z-index: 50;
+    transition: background-color var(--transition-normal);
+    will-change: background-color;
+    border-bottom: 1px solid var(--border-dark);
+  }
+  
+  .admin-navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.98);
+  }
+  
+  /* Optimizaciones para el sidebar */
+  .admin-sidebar {
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-dark);
+    transition: width var(--transition-normal), margin-left var(--transition-normal);
+    will-change: width, margin-left;
+  }
+  
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: var(--primary-light);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+    border-left: 3px solid transparent;
+  }
+  
+  .sidebar-link:hover {
+    background-color: var(--primary-blue);
+    border-left-color: var(--primary-light);
+  }
+  
+  .sidebar-link.active {
+    background-color: var(--primary-blue-dark);
+    border-left-color: var(--primary-light);
+  }
+  
+  /* Botones con animaciones optimizadas */
+  .admin-btn {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    /* Separar propiedades de transición para mejor rendimiento */
+    transition: 
+      background-color var(--transition-normal),
+      transform var(--transition-fast),
+      box-shadow var(--transition-normal);
+    will-change: transform;
+  }
+  
+  .admin-btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--primary-light);
+  }
+  
+  .admin-btn-primary:hover {
+    background-color: var(--primary-blue-dark);
+    box-shadow: 0 0 10px rgba(20, 91, 115, 0.5);
+    transform: translateY(-2px);
+  }
+  
+  .admin-btn-outline {
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-light);
+    background-color: transparent;
+  }
+  
+  .admin-btn-outline:hover {
+    background-color: var(--primary-blue);
+    color: var(--primary-light);
+    box-shadow: 0 0 10px rgba(20, 91, 115, 0.3);
+  }
+  
+  .admin-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: box-shadow var(--transition-normal);
+  }
+  
+  .admin-card:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Optimizaciones para dispositivos móviles */
+  @media (max-width: 768px) {
+    .admin-navbar {
+      backdrop-filter: blur(0); /* Eliminar blur en móviles para mejor rendimiento */
+    }
+    
+    .admin-btn:hover {
+      transform: translateY(-1px); /* Reducir la animación en móviles */
+      box-shadow: 0 0 5px rgba(20, 91, 115, 0.3);
+    }
+  }
+  
+  /* Optimizaciones para usuarios que prefieren reducir el movimiento */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+    
+    .admin-btn:hover,
+    .auth-btn:hover {
+      transform: none;
+    }
+  }
+  
+  /* Mejoras para accesibilidad */
+  .sidebar-link:focus-visible,
+  .admin-btn:focus-visible,
+  .auth-btn:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
+  }
+  
+  /* Optimización para estado activo de componentes */
+  .admin-btn:active,
+  .auth-btn:active,
+  .sidebar-link:active {
+    transform: scale(0.98);
+  }
