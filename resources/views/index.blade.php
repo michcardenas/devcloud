@@ -4,82 +4,217 @@
 
 @section('content')
 
-<!-- Hero Section Modernizado -->
-<section class="hero-section fade-item" data-bg-image="/images/cloud-dark-bg.jpg">
-    <div class="hero-content">
-        <h1 class="text-5xl font-bold">Soluciones Cloud a la Medida de tu Negocio</h1>
-        <p class="mt-4 text-lg">Optimiza, escala y protege tu infraestructura con nuestras soluciones en la nube.</p>
-        <button type="button" class="mt-6 btn btn-primary py-3 px-6 rounded-lg" onclick="location.href='#contacto'">
-            Contáctanos
-        </button>
+<!-- Hero Section con estadísticas -->
+<section class="hero-section scroll-reveal" data-bg-image="/images/cloud-dark-bg.jpg">
+    <div class="hero-container">
+        <div class="hero-content scroll-reveal delay-1">
+            <span class="tag-line scroll-reveal delay-2">Consultoría tecnológica especializada</span>
+            <h1 class="hero-title scroll-reveal delay-2">Transformamos <span class="highlight">empresas</span> a través <br>de la <span class="highlight">tecnología</span></h1>
+            
+            <p class="hero-description scroll-reveal delay-3">Soluciones innovadoras en Cloud Computing, DevOps y 
+            Telecomunicaciones para impulsar la transformación digital de tu 
+            negocio.</p>
+            
+            <div class="hero-buttons scroll-reveal delay-4">
+                <button type="button" class="btn btn-primary" onclick="location.href='#contacto'">
+                    Solicitar consulta <span class="arrow-icon">→</span>
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='#servicios'">
+                    Nuestros servicios
+                </button>
+            </div>
+        </div>
+        
+        <div class="stats-card scroll-reveal from-right delay-3">
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-label">Proyectos completados</span>
+                    <div class="stat-value">200+</div>
+                    <div class="stat-bar"></div>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Clientes satisfechos</span>
+                    <div class="stat-value">98%</div>
+                    <div class="stat-bar"></div>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-label">Expertos certificados</span>
+                    <div class="stat-value">50+</div>
+                    <div class="stat-bar"></div>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Años de experiencia</span>
+                    <div class="stat-value">15+</div>
+                    <div class="stat-bar"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- Sección de Servicios con fondo oscuro y elementos gráficos modernos -->
-<section class="py-20 bg-services text-center relative">
+<!-- Sección de Servicios actualizada -->
+<section id="servicios" class="py-20 bg-services text-center relative">
     <!-- Formas geométricas disruptivas -->
     <div class="shape-disruptor shape-1"></div>
     <div class="shape-disruptor shape-2"></div>
 
-    <h2 class="text-4xl font-bold text-white">Nuestros Servicios</h2>
-    <p class="text-lg text-gray-400 mt-4">Soluciones tecnológicas avanzadas para impulsar tu empresa</p>
+    <div class="container mx-auto px-4">
+        <span class="services-tag scroll-reveal">Nuestros servicios</span>
+        <h2 class="services-title scroll-reveal">Soluciones tecnológicas para tu negocio</h2>
+        <p class="services-description scroll-reveal delay-1">
+            Ofrecemos servicios integrales de consultoría y desarrollo tecnológico para potenciar la 
+            transformación digital de tu empresa.
+        </p>
 
-    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
-        <!-- Tarjeta 1 - Cloud Computing -->
-        <div class="service-card">
-            <img src="/images/cloud_done_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Cloud Services" class="w-16 mx-auto">
-            <h3 class="text-2xl font-bold text-white mt-4">Cloud Computing</h3>
-            <p class="mt-2 text-gray-400">Infraestructura segura y escalable con AWS, Azure y Google Cloud.</p>
-            <svg class="card-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-        </div>
+        <div class="services-grid">
+            <!-- Tarjeta 1 - Cloud Computing -->
+            <div class="service-card scroll-reveal delay-1">
+                <img src="/images/cloud_done_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Cloud Computing">
+                <h3>Cloud Computing</h3>
+                <p>Soluciones en la nube personalizadas para optimizar tus recursos y mejorar la escalabilidad.</p>
+                <span class="more-info">
+                    Más información 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                </span>
+            </div>
 
-        <!-- Tarjeta 2 - DevOps -->
-        <div class="service-card">
-            <img src="/images/all_inclusive_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="DevOps" class="w-16 mx-auto">
-            <h3 class="text-2xl font-bold text-white mt-4">DevOps</h3>
-            <p class="mt-2 text-gray-400">Automatización y CI/CD para optimizar tu desarrollo.</p>
-            <svg class="card-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-        </div>
+            <!-- Tarjeta 2 - DevOps -->
+            <div class="service-card scroll-reveal delay-2">
+                <img src="/images/all_inclusive_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="DevOps">
+                <h3>DevOps</h3>
+                <p>Automatización y optimización del ciclo de desarrollo, integración y despliegue de software.</p>
+                <span class="more-info">
+                    Más información 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                </span>
+            </div>
 
-        <!-- Tarjeta 3 - Ciberseguridad -->
-        <div class="service-card">
-            <img src="/images/encrypted_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Cyber Security" class="w-16 mx-auto">
-            <h3 class="text-2xl font-bold text-white mt-4">Ciberseguridad</h3>
-            <p class="mt-2 text-gray-400">Protección avanzada contra ataques y vulnerabilidades.</p>
-            <svg class="card-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+            <!-- Tarjeta 3 - Ciberseguridad -->
+            <div class="service-card scroll-reveal delay-2">
+                <img src="/images/encrypted_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Ciberseguridad">
+                <h3>Ciberseguridad</h3>
+                <p>Protección integral de datos y sistemas críticos frente a amenazas y vulnerabilidades.</p>
+                <span class="more-info">
+                    Más información 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                </span>
+            </div>
         </div>
     </div>
 </section>
 
+
 <!-- Sección de Contacto Modernizada -->
-<section id="contacto" class="py-20 text-white text-center bg-devcloud relative">
-    <!-- Forma geométrica disruptiva adicional -->
-    <div class="shape-disruptor shape-1" style="opacity: 0.1; top: 60%; left: 20%;"></div>
+<section id="contacto" class="contact-section relative">
+    <!-- Formas geométricas disruptivas -->
+    <div class="shape-disruptor shape-1" style="opacity: 0.1; top: 20%; left: 10%;"></div>
+    <div class="shape-disruptor shape-2" style="opacity: 0.1; bottom: 10%; right: 10%;"></div>
 
-    <h2 class="text-4xl font-bold">Contáctanos</h2>
-    <p class="text-lg mt-4">Agenda una reunión con nuestros expertos</p>
+    <div class="container mx-auto px-4">
+        <span class="contact-tag scroll-reveal">Contáctanos</span>
+        <h2 class="contact-title scroll-reveal">Agenda una consulta</h2>
+        <p class="contact-description scroll-reveal delay-1">
+            Estamos listos para ayudarte a transformar tu negocio con soluciones tecnológicas innovadoras.
+            Cuéntanos sobre tu proyecto y nos pondremos en contacto contigo.
+        </p>
 
-    <form class="mt-10 max-w-2xl mx-auto bg-dark bg-opacity-50 p-8 rounded-lg backdrop-blur-md border border-gray-800">
-        <div class="mb-4">
-            <input type="text" placeholder="Tu Nombre" class="block w-full p-3 rounded-lg mb-4 text-gray-900 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <div class="contact-form scroll-reveal zoom-in delay-2">
+            <div class="contact-form-info">
+                <h3 class="contact-info-title">Información de contacto</h3>
+                
+                <div class="contact-info-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span class="contact-info-text">+34 912 456 789</span>
+                </div>
+                
+                <div class="contact-info-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span class="contact-info-text">info@devcloudpartners.com</span>
+                </div>
+                
+                <div class="contact-info-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span class="contact-info-text">Calle Tecnología 123, Madrid</span>
+                </div>
+                
+                <div class="contact-social">
+                    <h4 class="contact-social-title">Síguenos en redes sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form-fields">
+                <form action="#" method="POST">
+                    <div class="input-group">
+                        <label for="name" class="input-label">Nombre</label>
+                        <input type="text" id="name" name="name" class="input-field" placeholder="Tu nombre completo" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="email" class="input-label">Correo electrónico</label>
+                        <input type="email" id="email" name="email" class="input-field" placeholder="ejemplo@email.com" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="phone" class="input-label">Teléfono (opcional)</label>
+                        <input type="tel" id="phone" name="phone" class="input-field" placeholder="+34 600 000 000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="message" class="input-label">Mensaje</label>
+                        <textarea id="message" name="message" class="input-field" placeholder="Cuéntanos sobre tu proyecto o consulta" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">
+                        Enviar mensaje
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+            </div>
         </div>
-        <div class="mb-4">
-            <input type="email" placeholder="Tu Correo" class="block w-full p-3 rounded-lg mb-4 text-gray-900 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-        </div>
-        <div class="mb-4">
-            <textarea placeholder="Tu Mensaje" class="block w-full p-3 rounded-lg mb-4 text-gray-900 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" rows="4"></textarea>
-        </div>
-        <button class="mt-6 btn btn-primary py-3 px-8 rounded-lg">Enviar</button>
-    </form>
+    </div>
 </section>
 
 @endsection

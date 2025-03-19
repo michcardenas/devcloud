@@ -17,6 +17,7 @@
     <!-- Alpine.js CDN (si no está incluido en tus scripts) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="{{ asset('css/admin-styles.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     
 </head>
 <body class="font-sans antialiased bg-gray-900 text-gray-200">

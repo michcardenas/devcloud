@@ -7,6 +7,7 @@
     <title>@yield('title', 'DevCloud Partners')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -51,7 +52,7 @@
     </div>
 
     <!-- Footer con el mismo gradiente que el navbar -->
-    <footer class="py-8 text-white mt-20">
+    <footer class="py-8 text-white">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="mb-6 md:mb-0">
@@ -63,8 +64,6 @@
             </div>
         </div>
     </footer>
-
-
 
     <script src="{{ asset('js/jsdelapagina.js') }}"></script>
 </body>
