@@ -756,7 +756,7 @@ body {
   color: var(--text-light);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .contact-form-fields {
@@ -963,7 +963,7 @@ footer p:hover {
   }
 
   .hero-container {
-    flex-direction: column;
+    /* flex-direction: column; */
     padding: 1rem;
     align-items: center;
   }
@@ -1055,4 +1055,3 @@ footer p:hover {
   }
 }
 
-;

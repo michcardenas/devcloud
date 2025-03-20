@@ -1,12 +1,15 @@
 <x-auth-layout>
-    <h2 class="text-2xl font-semibold text-center mb-4">Crear Cuenta</h2>
+    <div class="auth-card-header">
+        <h2 class="text-2xl font-semibold text-center mb-4 text-turquoise">Crear Cuenta</h2>
+        <div class="auth-card-divider"></div>
+    </div>
     
     <form method="POST" action="{{ route('register') }}">
         @csrf
         
         <!-- Name -->
         <div class="mb-4">
-            <label for="name" class="block mb-1">Nombre</label>
+            <label for="name" class="input-label">Nombre</label>
             <input
                 id="name"
                 type="text"
@@ -14,100 +17,66 @@
                 value="{{ old('name') }}"
                 required
                 autofocus
-                class="
-                    w-full
-                    px-3
-                    py-2
-                    bg-[#0a0a0a]
-                    text-[#c9fcfe]
-                    border
-                    border-[#1f1f1f]
-                    rounded
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-[#d5f9ff]
-                "
+                class="input-field"
+                placeholder="Ingresa tu nombre"
             />
         </div>
 
         <!-- Email -->
         <div class="mb-4">
-            <label for="email" class="block mb-1">Email</label>
+            <label for="email" class="input-label">Email</label>
             <input
                 id="email"
                 type="email"
                 name="email"
                 value="{{ old('email') }}"
                 required
-                class="
-                    w-full
-                    px-3
-                    py-2
-                    bg-[#0a0a0a]
-                    text-[#c9fcfe]
-                    border
-                    border-[#1f1f1f]
-                    rounded
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-[#d5f9ff]
-                "
+                class="input-field"
+                placeholder="tu@email.com"
             />
         </div>
 
         <!-- Password -->
         <div class="mb-4">
-            <label for="password" class="block mb-1">Contraseña</label>
+            <label for="password" class="input-label">Contraseña</label>
             <input
                 id="password"
                 type="password"
                 name="password"
                 required
-                class="
-                    w-full
-                    px-3
-                    py-2
-                    bg-[#0a0a0a]
-                    text-[#c9fcfe]
-                    border
-                    border-[#1f1f1f]
-                    rounded
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-[#d5f9ff]
-                "
+                class="input-field"
+                placeholder="••••••••"
             />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mb-4">
-            <label for="password_confirmation" class="block mb-1">Confirmar Contraseña</label>
+        <div class="mb-5">
+            <label for="password_confirmation" class="input-label">Confirmar Contraseña</label>
             <input
                 id="password_confirmation"
                 type="password"
                 name="password_confirmation"
                 required
-                class="
-                    w-full
-                    px-3
-                    py-2
-                    bg-[#0a0a0a]
-                    text-[#c9fcfe]
-                    border
-                    border-[#1f1f1f]
-                    rounded
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-[#d5f9ff]
-                "
+                class="input-field"
+                placeholder="••••••••"
             />
         </div>
         
         <!-- Botón de Envío -->
         <div class="flex justify-center">
-            <button type="submit" class="auth-btn">
-                Registrarse
+            <button type="submit" class="admin-btn admin-btn-primary w-full">
+                <span>Registrarse</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
             </button>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <span class="text-gray-400">¿Ya tienes cuenta?</span>
+            <a href="{{ route('login') }}" class="text-turquoise hover:text-light-blue ml-1 transition-colors">
+                Inicia sesión
+            </a>
         </div>
     </form>
 </x-auth-layout>

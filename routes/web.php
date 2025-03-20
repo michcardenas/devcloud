@@ -17,4 +17,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::post('/enviar-cotizacion', [App\Http\Controllers\CotizacionController::class, 'enviar'])->name('cotizacion.enviar');
+
 require __DIR__.'/auth.php';
