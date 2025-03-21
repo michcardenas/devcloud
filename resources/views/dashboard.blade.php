@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'DevCloud Partners - Dashboard')
 
@@ -272,6 +272,32 @@
         <button class="px-6 py-3 bg-green-900 text-[#c9fcfe] rounded-md hover:bg-green-800 transition">
             Publicar cambios
         </button>
+    </div>
+</div>
+
+<!-- Enlace de Edición de Homepage -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <div class="bg-[#0a0a0a] border border-gray-800 rounded-lg overflow-hidden shadow-lg">
+        <div class="border-b border-gray-800 px-6 py-4 bg-gray-900 flex justify-between items-center">
+            <h3 class="text-lg font-medium text-[#c9fcfe]">
+                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                </svg>
+                Edición del Homepage
+            </h3>
+            <a href="{{ route('homepage.index') }}" class="px-4 py-2 bg-blue-900 text-[#c9fcfe] rounded-md hover:bg-blue-800 transition flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+                Editar Homepage
+            </a>
+        </div>
+        
+        <div class="p-6">
+            <p class="text-gray-400">
+                Desde esta sección puedes gestionar todo el contenido de la página principal, incluyendo el texto, imágenes y secciones.
+            </p>
+        </div>
     </div>
 </div>
 

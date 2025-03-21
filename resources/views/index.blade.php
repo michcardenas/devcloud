@@ -5,15 +5,13 @@
 @section('content')
 
 <!-- Hero Section con estadísticas -->
-<section class="hero-section scroll-reveal" data-bg-image="/images/cloud-dark-bg.jpg">
+<section class="hero-section scroll-reveal" data-bg-image="{{ $content->hero_bg_image ? asset('storage/'.$content->hero_bg_image) : '/images/cloud-dark-bg.jpg' }}">
     <div class="hero-container">
         <div class="hero-content scroll-reveal delay-1">
-            <span class="tag-line scroll-reveal delay-2">Consultoría tecnológica especializada</span>
-            <h1 class="hero-title scroll-reveal delay-2">Transformamos <span class="highlight">empresas</span> a través <br>de la <span class="highlight">tecnología</span></h1>
+            <span class="tag-line scroll-reveal delay-2">{{ $content->hero_tagline }}</span>
+            <h1 class="hero-title scroll-reveal delay-2">{{ $content->hero_title_1 }} <span class="highlight">empresas</span> a través <br>de la <span class="highlight">{{ $content->hero_title_2 }}</span></h1>
 
-            <p class="hero-description scroll-reveal delay-3">Soluciones innovadoras en Cloud Computing, DevOps y
-                Telecomunicaciones para impulsar la transformación digital de tu
-                negocio.</p>
+            <p class="hero-description scroll-reveal delay-3">{{ $content->hero_description }}</p>
 
             <div class="hero-buttons scroll-reveal delay-4">
                 <button type="button" class="btn btn-primary" onclick="location.href='#contacto'">
@@ -29,24 +27,24 @@
             <div class="stats-row">
                 <div class="stat-box">
                     <span class="stat-label">Proyectos completados</span>
-                    <div class="stat-value">200+</div>
+                    <div class="stat-value">{{ $content->stat_projects }}</div>
                     <div class="stat-bar"></div>
                 </div>
                 <div class="stat-box">
                     <span class="stat-label">Clientes satisfechos</span>
-                    <div class="stat-value">98%</div>
+                    <div class="stat-value">{{ $content->stat_clients }}</div>
                     <div class="stat-bar"></div>
                 </div>
             </div>
             <div class="stats-row">
                 <div class="stat-box">
                     <span class="stat-label">Expertos certificados</span>
-                    <div class="stat-value">50+</div>
+                    <div class="stat-value">{{ $content->stat_experts }}</div>
                     <div class="stat-bar"></div>
                 </div>
                 <div class="stat-box">
                     <span class="stat-label">Años de experiencia</span>
-                    <div class="stat-value">15+</div>
+                    <div class="stat-value">{{ $content->stat_years }}</div>
                     <div class="stat-bar"></div>
                 </div>
             </div>
@@ -54,62 +52,50 @@
     </div>
 </section>
 
-<!-- Sección de Servicios actualizada -->
+<!-- Sección de Servicios actualizada con generación dinámica -->
 <section id="servicios" class="py-20 bg-services text-center relative">
     <!-- Formas geométricas disruptivas -->
     <div class="shape-disruptor shape-1"></div>
     <div class="shape-disruptor shape-2"></div>
 
     <div class="container mx-auto px-4">
-        <span class="services-tag scroll-reveal">Nuestros servicios</span>
-        <h2 class="services-title scroll-reveal">Soluciones tecnológicas para tu negocio</h2>
+        <span class="services-tag scroll-reveal">{{ $content->services_tag }}</span>
+        <h2 class="services-title scroll-reveal">{{ $content->services_title }}</h2>
         <p class="services-description scroll-reveal delay-1">
-            Ofrecemos servicios integrales de consultoría y desarrollo tecnológico para potenciar la
-            transformación digital de tu empresa.
+            {{ $content->services_description }}
         </p>
 
         <div class="services-grid">
-            <!-- Tarjeta 1 - Cloud Computing -->
-            <div class="service-card scroll-reveal delay-1">
-                <img src="/images/cloud_done_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Cloud Computing">
-                <h3>Cloud Computing</h3>
-                <p>Soluciones en la nube personalizadas para optimizar tus recursos y mejorar la escalabilidad.</p>
-                <span class="more-info">
-                    Más información
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                </span>
-            </div>
-
-            <!-- Tarjeta 2 - DevOps -->
-            <div class="service-card scroll-reveal delay-2">
-                <img src="/images/all_inclusive_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="DevOps">
-                <h3>DevOps</h3>
-                <p>Automatización y optimización del ciclo de desarrollo, integración y despliegue de software.</p>
-                <span class="more-info">
-                    Más información
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                </span>
-            </div>
-
-            <!-- Tarjeta 3 - Ciberseguridad -->
-            <div class="service-card scroll-reveal delay-2">
-                <img src="/images/encrypted_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Ciberseguridad">
-                <h3>Ciberseguridad</h3>
-                <p>Protección integral de datos y sistemas críticos frente a amenazas y vulnerabilidades.</p>
-                <span class="more-info">
-                    Más información
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                </span>
-            </div>
+            @forelse($content->services as $index => $service)
+                <!-- Tarjeta de Servicio {{ $index + 1 }} -->
+                <div class="service-card scroll-reveal delay-{{ min($index + 1, 3) }}">
+                    <img src="{{ !empty($service['icon']) ? asset($service['icon']) : '/images/default_service_' . (($index % 3) + 1) . '.png' }}" 
+                         alt="{{ $service['title'] ?? 'Servicio ' . ($index + 1) }}">
+                    <h3>{{ $service['title'] ?? 'Servicio ' . ($index + 1) }}</h3>
+                    <p>{{ $service['description'] ?? 'Descripción del servicio ' . ($index + 1) }}</p>
+                    <span class="more-info">
+                        Más información
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="m12 5 7 7-7 7"></path>
+                        </svg>
+                    </span>
+                </div>
+            @empty
+                <!-- Mostrar mensaje o servicios predeterminados si no hay servicios configurados -->
+                <div class="service-card scroll-reveal delay-1">
+                    <img src="/images/cloud_done_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Servicio 1">
+                    <h3>Servicio 1</h3>
+                    <p>Descripción del servicio predeterminado 1</p>
+                    <span class="more-info">
+                        Más información
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="m12 5 7 7-7 7"></path>
+                        </svg>
+                    </span>
+                </div>
+            @endforelse
         </div>
     </div>
 </section>
@@ -122,11 +108,10 @@
     <div class="shape-disruptor shape-2" style="opacity: 0.1; bottom: 10%; right: 10%;"></div>
 
     <div class="container mx-auto px-4">
-        <span class="contact-tag scroll-reveal">Contáctanos</span>
-        <h2 class="contact-title scroll-reveal">Agenda una consulta</h2>
+        <span class="contact-tag scroll-reveal">{{ $content->contact_tag }}</span>
+        <h2 class="contact-title scroll-reveal">{{ $content->contact_title }}</h2>
         <p class="contact-description scroll-reveal delay-1">
-            Estamos listos para ayudarte a transformar tu negocio con soluciones tecnológicas innovadoras.
-            Cuéntanos sobre tu proyecto y nos pondremos en contacto contigo.
+            {{ $content->contact_description }}
         </p>
 
         <div class="contact-form scroll-reveal zoom-in delay-2">
@@ -139,7 +124,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                         </svg>
-                        <span class="contact-info-text">+34 912 456 789</span>
+                        <span class="contact-info-text">{{ $content->contact_phone }}</span>
                     </div>
 
                     <div class="contact-info-item">
@@ -147,7 +132,7 @@
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
-                        <span class="contact-info-text">info@devcloudpartners.com</span>
+                        <span class="contact-info-text">{{ $content->contact_email }}</span>
                     </div>
 
                     <div class="contact-info-item">
@@ -155,7 +140,7 @@
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
-                        <span class="contact-info-text">Calle Tecnología 123, Madrid</span>
+                        <span class="contact-info-text">{{ $content->contact_address }}</span>
                     </div>
                 </div>
 

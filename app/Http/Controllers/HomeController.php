@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('index');
+        $content = \App\Models\HomepageContent::firstOrCreate([]);
+        return view('index', compact('content'));
     }
 }

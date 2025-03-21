@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController; // Added import
+use App\Http\Controllers\HomepageController; // Added import
 use Illuminate\Support\Facades\Route;
 
 // Replaced the closure route with the controller route
@@ -10,6 +11,12 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/homepage', [HomepageController::class, 'index'])->name('admin.homepage.index');
+    Route::put('/admin/homepage', [HomepageController::class, 'update'])->name('admin.homepage.update');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
