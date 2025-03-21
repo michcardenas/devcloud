@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('admin.homepage.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/homepage', [HomepageController::class, 'index'])->name('admin.homepage.index');
