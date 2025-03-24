@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+  
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+        document.getElementById('mobile-menu').classList.toggle('open');
+    });
+
+
     
     // Activar animaciones con detección de visibilidad
     function setupScrollAnimations() {
@@ -154,4 +160,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setupShapeAnimations();
     setupMobileMenu();
     setupNavbarScroll();
+});
+window.addEventListener('scroll', function () {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 20) {
+        navbar.classList.add('navbar-scrolled');
+    } else {
+        navbar.classList.remove('navbar-scrolled');
+    }
 });

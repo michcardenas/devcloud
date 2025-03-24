@@ -17,6 +17,8 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.1/Sortable.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -41,10 +43,73 @@
             background-color: var(--bg-dark);
             color: var(--light-blue);
         }
+        .navbar-nav .nav-link {
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: var(--accent-blue);
+    border-radius: 0.5rem;
+    color: #fff !important;
+}
+
     </style>
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg sticky-top" style="background-color: var(--dark-blue); padding: 1rem 2rem;">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand text-light d-flex align-items-center" href="/admin/homepage">
+            <img src="{{ asset('images/logodev.png') }}" alt="DevCloud Logo" style="max-width: 200px; height: auto;">
+        </a>
+        <!-- Botón responsive -->
+        <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú colapsable -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/admin/homepage">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/admin/servicios">Servicios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Noticias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Prensa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Únete</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Contacto</a>
+                </li>
+                <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link text-light px-3" style="text-decoration: none;">
+                        Cerrar sesión
+                    </button>
+                </form>
+            </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
     <div class="auth-container">
         <!-- Formas decorativas en el fondo -->
         <div class="auth-shape auth-shape-1"></div>
@@ -52,9 +117,7 @@
 
         <div class="auth-card">
             <!-- Logo -->
-            <div class="auth-logo">
-                <img src="/images/logodev.png" alt="DevCloud Partners">
-            </div>
+    
 
             <!-- Validación de errores -->
             @if ($errors->any())
@@ -75,6 +138,7 @@
 
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="{{ asset('js/admin.js') }}"></script>
 </body>

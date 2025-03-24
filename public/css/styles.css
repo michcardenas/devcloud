@@ -67,14 +67,92 @@ body {
   margin-left: 1.5rem;
   text-decoration: none;
   font-size: 0.9rem;
-  /* Tamaño de texto reducido */
+  position: relative;
   transition: color 0.3s ease;
 }
-
+.navbar-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: var(--light-blue);
+  transition: width 0.3s ease;
+}
 .navbar-links a:hover {
   color: var(--light-blue);
 }
+.navbar-links a:hover::after {
+  width: 100%;
+}
+.btn-presupuesto {
+  background: linear-gradient(to right, #0caab7, #08d7fb); /* azul celeste degradado */
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 999px; /* para hacerlo totalmente redondo */
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
+.btn-presupuesto:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  text-decoration: underline;
+}
+
+.navbar.navbar-scrolled {
+  background: white !important;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.navbar.navbar-scrolled .navbar-links a {
+  color: black;
+}
+
+.navbar.navbar-scrolled .navbar-links a:hover {
+  color: var(--primary-blue); /* o cualquier otro color que te guste */
+}
+
+.navbar.navbar-scrolled .navbar-links a::after {
+  background-color: var(--primary-blue);
+}
+
+.navbar.navbar-scrolled .btn-presupuesto {
+  background-color: var(--primary-blue);
+  color: white !important;
+}
+
+.navbar.navbar-scrolled .btn-presupuesto:hover {
+  background-color: var(--accent-blue);
+}.navbar.navbar-scrolled .navbar-links a {
+  color: black;
+}
+
+.navbar.navbar-scrolled .navbar-links a:hover {
+  color: var(--light-blue);; /* o cualquier otro color que te guste */
+}
+
+.navbar.navbar-scrolled .navbar-links a::after {
+  background-color:var(--light-blue);;
+}
+
+.navbar.navbar-scrolled .btn-presupuesto {
+  background-color: var(--light-blue);;
+  color: white !important;
+}
+
+.navbar.navbar-scrolled .btn-presupuesto:hover {
+  background-color: var(--accent-blue);
+}
+.mobile-menu a::after {
+  display: none; /* sin subrayado en móvil */
+}
 /* Menú hamburguesa para móviles */
 .mobile-menu-toggle {
   display: none;

@@ -14,37 +14,52 @@
 <body class="bg-black text-white">
 
     <!-- Navbar -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-logo">
-                <a href="/">
-                    <img src="\images\logodev.png" alt="DevCloud Partners">
-                </a>
-            </div>
-
-            <div class="navbar-links">
-                <a href="/">Inicio</a>
-                <a href="#servicios">Servicios</a>
-                <a href="#casos">Casos de Éxito</a>
-                <a href="#contacto">Contacto</a>
-            </div>
-
-            <button id="menu-toggle" class="mobile-menu-toggle">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
+    <nav class="navbar ">
+    <div class="navbar-container">
+        <!-- Logo -->
+        <div class="navbar-logo">
+            <a href="/">
+                <img src="/images/logodev.png" alt="DevCloud Partners">
+            </a>
         </div>
 
-        <div id="mobile-menu" class="mobile-menu">
+        <!-- Enlaces -->
+        <div class="navbar-links">
             <a href="/">Inicio</a>
-            <a href="#servicios">Servicios</a>
-            <a href="#casos">Casos de Éxito</a>
+            <a href="{{ route('servicios') }}">Servicios</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#noticias">Noticias</a>
+            <a href="#prensa">Prensa</a>
+            <a href="#unete">Únete</a>
             <a href="#contacto">Contacto</a>
+            <a href="#presupuesto" class="btn-presupuesto">Solicitar presupuesto</a>
         </div>
-    </nav>
+
+        <!-- Botón hamburguesa -->
+        <button id="menu-toggle" class="mobile-menu-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Menú móvil -->
+    <div id="mobile-menu" class="mobile-menu">
+        <a href="/">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#noticias">Noticias</a>
+        <a href="#prensa">Prensa</a>
+        <a href="#unete">Únete</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#presupuesto" class="btn-presupuesto">Solicitar presupuesto</a>
+    </div>
+</nav>
+
 
     <!-- Contenido -->
     <div class="content pt-20">

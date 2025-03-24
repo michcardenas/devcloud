@@ -68,14 +68,16 @@
                 </svg>
             </button>
         </div>
+    
+        </div>
         
-        @if (Route::has('register'))
+        <!-- @if (Route::has('register'))
             <div class="mt-4 text-center">
                 <span class="text-gray-400">¿No tienes cuenta?</span>
                 <a href="{{ route('register') }}" class="text-turquoise hover:text-light-blue ml-1 transition-colors">
                     Regístrate
                 </a>
             </div>
-        @endif
+        @endif -->
     </form>
 </x-auth-layout>
