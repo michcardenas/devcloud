@@ -7,6 +7,8 @@ use App\Models\Caracteristica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\ServiciosPage;
+use Illuminate\Support\Facades\File;
 
 class ServicioController extends Controller
 {
@@ -19,8 +21,10 @@ class ServicioController extends Controller
             ->where('activo', true)
             ->orderBy('orden')
             ->get();
-            
-        return view('servicios', compact('servicios'));
+    
+        $serviciosPage = ServiciosPage::latest()->first();
+    
+        return view('servicios', compact('servicios', 'serviciosPage'));
     }
     
     /**
@@ -31,8 +35,11 @@ class ServicioController extends Controller
         $servicios = Servicio::with('caracteristicas')->orderBy('orden')->get();
         $ultimoOrden = Servicio::max('orden') ?? 0;
         $iconos = $this->getIconosList();
-        
-        return view('admin.homepage.editservicios', compact('servicios', 'ultimoOrden', 'iconos'));
+    
+        // Obtenemos el primer (o el último) registro de ServiciosPage
+        $serviciosPage = ServiciosPage::latest()->first(); // o ->first() si solo habrá uno
+    
+        return view('admin.homepage.editservicios', compact('servicios', 'ultimoOrden', 'iconos', 'serviciosPage'));
     }
     
     /**
@@ -261,4 +268,61 @@ class ServicioController extends Controller
             'box' => '<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />',
         ];
     }
+
+
+    
+    public function serviciospage(Request $request)
+    {
+        $data = $request->all();
+    
+        // Guardar imágenes de atributos
+        for ($bloque = 1; $bloque <= 3; $bloque++) {
+            for ($i = 1; $i <= 4; $i++) {
+                $field = "imagen_atributo{$i}_{$bloque}";
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . "_{$field}." . $file->getClientOriginalExtension();
+    
+                    $destinationPath = public_path('images/serviciospage');
+                    if (!File::exists($destinationPath)) {
+                        File::makeDirectory($destinationPath, 0755, true);
+                    }
+    
+                    $file->move($destinationPath, $filename);
+                    $data[$field] = "images/serviciospage/" . $filename;
+                }
+            }
+        }
+    
+        // Guardar imágenes principales de bloque
+        for ($j = 1; $j <= 4; $j++) {
+            $field = "imagen{$j}";
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . "_{$field}." . $file->getClientOriginalExtension();
+    
+                $destinationPath = public_path('images/serviciospage');
+                if (!File::exists($destinationPath)) {
+                    File::makeDirectory($destinationPath, 0755, true);
+                }
+    
+                $file->move($destinationPath, $filename);
+                $data[$field] = "images/serviciospage/" . $filename;
+            }
+        }
+    
+        // Buscar el primer registro o crear uno nuevo si no existe
+        $servicioPage = ServiciosPage::first();
+    
+        if ($servicioPage) {
+            $servicioPage->update($data);
+        } else {
+            ServiciosPage::create($data);
+        }
+    
+        return redirect()->back()->with('success', 'Contenido guardado correctamente.');
+    }
+    
+    
+    
 }

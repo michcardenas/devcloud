@@ -6,21 +6,35 @@
 <!-- Hero Section Compacta -->
 <section class="servicios-banner bg-dark">
     <div class="container">
-        <div class="banner-etiqueta-contenedor">
-            <span class="banner-etiqueta">Nuestros servicios</span>
-        </div>
-        
-        <h1 class="banner-titulo scroll-reveal delay-1">
-            Soluciones tecnológicas para<br>
-            impulsar tu <span class="color-destacado">negocio</span>
-        </h1>
-        
-        <p class="banner-descripcion scroll-reveal delay-2">
-            Ofrecemos servicios especializados en Cloud Computing, DevOps y 
-            Telecomunicaciones para ayudarte a acelerar tu transformación digital.
-        </p>
+        {{-- Tagline --}}
+        @if (!empty($serviciosPage->tagline))
+            <div class="banner-etiqueta-contenedor">
+                <span class="banner-etiqueta">{{ $serviciosPage->tagline }}</span>
+            </div>
+        @endif
+
+        {{-- Título H1 con última palabra destacada --}}
+        @if (!empty($serviciosPage->titulo_h1))
+            @php
+                $palabras = explode(' ', $serviciosPage->titulo_h1);
+                $ultimaPalabra = array_pop($palabras);
+                $tituloSinUltima = implode(' ', $palabras);
+            @endphp
+
+            <h1 class="banner-titulo scroll-reveal delay-1">
+                {!! nl2br(e($tituloSinUltima)) !!} <span class="color-destacado">{{ $ultimaPalabra }}</span>
+            </h1>
+        @endif
+
+        {{-- Contenido principal --}}
+        @if (!empty($serviciosPage->p_contenido))
+            <p class="banner-descripcion scroll-reveal delay-2">
+                {{ $serviciosPage->p_contenido }}
+            </p>
+        @endif
     </div>
 </section>
+
 
 <!-- Sección de Servicios sin Rombos Adicionales -->
 <section id="servicios" class="py-16 bg-services text-center relative">
@@ -29,11 +43,20 @@
     <div class="shape-disruptor shape-2"></div>
     
     <div class="container mx-auto px-4">
-        <span class="services-tag scroll-reveal">{{ $content->services_tag ?? 'Nuestras soluciones' }}</span>
-        <h2 class="services-title scroll-reveal">{{ $content->services_title ?? 'Áreas de especialización' }}</h2>
+    @if (!empty($serviciosPage))
+        <span class="services-tag scroll-reveal">
+            {{ $serviciosPage->tagline2 ?? 'Nuestras soluciones' }}
+        </span>
+
+        <h2 class="services-title scroll-reveal">
+            {{ $serviciosPage->sub_h2 ?? 'Áreas de especialización' }}
+        </h2>
+
         <p class="services-description scroll-reveal delay-1">
-            {{ $content->services_description ?? 'Combinamos conocimiento técnico avanzado con una profunda comprensión de los desafíos empresariales para ofrecer soluciones integrales.' }}
+            {{ $serviciosPage->contenido_2 ?? 'Combinamos conocimiento técnico avanzado con una profunda comprensión de los desafíos empresariales para ofrecer soluciones integrales.' }}
         </p>
+    @endif
+
         
         <!-- Servicios dinámicos -->
         @if(isset($servicios) && $servicios->count() > 0)
@@ -146,96 +169,135 @@
 <!-- Sección de Servicios Detallados -->
 <section class="tech-servicios-seccion">
     <div class="container">
-        @if(isset($servicios) && $servicios->count() > 0)
-            @foreach($servicios->where('activo', true) as $index => $servicio)
-                <div class="tech-servicio-bloque {{ $index % 2 != 0 ? 'invertido' : '' }}">
-                    <div class="tech-servicio-visual">
-                        <img src="{{ asset($servicio->imagen) }}" alt="{{ $servicio->titulo }}" class="tech-servicio-img">
-                    </div>
-                    <div class="tech-servicio-datos">
-                        <div class="tech-servicio-tag">{{ $servicio->etiqueta }}</div>
-                        <h2 class="tech-servicio-titulo">{{ $servicio->titulo }}</h2>
-                        <div class="tech-servicio-separador"></div>
-                        <p class="tech-servicio-texto">
-                            {{ $servicio->descripcion }}
-                        </p>
-                        
-                        @if($servicio->caracteristicas && $servicio->caracteristicas->count() > 0)
-                        <div class="tech-ventajas-grid">
-                            @foreach($servicio->caracteristicas->take(4) as $caracteristica)
-                            <div class="tech-ventaja-item">
-                                <div class="tech-ventaja-icono">
-                                    @if(isset($iconos[$caracteristica->icono]))
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        {!! $iconos[$caracteristica->icono] !!}
-                                    </svg>
-                                    @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-                                    </svg>
-                                    @endif
-                                </div>
-                                <div class="tech-ventaja-contenido">
-                                    <h3>{{ $caracteristica->titulo }}</h3>
-                                    <p>{{ $caracteristica->descripcion }}</p>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
-                        
-                        <a href="/contacto?servicio={{ Str::slug($servicio->nombre) }}" class="tech-btn-info">Solicitar información <span class="flecha">→</span></a>
-                    </div>
-                </div>
-            @endforeach
-        @else
-            <!-- Servicio 1: Cloud Computing (Estático) -->
+        @if ($serviciosPage)
+            {{-- BLOQUE 1 --}}
             <div class="tech-servicio-bloque">
                 <div class="tech-servicio-visual">
-                    <img src="/images/cloud-computing.jpg" alt="Cloud Computing" class="tech-servicio-img">
+                    <img src="{{ asset($serviciosPage->imagen1) }}" alt="Imagen 1" class="tech-servicio-img">
                 </div>
                 <div class="tech-servicio-datos">
-                    <div class="tech-servicio-tag">Cloud Computing</div>
-                    <h2 class="tech-servicio-titulo">Potencia tu negocio en la nube</h2>
+                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline3 }}</div>
+                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub2_h2 }}</h2>
                     <div class="tech-servicio-separador"></div>
-                    <p class="tech-servicio-texto">
-                        Nuestros servicios de Cloud Computing te ayudan a aprovechar todo el potencial de la nube,
-                        optimizando costes, mejorando la escalabilidad y aumentando la agilidad de tu negocio.
-                    </p>
-                    
+                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_3 }}</p>
+
                     <div class="tech-ventajas-grid">
-                        <!-- Características estáticas -->
-                        <div class="tech-ventaja-item">
-                            <div class="tech-ventaja-icono">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
-                                </svg>
-                            </div>
-                            <div class="tech-ventaja-contenido">
-                                <h3>Migración a la nube</h3>
-                                <p>Diseño y ejecución de estrategias de migración segura y eficiente a entornos cloud.</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Más características estáticas... -->
+                        @for ($i = 1; $i <= 4; $i++)
+                            @php
+                                $titulo = $serviciosPage->{'titulo_atributo' . $i . '_1'};
+                                $contenido = $serviciosPage->{'contenido_atributo' . $i . '_1'};
+                                $imagen = $serviciosPage->{'imagen_atributo' . $i . '_1'};
+                            @endphp
+                            @if ($titulo || $contenido)
+                                <div class="tech-ventaja-item">
+                                    <div class="tech-ventaja-icono">
+                                        @if (!empty($imagen))
+                                            <img src="{{ asset($imagen) }}" alt="Icono" style="width: 32px;">
+                                        @endif
+                                    </div>
+                                    <div class="tech-ventaja-contenido">
+                                        <h3>{{ $titulo }}</h3>
+                                        <p>{{ $contenido }}</p>
+                                    </div>
+                                </div>
+                            @endif
+                        @endfor
                     </div>
-                    
-                    <a href="#" class="tech-btn-info">Solicitar información <span class="flecha">→</span></a>
+
+                    <a href="/contacto" class="tech-btn-info">Solicitar información <span class="flecha">→</span></a>
+                </div>
+            </div>
+
+            {{-- BLOQUE 2 --}}
+            <div class="tech-servicio-bloque tech-servicio-bloque-fondo invertido">
+                <div class="tech-servicio-visual">
+                    <img src="{{ asset($serviciosPage->imagen2) }}" alt="Imagen 2" class="tech-servicio-img">
+                </div>
+                <div class="tech-servicio-datos">
+                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline5 }}</div>
+                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub4_h2 }}</h2>
+                    <div class="tech-servicio-separador"></div>
+                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_5 }}</p>
+
+                    <div class="tech-ventajas-grid">
+                        @for ($i = 1; $i <= 4; $i++)
+                            @php
+                                $titulo = $serviciosPage->{'titulo_atributo' . $i . '_2'};
+                                $contenido = $serviciosPage->{'contenido_atributo' . $i . '_2'};
+                                $imagen = $serviciosPage->{'imagen_atributo' . $i . '_2'};
+                            @endphp
+                            @if ($titulo || $contenido)
+                                <div class="tech-ventaja-item">
+                                    <div class="tech-ventaja-icono">
+                                        @if (!empty($imagen))
+                                            <img src="{{ asset($imagen) }}" alt="Icono" style="width: 32px;">
+                                        @endif
+                                    </div>
+                                    <div class="tech-ventaja-contenido">
+                                        <h3>{{ $titulo }}</h3>
+                                        <p>{{ $contenido }}</p>
+                                    </div>
+                                </div>
+                            @endif
+                        @endfor
+                    </div>
+
+                    <a href="/contacto" class="tech-btn-info">Solicitar información <span class="flecha">→</span></a>
+                </div>
+            </div>
+
+            {{-- BLOQUE 3 --}}
+            <div class="tech-servicio-bloque ">
+                <div class="tech-servicio-visual">
+                    <img src="{{ asset($serviciosPage->imagen3) }}" alt="Imagen 3" class="tech-servicio-img">
+                </div>
+                <div class="tech-servicio-datos">
+                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline6 }}</div>
+                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub5_h2 }}</h2>
+                    <div class="tech-servicio-separador"></div>
+                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_5 }}</p>
+
+                    <div class="tech-ventajas-grid">
+                        @for ($i = 1; $i <= 4; $i++)
+                            @php
+                                $titulo = $serviciosPage->{'titulo_atributo' . $i . '_3'};
+                                $contenido = $serviciosPage->{'contenido_atributo' . $i . '_3'};
+                                $imagen = $serviciosPage->{'imagen_atributo' . $i . '_3'};
+                            @endphp
+                            @if ($titulo || $contenido)
+                                <div class="tech-ventaja-item">
+                                    <div class="tech-ventaja-icono">
+                                        @if (!empty($imagen))
+                                            <img src="{{ asset($imagen) }}" alt="Icono" style="width: 32px;">
+                                        @endif
+                                    </div>
+                                    <div class="tech-ventaja-contenido">
+                                        <h3>{{ $titulo }}</h3>
+                                        <p>{{ $contenido }}</p>
+                                    </div>
+                                </div>
+                            @endif
+                        @endfor
+                    </div>
+
+                    <a href="/contacto" class="tech-btn-info">Solicitar información <span class="flecha">→</span></a>
                 </div>
             </div>
         @endif
     </div>
 </section>
 
+
 <!-- Sección CTA -->
 <section class="cta-section py-20 relative">
     <div class="shape-disruptor shape-2" style="bottom: 20%; left: 10%;"></div>
     
     <div class="container mx-auto px-4 text-center">
-        <h2 class="cta-title scroll-reveal">{{ $content->contact_title ?? '¿Necesitas soluciones personalizadas?' }}</h2>
-        <p class="cta-description scroll-reveal delay-1">
-            {{ $content->contact_description ?? 'Cuéntanos tu proyecto y diseñaremos una solución a medida que se adapte perfectamente a tus necesidades específicas.' }}
-        </p>
+    <h2 class="cta-title scroll-reveal">{{ $serviciosPage->sub3_h2 ?? '¿Necesitas soluciones personalizadas?' }}</h2>
+    <p class="cta-description scroll-reveal delay-1">
+        {{ $serviciosPage->contenido_4 ?? 'Cuéntanos tu proyecto y diseñaremos una solución a medida que se adapte perfectamente a tus necesidades específicas.' }}
+    </p>
+
         
         <div class="cta-buttons scroll-reveal delay-2">
             <button type="button" class="btn btn-white" onclick="location.href='/contacto'">

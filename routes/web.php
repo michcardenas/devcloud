@@ -29,7 +29,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/servicios/{servicio}', [ServicioController::class, 'update'])->name('servicios.update');
         Route::delete('/servicios/{servicio}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
         Route::post('/servicios/reordenar', [ServicioController::class, 'reorder'])->name('servicios.reorder');
-        
+        Route::post('/servicios/contenido', [\App\Http\Controllers\ServicioController::class, 'serviciospage'])->name('servicios_page.store');
+
+
         // Caracteristicas de servicios
         Route::get('/servicios/{servicio}/caracteristicas', [ServicioController::class, 'caracteristicas'])->name('servicios.caracteristicas');
         Route::post('/caracteristicas', [ServicioController::class, 'storeCaracteristica'])->name('caracteristicas.store');

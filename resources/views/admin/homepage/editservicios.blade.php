@@ -1,12 +1,167 @@
 @extends('layouts.admin')
 
 @section('content')
+<section class="container py-5 text-white">
+    <h2 class="mb-4">Gestión de la Página de Servicios</h2>
+    @if (session('success'))
+    <div class="alert alert-success text-center">
+        {{ session('success') }}
+    </div>
+@endif
+
+<form action="{{ route('admin.servicios_page.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+
+    <!-- BLOQUE PRINCIPAL -->
+    <div class="p-4 mb-4 rounded shadow bg-dark text-white border border-secondary">
+        <h4 class="mb-3">🧱 Bloque Principal</h4>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Tagline</label>
+                <input type="text" name="tagline" class="form-control bg-dark text-white border-secondary" value="{{ old('tagline', $serviciosPage->tagline ?? '') }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Título H1</label>
+                <input type="text" name="titulo_h1" class="form-control bg-dark text-white border-secondary" value="{{ old('titulo_h1', $serviciosPage->titulo_h1 ?? '') }}">
+            </div>
+            <div class="col-12 mb-3">
+                <label class="form-label text-light">Contenido principal (Párrafo)</label>
+                <textarea name="p_contenido" rows="4" class="form-control bg-dark text-white border-secondary">{{ old('p_contenido', $serviciosPage->p_contenido ?? '') }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOQUE 2 -->
+    <div class="p-4 mb-4 rounded shadow bg-dark text-white border border-secondary">
+        <h4 class="mb-3">🧱 Bloque 2</h4>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Tagline 2</label>
+                <input type="text" name="tagline2" class="form-control bg-dark text-white border-secondary" value="{{ old('tagline2', $serviciosPage->tagline2 ?? '') }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Subtítulo H2</label>
+                <input type="text" name="sub_h2" class="form-control bg-dark text-white border-secondary" value="{{ old('sub_h2', $serviciosPage->sub_h2 ?? '') }}">
+            </div>
+            <div class="col-12 mb-3">
+                <label class="form-label text-light">Contenido 2</label>
+                <textarea name="contenido_2" rows="4" class="form-control bg-dark text-white border-secondary">{{ old('contenido_2', $serviciosPage->contenido_2 ?? '') }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOQUE 3 -->
+    @for ($bloque = 1; $bloque <= 3; $bloque++)
+    @php
+    $taglineField = "tagline" . ($bloque + 2); // tagline3, tagline5, tagline6
+        $imagenField = "imagen" . $bloque;         // imagen1, imagen2, imagen3
+        $subField = "sub" . ($bloque + 1) . "_h2"; // sub2_h2, sub4_h2, sub5_h2
+        $contenidoField = "contenido_" . ($bloque + 2); // contenido_3, contenido_5, contenido_6
+        @endphp
+
+    <div class="p-4 mb-4 rounded shadow bg-dark text-white border border-secondary">
+        <h4 class="mb-3">🧱 Bloque {{ $bloque }}</h4>
+        <div class="row">
+            {{-- Tagline --}}
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Tagline {{ $bloque + 2 }}</label>
+                <input type="text" name="{{ $taglineField }}" class="form-control bg-dark text-white border-secondary"
+                    value="{{ old($taglineField, $serviciosPage->{$taglineField} ?? '') }}">
+            </div>
+
+            {{-- Imagen Principal --}}
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Imagen principal del bloque {{ $bloque }}</label><br>
+                @if (isset($serviciosPage) && !empty($serviciosPage->{$imagenField}))
+                <img src="{{ asset($serviciosPage->{$imagenField} ?? '') }}" class="img-thumbnail mb-2" style="max-height: 100px;">
+                @endif
+                <input type="file" name="imagen{{ $bloque }}" class="form-control bg-dark text-white border-secondary">
+                </div>
+
+            {{-- Sub H2 --}}
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Sub {{ $bloque + 1 }} H2</label>
+                <input type="text" name="{{ $subField }}" class="form-control bg-dark text-white border-secondary"
+                    value="{{ old($subField, $serviciosPage->{$subField} ?? '') }}">
+            </div>
+
+            {{-- Contenido --}}
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Contenido</label>
+                <textarea name="{{ $contenidoField }}" rows="4" class="form-control bg-dark text-white border-secondary">{{ old($contenidoField, $serviciosPage->{$contenidoField} ?? '') }}</textarea>
+            </div>
+        </div>
+
+        {{-- Atributos del bloque --}}
+        <div class="row">
+            @for ($i = 1; $i <= 4; $i++)
+                @php
+                    $tituloAttr = "titulo_atributo{$i}_{$bloque}";
+                    $contenidoAttr = "contenido_atributo{$i}_{$bloque}";
+                    $imagenAttr = "imagen_atributo{$i}_{$bloque}";
+                @endphp
+
+                <div class="col-md-6 mb-4">
+                    <div class="border p-3 rounded bg-dark text-white border-secondary">
+                        <h6 class="mb-3">Atributo {{ $i }}</h6>
+
+                        <div class="mb-2">
+                            <label class="form-label text-light">Título</label>
+                            <input type="text" name="{{ $tituloAttr }}" class="form-control bg-dark text-white border-secondary"
+                                value="{{ old($tituloAttr, $serviciosPage->{$tituloAttr} ?? '') }}">
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label text-light">Contenido</label>
+                            <textarea name="{{ $contenidoAttr }}" rows="2" class="form-control bg-dark text-white border-secondary">{{ old($contenidoAttr, $serviciosPage->{$contenidoAttr} ?? '') }}</textarea>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label text-light">Imagen (opcional)</label><br>
+                            @if (isset($serviciosPage) && !empty($serviciosPage->{$imagenAttr}))
+                            <img src="{{ asset($serviciosPage->{$imagenAttr}) }}" class="img-thumbnail mb-2" style="max-height: 100px;">
+                            @endif
+
+                            {{-- Input file para subir imagen nueva --}}
+                            <input type="file" name="{{ $imagenAttr }}" class="form-control bg-dark text-white border-secondary">
+
+                            {{-- Input hidden para conservar imagen actual --}}
+                            <input type="hidden" name="old_{{ $imagenAttr }}" value="{{ $serviciosPage->{$imagenAttr} ?? '' }}">
+                            </div>
+
+                    </div>
+                </div>
+            @endfor
+        </div>
+    </div>
+@endfor
+
+    <!-- BLOQUE FINAL -->
+    <div class="p-4 mb-4 rounded shadow bg-dark text-white border border-secondary">
+        <h4 class="mb-3">🚀 Bloque Final</h4>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Sub 3 H2</label>
+                <input type="text" name="sub3_h2" class="form-control bg-dark text-white border-secondary" value="{{ old('sub3_h2', $serviciosPage->sub3_h2 ?? '') }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-light">Contenido 4</label>
+                <textarea name="contenido_4" rows="4" class="form-control bg-dark text-white border-secondary">{{ old('contenido_4', $serviciosPage->contenido_4 ?? '') }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-outline-light px-4">💾 Guardar</button>
+    </div>
+</form>
+
+
+</section>
+
 <div class="servicio-container">
     <h1 class="servicio-title">Gestión de Servicios</h1>
-    <ul class="servicio-breadcrumb">
-        <li class="servicio-breadcrumb-item"><a href="{{ route('admin.homepage.index') }}" class="servicio-breadcrumb-link">Dashboard</a></li>
-        <li class="servicio-breadcrumb-item"><span class="servicio-breadcrumb-active">Editar Servicios</span></li>
-    </ul>
+
 
     @if (session('success'))
         <div class="servicio-alert servicio-alert-success">
