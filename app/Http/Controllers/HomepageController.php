@@ -45,29 +45,7 @@ class HomepageController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
-            'hero_tagline' => 'required|max:100',
-            'hero_title_1' => 'required|max:100',
-            'hero_title_2' => 'required|max:100',
-            'hero_description' => 'required',
-            'hero_bg_image' => 'nullable|image|max:2048',
-            'stat_projects' => 'required|max:50',
-            'stat_clients' => 'required|max:50',
-            'stat_experts' => 'required|max:50',
-            'stat_years' => 'required|max:50',
-            'services_tag' => 'required|max:100',
-            'services_title' => 'required|max:100',
-            'services_description' => 'required',
-            'services.*.title' => 'required|max:100',
-            'services.*.description' => 'required',
-            'services.*.icon' => 'nullable|image|max:1024',
-            'contact_tag' => 'required|max:100',
-            'contact_title' => 'required|max:100',
-            'contact_description' => 'required',
-            'contact_phone' => 'required|max:50',
-            'contact_email' => 'required|email|max:100',
-            'contact_address' => 'required|max:255',
-        ]);
+      
 
         $content = HomePageContent::first();
         if (!$content) {

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController; // Added import
 use App\Http\Controllers\HomepageController; // Added import
 use App\Http\Controllers\ServicioController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NosotrosController;
 
 // Replaced the closure route with the controller route
 Route::get('/', [HomeController::class, 'index']);
@@ -51,5 +52,7 @@ Route::middleware('auth')->group(function () {
 Route::post('/enviar-cotizacion', [App\Http\Controllers\CotizacionController::class, 'enviar'])->name('cotizacion.enviar');
 
 Route::get('/servicios', [App\Http\Controllers\ServicioController::class, 'index'])->name('servicios');
+Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
+
 
 require __DIR__.'/auth.php';

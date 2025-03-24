@@ -64,18 +64,18 @@
                         <div>
                             <div class="mb-4">
                                 <label for="hero_tagline" class="block text-sm font-medium text-gray-400 mb-1">Tagline</label>
-                                <input type="text" id="hero_tagline" name="hero_tagline" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('hero_tagline', $content->hero_tagline) }}" required>
+                                <input type="text" id="hero_tagline" name="hero_tagline" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('hero_tagline', $content->hero_tagline) }}" >
                             </div>
                             
                             <div class="mb-4">
                                 <label for="hero_title_1" class="block text-sm font-medium text-gray-400 mb-1">Título (Parte 1)</label>
-                                <input type="text" id="hero_title_1" name="hero_title_1" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('hero_title_1', $content->hero_title_1) }}" required>
+                                <input type="text" id="hero_title_1" name="hero_title_1" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('hero_title_1', $content->hero_title_1) }}" >
                                 <small class="text-gray-500">Será mostrado como: "Transformamos <span class="text-[#c9fcfe]">empresas</span>"</small>
                             </div>
                             
                             <div class="mb-4">
                                 <label for="hero_title_2" class="block text-sm font-medium text-gray-400 mb-1">Título (Parte 2)</label>
-                                <input type="text" id="hero_title_2" name="hero_title_2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('hero_title_2', $content->hero_title_2) }}" required>
+                                <input type="text" id="hero_title_2" name="hero_title_2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('hero_title_2', $content->hero_title_2) }}" >
                                 <small class="text-gray-500">Será mostrado como: "a través de la <span class="text-[#c9fcfe]">tecnología</span>"</small>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                         <div>
                             <div class="mb-4">
                                 <label for="hero_description" class="block text-sm font-medium text-gray-400 mb-1">Descripción</label>
-                                <textarea id="hero_description" name="hero_description" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ old('hero_description', $content->hero_description) }}</textarea>
+                                <textarea id="hero_description" name="hero_description" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ old('hero_description', $content->hero_description) }}</textarea>
                             </div>
                             
                             <div class="mb-4">
@@ -132,25 +132,25 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
                             <label for="stat_projects" class="block text-sm font-medium text-gray-400 mb-1">Proyectos completados</label>
-                            <input type="text" id="stat_projects" name="stat_projects" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_projects', $content->stat_projects) }}" required>
+                            <input type="text" id="stat_projects" name="stat_projects" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_projects', $content->stat_projects) }}" >
                             <small class="text-gray-500">Ejemplo: 200+</small>
                         </div>
                         
                         <div>
                             <label for="stat_clients" class="block text-sm font-medium text-gray-400 mb-1">Clientes satisfechos</label>
-                            <input type="text" id="stat_clients" name="stat_clients" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_clients', $content->stat_clients) }}" required>
+                            <input type="text" id="stat_clients" name="stat_clients" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_clients', $content->stat_clients) }}" >
                             <small class="text-gray-500">Ejemplo: 98%</small>
                         </div>
                         
                         <div>
                             <label for="stat_experts" class="block text-sm font-medium text-gray-400 mb-1">Expertos certificados</label>
-                            <input type="text" id="stat_experts" name="stat_experts" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_experts', $content->stat_experts) }}" required>
+                            <input type="text" id="stat_experts" name="stat_experts" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_experts', $content->stat_experts) }}" >
                             <small class="text-gray-500">Ejemplo: 50+</small>
                         </div>
                         
                         <div>
                             <label for="stat_years" class="block text-sm font-medium text-gray-400 mb-1">Años de experiencia</label>
-                            <input type="text" id="stat_years" name="stat_years" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_years', $content->stat_years) }}" required>
+                            <input type="text" id="stat_years" name="stat_years" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('stat_years', $content->stat_years) }}" >
                             <small class="text-gray-500">Ejemplo: 15+</small>
                         </div>
                     </div>
@@ -182,17 +182,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label for="services_tag" class="block text-sm font-medium text-gray-400 mb-1">Tag de servicios</label>
-                            <input type="text" id="services_tag" name="services_tag" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('services_tag', $content->services_tag) }}" required>
+                            <input type="text" id="services_tag" name="services_tag" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('services_tag', $content->services_tag) }}" >
                         </div>
                         
                         <div>
                             <label for="services_title" class="block text-sm font-medium text-gray-400 mb-1">Título de servicios</label>
-                            <input type="text" id="services_title" name="services_title" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('services_title', $content->services_title) }}" required>
+                            <input type="text" id="services_title" name="services_title" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('services_title', $content->services_title) }}" >
                         </div>
                         
                         <div>
                             <label for="services_description" class="block text-sm font-medium text-gray-400 mb-1">Descripción</label>
-                            <textarea id="services_description" name="services_description" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ old('services_description', $content->services_description) }}</textarea>
+                            <textarea id="services_description" name="services_description" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ old('services_description', $content->services_description) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -242,12 +242,12 @@
                                 <div class="service-details grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
                                         <label for="service_title_{{ $index }}" class="block text-sm font-medium text-gray-400 mb-1">Título</label>
-                                        <input type="text" id="service_title_{{ $index }}" name="services[{{ $index }}][title]" class="service-title w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old("services.$index.title", $service['title'] ?? '') }}" required>
+                                        <input type="text" id="service_title_{{ $index }}" name="services[{{ $index }}][title]" class="service-title w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old("services.$index.title", $service['title'] ?? '') }}" >
                                     </div>
                                     
                                     <div>
                                         <label for="service_description_{{ $index }}" class="block text-sm font-medium text-gray-400 mb-1">Descripción</label>
-                                        <textarea id="service_description_{{ $index }}" name="services[{{ $index }}][description]" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ old("services.$index.description", $service['description'] ?? '') }}</textarea>
+                                        <textarea id="service_description_{{ $index }}" name="services[{{ $index }}][description]" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ old("services.$index.description", $service['description'] ?? '') }}</textarea>
                                     </div>
                                     
                                     <div>
@@ -307,12 +307,12 @@
                             <div class="service-details grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label for="service_title_0" class="block text-sm font-medium text-gray-400 mb-1">Título</label>
-                                    <input type="text" id="service_title_0" name="services[0][title]" class="service-title w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="" required>
+                                    <input type="text" id="service_title_0" name="services[0][title]" class="service-title w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="" >
                                 </div>
                                 
                                 <div>
                                     <label for="service_description_0" class="block text-sm font-medium text-gray-400 mb-1">Descripción</label>
-                                    <textarea id="service_description_0" name="services[0][description]" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                                    <textarea id="service_description_0" name="services[0][description]" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" ></textarea>
                                 </div>
                                 
                                 <div>
@@ -369,12 +369,12 @@
         <div class="service-details grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label for="service_title___INDEX__" class="block text-sm font-medium text-gray-400 mb-1">Título</label>
-                <input type="text" id="service_title___INDEX__" name="services[__INDEX__][title]" class="service-title w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="" required>
+                <input type="text" id="service_title___INDEX__" name="services[__INDEX__][title]" class="service-title w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="" >
             </div>
             
             <div>
                 <label for="service_description___INDEX__" class="block text-sm font-medium text-gray-400 mb-1">Descripción</label>
-                <textarea id="service_description___INDEX__" name="services[__INDEX__][description]" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                <textarea id="service_description___INDEX__" name="services[__INDEX__][description]" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" ></textarea>
             </div>
             
             <div>
@@ -416,17 +416,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <div>
                             <label for="contact_tag" class="block text-sm font-medium text-gray-400 mb-1">Tag de contacto</label>
-                            <input type="text" id="contact_tag" name="contact_tag" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_tag', $content->contact_tag) }}" required>
+                            <input type="text" id="contact_tag" name="contact_tag" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_tag', $content->contact_tag) }}" >
                         </div>
                         
                         <div>
                             <label for="contact_title" class="block text-sm font-medium text-gray-400 mb-1">Título de contacto</label>
-                            <input type="text" id="contact_title" name="contact_title" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_title', $content->contact_title) }}" required>
+                            <input type="text" id="contact_title" name="contact_title" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_title', $content->contact_title) }}" >
                         </div>
                         
                         <div>
                             <label for="contact_description" class="block text-sm font-medium text-gray-400 mb-1">Descripción</label>
-                            <textarea id="contact_description" name="contact_description" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ old('contact_description', $content->contact_description) }}</textarea>
+                            <textarea id="contact_description" name="contact_description" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ old('contact_description', $content->contact_description) }}</textarea>
                         </div>
                     </div>
                     
@@ -435,17 +435,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label for="contact_phone" class="block text-sm font-medium text-gray-400 mb-1">Teléfono</label>
-                            <input type="text" id="contact_phone" name="contact_phone" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_phone', $content->contact_phone) }}" required>
+                            <input type="text" id="contact_phone" name="contact_phone" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_phone', $content->contact_phone) }}" >
                         </div>
                         
                         <div>
                             <label for="contact_email" class="block text-sm font-medium text-gray-400 mb-1">Correo electrónico</label>
-                            <input type="email" id="contact_email" name="contact_email" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_email', $content->contact_email) }}" required>
+                            <input type="email" id="contact_email" name="contact_email" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_email', $content->contact_email) }}" >
                         </div>
                         
                         <div>
                             <label for="contact_address" class="block text-sm font-medium text-gray-400 mb-1">Dirección</label>
-                            <input type="text" id="contact_address" name="contact_address" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_address', $content->contact_address) }}" required>
+                            <input type="text" id="contact_address" name="contact_address" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('contact_address', $content->contact_address) }}" >
                         </div>
                     </div>
                 </div>
