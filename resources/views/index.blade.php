@@ -9,7 +9,7 @@
     <div class="hero-container">
         <div class="hero-content scroll-reveal delay-1">
             <span class="tag-line scroll-reveal delay-2">{{ $content->hero_tagline }}</span>
-            <h1 class="hero-title scroll-reveal delay-2">{{ $content->hero_title_1 }} <span class="highlight">empresas</span> a través <br>de la <span class="highlight">{{ $content->hero_title_2 }}</span></h1>
+            <h1 class="hero-title scroll-reveal delay-2">{{ $content->hero_title_1 }} <span class="highlight"><span class="highlight">{{ $content->hero_title_2 }}</span></h1>
 
             <p class="hero-description scroll-reveal delay-3">{{ $content->hero_description }}</p>
 
