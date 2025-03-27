@@ -11,6 +11,7 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CotizacionController;
 
+
 // Replaced the closure route with the controller route
 Route::get('/', [HomeController::class, 'index']);
 
@@ -24,6 +25,11 @@ Route::middleware(['auth'])->group(function () {
     // Homepage
     Route::get('/admin/homepage', [HomepageController::class, 'index'])->name('admin.homepage.index');
     Route::put('/admin/homepage', [HomepageController::class, 'update'])->name('admin.homepage.update');
+    Route::get('admin/nosotros', [App\Http\Controllers\Admin\NosotrosController::class, 'index'])->name('admin.nosotros');
+    Route::post('admin/nosotros', [App\Http\Controllers\Admin\NosotrosController::class, 'store'])->name('admin.nosotros.store');
+    
+
+
     
     // Servicios - Administración
     Route::prefix('admin')->name('admin.')->group(function () {
