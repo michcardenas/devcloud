@@ -6,6 +6,10 @@ use App\Http\Controllers\HomepageController; // Added import
 use App\Http\Controllers\ServicioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NosotrosController;
+use App\Http\Controllers\NoticiasController;
+use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CotizacionController;
 
 // Replaced the closure route with the controller route
 Route::get('/', [HomeController::class, 'index']);
@@ -30,8 +34,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/servicios/{servicio}', [ServicioController::class, 'update'])->name('servicios.update');
         Route::delete('/servicios/{servicio}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
         Route::post('/servicios/reordenar', [ServicioController::class, 'reorder'])->name('servicios.reorder');
-        Route::post('/servicios/contenido', [\App\Http\Controllers\ServicioController::class, 'serviciospage'])->name('servicios_page.store');
-
+        Route::post('/servicios/contenido', [ServicioController::class, 'serviciospage'])->name('servicios_page.store');
 
         // Caracteristicas de servicios
         Route::get('/servicios/{servicio}/caracteristicas', [ServicioController::class, 'caracteristicas'])->name('servicios.caracteristicas');
@@ -40,6 +43,29 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/caracteristicas/{caracteristica}', [ServicioController::class, 'updateCaracteristica'])->name('caracteristicas.update');
         Route::delete('/caracteristicas/{caracteristica}', [ServicioController::class, 'destroyCaracteristica'])->name('caracteristicas.destroy');
         Route::post('/servicios/{servicio}/caracteristicas/reordenar', [ServicioController::class, 'reorderCaracteristicas'])->name('caracteristicas.reorder');
+        
+        // Noticias - Administración
+        Route::get('/noticias', [NoticiasController::class, 'adminIndex'])->name('noticias.index');
+        Route::get('/noticias/crear', [NoticiasController::class, 'adminCreate'])->name('noticias.create');
+        Route::post('/noticias', [NoticiasController::class, 'adminStore'])->name('noticias.store');
+        Route::get('/noticias/{noticia}/editar', [NoticiasController::class, 'adminEdit'])->name('noticias.edit');
+        Route::put('/noticias/{noticia}', [NoticiasController::class, 'adminUpdate'])->name('noticias.update');
+        Route::delete('/noticias/{noticia}', [NoticiasController::class, 'adminDestroy'])->name('noticias.destroy');
+        
+        // Categorías de noticias
+        Route::get('/categorias', [CategoriaController::class, 'adminIndex'])->name('categorias.index');
+        Route::get('/categorias/crear', [CategoriaController::class, 'adminCreate'])->name('categorias.create');
+        Route::post('/categorias', [CategoriaController::class, 'adminStore'])->name('categorias.store');
+        Route::get('/categorias/{categoria}/editar', [CategoriaController::class, 'adminEdit'])->name('categorias.edit');
+        Route::put('/categorias/{categoria}', [CategoriaController::class, 'adminUpdate'])->name('categorias.update');
+        Route::delete('/categorias/{categoria}', [CategoriaController::class, 'adminDestroy'])->name('categorias.destroy');
+
+        // Vista específica para categorías de noticias
+        Route::get('/noticias/categorias', [CategoriaController::class, 'adminIndex'])->name('noticias.categorias');
+        
+        // Configuración de noticias
+        Route::get('/configuracion-noticias', [ConfiguracionController::class, 'adminEdit'])->name('configuracion-noticias.edit');
+        Route::put('/configuracion-noticias', [ConfiguracionController::class, 'adminUpdate'])->name('configuracion-noticias.update');
     });
 });
 
@@ -49,10 +75,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/enviar-cotizacion', [App\Http\Controllers\CotizacionController::class, 'enviar'])->name('cotizacion.enviar');
+Route::post('/enviar-cotizacion', [CotizacionController::class, 'enviar'])->name('cotizacion.enviar');
 
-Route::get('/servicios', [App\Http\Controllers\ServicioController::class, 'index'])->name('servicios');
+Route::get('/servicios', [ServicioController::class, 'index'])->name('servicios');
 Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
+
+Route::get('/noticias', [NoticiasController::class, 'index'])->name('noticias.index');
+Route::get('/noticias/{slug}', [NoticiasController::class, 'show'])->name('noticias.show');
 
 
 require __DIR__.'/auth.php';
