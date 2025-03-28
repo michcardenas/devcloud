@@ -83,7 +83,7 @@
                     <a class="nav-link text-light" href="/admin/servicios">Servicios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/admin/nosotros">Nosotros</a>
+                <a class="nav-link text-light" href="{{ route('admin.nosotros') }}">Nosotros</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/admin/noticias">Noticias</a>

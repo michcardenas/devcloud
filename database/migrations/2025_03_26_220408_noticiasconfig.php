@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('titulo_seccion')->default('Últimas noticias y artículos');
             $table->string('etiqueta')->default('Blog y Noticias');
-            $table->text('descripcion')->default('Mantente al día con las últimas tendencias y novedades sobre Cloud Computing, DevOps y Telecomunicaciones.');
+            $table->text('descripcion'); // No puede tener default
             $table->timestamps();
         });
     }
