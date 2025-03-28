@@ -41,7 +41,6 @@ class CategoriaController extends Controller
         Categoria::create([
             'nombre' => $request->nombre,
             'slug' => Str::slug($request->nombre),
-            'icono' => $request->icono,
         ]);
 
         return redirect()->route('admin.categorias.index')
@@ -57,13 +56,11 @@ class CategoriaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias,nombre,' . $categoria->id,
-            'icono' => 'nullable|string',
         ]);
 
         $categoria->update([
             'nombre' => $request->nombre,
             'slug' => Str::slug($request->nombre),
-            'icono' => $request->icono,
         ]);
 
         return redirect()->route('admin.categorias.index')

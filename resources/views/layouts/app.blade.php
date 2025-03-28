@@ -28,7 +28,7 @@
             <a href="/">Inicio</a>
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('nosotros') }}">Nosotros</a>
-            <a href="#noticias">Noticias</a>
+            <a href="{{ route('noticias.index') }}">Noticias</a>
             <a href="#prensa">Prensa</a>
             <a href="#unete">Únete</a>
             <a href="#contacto">Contacto</a>

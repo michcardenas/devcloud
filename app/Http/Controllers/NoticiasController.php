@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use App\Models\Noticia;
+use App\Models\Tag;
 use App\Models\NoticiasConfiguracion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -21,56 +22,72 @@ class NoticiasController extends Controller
             'ip' => $request->ip(),
             'params' => $request->all(),
         ]);
-    
+
         // Obtener la configuración de noticias
         $configuracion = NoticiasConfiguracion::obtenerConfiguracion();
         \Log::info('Configuración de noticias obtenida', ['configuracion' => $configuracion]);
-    
+
         // Obtener categorías activas
         $categorias = Categoria::where('activa', true)->get();
         \Log::info('Categorías activas obtenidas', ['categorias_count' => $categorias->count()]);
-    
+
         // Filtros
         $busqueda = $request->input('buscar');
         $categoriaSlug = $request->input('categoria');
-        \Log::info('Filtros aplicados', ['buscar' => $busqueda, 'categoria' => $categoriaSlug]);
-    
+        $tagSlug = $request->input('tag');
+        \Log::info('Filtros aplicados', [
+            'buscar' => $busqueda,
+            'categoria' => $categoriaSlug,
+            'tag' => $tagSlug
+        ]);
+
         // Consulta base
-        $query = Noticia::with('categoria')
+        $query = Noticia::with(['categoria', 'tags'])
             ->publicadas()
             ->latest('fecha_publicacion');
-    
+
         // Aplicar filtros si existen
         $query->buscar($busqueda)
-              ->categoria($categoriaSlug);
-    
+            ->categoria($categoriaSlug);
+
+        // Filtrar por tag si se especifica
+        if ($tagSlug) {
+            $query->whereHas('tags', function ($q) use ($tagSlug) {
+                $q->where('slug', $tagSlug);
+            });
+            \Log::info('Filtro por tag aplicado', ['tag' => $tagSlug]);
+        }
+
         // Paginar resultados
-        $noticias = $query->paginate(9);
+        $noticias = $query->paginate(6);
         \Log::info('Noticias paginadas', [
             'noticias_count' => $noticias->count(),
             'total' => $noticias->total(),
             'current_page' => $noticias->currentPage(),
         ]);
-    
+
         return view('noticias', compact(
             'configuracion',
             'categorias',
             'noticias'
         ));
     }
-    
+
 
     public function adminIndex()
     {
         // Obtener todas las noticias ordenadas por fecha de creación
-        $noticias = Noticia::with('categoria')
+        $noticias = Noticia::with(['categoria', 'tags'])
             ->latest()
             ->paginate(10);
 
         // Obtener categorías para los formularios
         $categorias = Categoria::where('activa', true)->get();
 
-        return view('admin.noticias.index', compact('noticias', 'categorias'));
+        // Obtener todos los tags disponibles
+        $tags = Tag::orderBy('nombre')->get();
+
+        return view('admin.noticias.index', compact('noticias', 'categorias', 'tags'));
     }
 
     public function adminStore(Request $request)
@@ -78,11 +95,13 @@ class NoticiasController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'contenido' => 'required|string',
+            'contenido_tarjeta' => 'nullable|string|max:200',
             'categoria_id' => 'nullable|exists:categorias,id',
             'imagen' => 'nullable|image|max:2048', // 2MB máximo
             'fecha_publicacion' => 'required|date',
             'tiempo_lectura' => 'nullable|integer|min:1',
-            'publicada' => 'boolean',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         // Manejar subida de imagen
@@ -91,16 +110,21 @@ class NoticiasController extends Controller
             $imagenPath = $request->file('imagen')->store('noticias', 'public');
         }
 
-        Noticia::create([
+        $noticia = Noticia::create([
             'titulo' => $request->titulo,
             'slug' => \Str::slug($request->titulo),
             'contenido' => $request->contenido,
+            'contenido_tarjeta' => $request->contenido_tarjeta,
             'categoria_id' => $request->categoria_id,
             'imagen' => $imagenPath,
             'fecha_publicacion' => $request->fecha_publicacion,
             'tiempo_lectura' => $request->tiempo_lectura ?? 5,
-            'publicada' => $request->has('publicada'),
         ]);
+
+        // Sincronizar tags
+        if ($request->has('tags')) {
+            $noticia->tags()->sync($request->tags);
+        }
 
         return redirect()->route('admin.noticias.index')
             ->with('success', 'Noticia creada correctamente.');
@@ -109,6 +133,9 @@ class NoticiasController extends Controller
     public function adminEdit(Noticia $noticia)
     {
         if (request()->ajax()) {
+            // Agregar los IDs de los tags a la respuesta JSON
+            $noticia->load('tags');
+            $noticia->tag_ids = $noticia->tags->pluck('id')->toArray();
             return response()->json($noticia);
         }
 
@@ -121,11 +148,13 @@ class NoticiasController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'contenido' => 'required|string',
+            'contenido_tarjeta' => 'nullable|string|max:200',
             'categoria_id' => 'nullable|exists:categorias,id',
             'imagen' => 'nullable|image|max:2048', // 2MB máximo
             'fecha_publicacion' => 'required|date',
             'tiempo_lectura' => 'nullable|integer|min:1',
-            'publicada' => 'boolean',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         // Manejar subida de imagen
@@ -143,12 +172,15 @@ class NoticiasController extends Controller
             'titulo' => $request->titulo,
             'slug' => \Str::slug($request->titulo),
             'contenido' => $request->contenido,
+            'contenido_tarjeta' => $request->contenido_tarjeta,
             'categoria_id' => $request->categoria_id,
             'imagen' => $imagenPath,
             'fecha_publicacion' => $request->fecha_publicacion,
             'tiempo_lectura' => $request->tiempo_lectura ?? 5,
-            'publicada' => $request->has('publicada'),
         ]);
+
+        // Sincronizar tags
+        $noticia->tags()->sync($request->tags ?? []);
 
         return redirect()->route('admin.noticias.index')
             ->with('success', 'Noticia actualizada correctamente.');
@@ -183,6 +215,6 @@ class NoticiasController extends Controller
             ->take(3)
             ->get();
 
-        return view('noticias.show', compact('noticia', 'relacionadas'));
+        return view('shownoticias', compact('noticia', 'relacionadas'));
     }
 }

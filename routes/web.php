@@ -10,6 +10,7 @@ use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CotizacionController;
+use App\Http\Controllers\TagController;
 
 // Replaced the closure route with the controller route
 Route::get('/', [HomeController::class, 'index']);
@@ -24,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
     // Homepage
     Route::get('/admin/homepage', [HomepageController::class, 'index'])->name('admin.homepage.index');
     Route::put('/admin/homepage', [HomepageController::class, 'update'])->name('admin.homepage.update');
-    
+
     // Servicios - Administración
     Route::prefix('admin')->name('admin.')->group(function () {
         // Listado y gestión de servicios
@@ -36,6 +37,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/servicios/reordenar', [ServicioController::class, 'reorder'])->name('servicios.reorder');
         Route::post('/servicios/contenido', [ServicioController::class, 'serviciospage'])->name('servicios_page.store');
 
+        // Rutas para gestionar tags
+        Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+        Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+        Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+        Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+
         // Caracteristicas de servicios
         Route::get('/servicios/{servicio}/caracteristicas', [ServicioController::class, 'caracteristicas'])->name('servicios.caracteristicas');
         Route::post('/caracteristicas', [ServicioController::class, 'storeCaracteristica'])->name('caracteristicas.store');
@@ -43,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/caracteristicas/{caracteristica}', [ServicioController::class, 'updateCaracteristica'])->name('caracteristicas.update');
         Route::delete('/caracteristicas/{caracteristica}', [ServicioController::class, 'destroyCaracteristica'])->name('caracteristicas.destroy');
         Route::post('/servicios/{servicio}/caracteristicas/reordenar', [ServicioController::class, 'reorderCaracteristicas'])->name('caracteristicas.reorder');
-        
+
         // Noticias - Administración
         Route::get('/noticias', [NoticiasController::class, 'adminIndex'])->name('noticias.index');
         Route::get('/noticias/crear', [NoticiasController::class, 'adminCreate'])->name('noticias.create');
@@ -51,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/noticias/{noticia}/editar', [NoticiasController::class, 'adminEdit'])->name('noticias.edit');
         Route::put('/noticias/{noticia}', [NoticiasController::class, 'adminUpdate'])->name('noticias.update');
         Route::delete('/noticias/{noticia}', [NoticiasController::class, 'adminDestroy'])->name('noticias.destroy');
-        
+
         // Categorías de noticias
         Route::get('/categorias', [CategoriaController::class, 'adminIndex'])->name('categorias.index');
         Route::get('/categorias/crear', [CategoriaController::class, 'adminCreate'])->name('categorias.create');
@@ -62,7 +69,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Vista específica para categorías de noticias
         Route::get('/noticias/categorias', [CategoriaController::class, 'adminIndex'])->name('noticias.categorias');
-        
+
         // Configuración de noticias
         Route::get('/configuracion-noticias', [ConfiguracionController::class, 'adminEdit'])->name('configuracion-noticias.edit');
         Route::put('/configuracion-noticias', [ConfiguracionController::class, 'adminUpdate'])->name('configuracion-noticias.update');
@@ -84,4 +91,4 @@ Route::get('/noticias', [NoticiasController::class, 'index'])->name('noticias.in
 Route::get('/noticias/{slug}', [NoticiasController::class, 'show'])->name('noticias.show');
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

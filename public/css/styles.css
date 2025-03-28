@@ -11,6 +11,7 @@
   --text-dark: #212121;
   --bg-dark: #0a1520;
   --bg-light: #f7f9fc;
+  --bg-nws: #f9fafb;
   --bg-card: rgba(31, 41, 55, 0.7);
 }
 
@@ -1696,10 +1697,10 @@ footer p:hover {
   width: 100%;
   height: 100%;
   background-image:
-      linear-gradient(to bottom,
-          rgba(20, 91, 115, 0.2),
-          rgba(0, 0, 0, 0.7)),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="1" cy="1" r="0.5" fill="rgba(201, 252, 254, 0.15)"/></svg>');
+    linear-gradient(to bottom,
+      rgba(20, 91, 115, 0.2),
+      rgba(0, 0, 0, 0.7)),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="1" cy="1" r="0.5" fill="rgba(201, 252, 254, 0.15)"/></svg>');
   background-size: cover, 20px 20px;
   z-index: 0;
 }
@@ -1802,25 +1803,42 @@ footer p:hover {
 
 /* Artículos / Tarjetas de noticias */
 .articles-section {
-  padding: 3rem 0;
+  /* padding: 3rem 0; */
   background-color: var(--bg-light);
 }
 
-.articles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+
+/* Estilo para la meta información (categoría, fecha, tiempo de lectura) */
+.article-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
 }
 
+/* Ajustar el grid para tarjetas más grandes */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Ajustar el tamaño de la tarjeta */
 .article-card {
   background-color: white;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
   height: 100%;
   display: flex;
   flex-direction: column;
+  border: 1px solid #f0f0f0;
+  max-width: 100%;
+  /* Asegura que la tarjeta no exceda su contenedor */
+  position: relative;
+  /* Para un mejor manejo del espacio */
 }
 
 .article-card:hover {
@@ -1856,14 +1874,57 @@ footer p:hover {
   flex-grow: 1;
 }
 
+/* Estilo para el contenido de tarjeta */
+.article-description {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Estilo para el botón "Leer más" */
+.article-read-more {
+  display: inline-flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 0.8rem;
+  color: var(--turquoise, #00B8C4);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.article-read-more svg {
+  margin-left: 0.4rem;
+  transition: transform 0.2s ease;
+}
+
+.article-read-more:hover {
+  color: var(--turquoise-dark, #0097a1);
+}
+
+.article-read-more:hover svg {
+  transform: translateX(3px);
+}
+
+/* Ajuste para que la card tenga mejor espaciado */
+.article-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* gap: 0.8rem; */
+}
+
 .article-category {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--primary-blue);
+  color: var(--turquoise);
   font-size: 0.9rem;
   font-weight: 500;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .article-category-icon {
@@ -1871,22 +1932,41 @@ footer p:hover {
   height: 18px;
 }
 
-.article-date {
-  display: inline-flex;
+/* Estilo para la sección de metadatos del artículo */
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
-  color: #757575;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
+  gap: 1.2rem;
+  /* margin-bottom: 0.8rem; */
+  /* padding-bottom: 1rem; */
 }
 
+/* Estilo para cada elemento de metadatos (categoría, fecha, tiempo) */
+.article-category,
+.article-date,
 .article-time {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #757575;
-  font-size: 0.85rem;
-  margin-left: 1rem;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* Estilo específico para categoría */
+.article-category {
+  color: #00B8C4;
+  /* Color turquesa para la categoría */
+  font-weight: 500;
+}
+
+/* Ajustes para los íconos SVG */
+.article-category svg,
+.article-date svg,
+.article-time svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .article-title {
@@ -1933,6 +2013,507 @@ footer p:hover {
 .page-item:hover:not(.active) {
   background-color: #f0f0f0;
 }
+
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.article-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 50px;
+  background-color: #f0f0f0;
+  color: #555;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.article-tag:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* Estilos para sección de Newsletter */
+.newsletter-section {
+  background-color: var(--bg-nws);
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  margin-top: 3rem;
+}
+
+.newsletter-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--light-blue) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.newsletter-section>* {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.newsletter-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.newsletter-description {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 50px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  min-width: 250px;
+}
+
+.newsletter-input:focus {
+  border-color: var(--turquoise);
+  box-shadow: 0 0 0 2px rgba(0, 184, 196, 0.1);
+}
+
+.newsletter-button {
+  background: linear-gradient(45deg, var(--turquoise), var(--accent-blue));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.8rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.newsletter-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -10px rgba(0, 184, 196, 0.5);
+}
+
+.newsletter-privacy {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 1rem;
+}
+
+.privacy-link {
+  color: var(--turquoise);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.privacy-link:hover {
+  text-decoration: underline;
+}
+
+/* Contenido de la noticia */
+.noticia-contenido {
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.noticia-contenido h2 {
+  font-size: 1.8rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--turquoise);
+}
+
+.noticia-contenido h3 {
+  font-size: 1.5rem;
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--turquoise);
+}
+
+.noticia-contenido p {
+  margin-bottom: 1.5rem;
+}
+
+.noticia-contenido img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.noticia-contenido a {
+  color: var(--turquoise);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 184, 196, 0.3);
+  transition: all 0.3s ease;
+}
+
+.noticia-contenido a:hover {
+  border-color: var(--turquoise);
+}
+
+.noticia-contenido blockquote {
+  border-left: 4px solid var(--turquoise);
+  padding: 15px 20px;
+  background-color: rgba(0, 184, 196, 0.1);
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+.noticia-contenido ul,
+.noticia-contenido ol {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.noticia-contenido li {
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para noticias relacionadas */
+.related-news-item {
+  display: flex;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.related-news-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border: none;
+}
+
+.related-news-image {
+  flex: 0 0 80px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-right: 15px;
+}
+
+.related-news-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.related-news-image:hover img {
+  transform: scale(1.1);
+}
+
+.related-news-content {
+  flex: 1;
+}
+
+.related-news-content h6 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.related-news-content h6 a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.related-news-content h6 a:hover {
+  color: var(--turquoise);
+}
+
+.related-news-meta {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+/* Contenedor principal */
+.sn-container {
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: var(--bg-light);
+  /* max-width: 1200px; */
+  /* Limita el ancho máximo */
+  text-align: center;
+  /* Centra el texto */
+}
+
+/* Layout de la noticia: dos columnas (contenido y sidebar) */
+.sn-wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+  /* Centra las columnas horizontalmente */
+  max-width: 1100px;
+  /* Controla el ancho del contenido */
+  margin: 0 auto;
+  /* Centra el wrapper */
+}
+
+/* Área principal de la noticia */
+.sn-main {
+  flex: 2;
+  text-align: left;
+  /* Mantiene el texto alineado a la izquierda para mejor legibilidad */
+}
+
+/* Sidebar (noticias relacionadas y botón de volver) */
+.sn-sidebar {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: left;
+  /* Mantiene el texto alineado a la izquierda */
+}
+
+/* Meta información: categoría, fecha y tiempo de lectura */
+.sn-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  /* justify-content: center; */
+  /* Centra los elementos */
+}
+
+/* Enlace de la categoría */
+.sn-category-link {
+  background-color: var(--primary-blue);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Información de lectura (fecha y minutos de lectura) */
+.sn-read-info {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Título de la noticia */
+.sn-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+  /* text-align: center; */
+  /* Centra el título */
+}
+
+/* Imagen destacada */
+.sn-featured-image {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  /* Centra la imagen */
+}
+
+.sn-featured-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  /* Ayuda al centrado */
+  display: block;
+  /* Mejora el centrado */
+}
+
+/* Contenido de la noticia */
+.sn-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+  text-align: left;
+  /* Mantiene la legibilidad del contenido principal */
+}
+
+/* Sección de tags */
+.sn-tags-container h5 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--turquoise);
+  text-align: center;
+  /* Centra el título */
+}
+
+.sn-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  /* Centra los tags */
+}
+
+.sn-tag-item {
+  padding: 0.3rem 0.8rem;
+  background-color: #f0f0f0;
+  color: #555;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.sn-tag-item:hover {
+  background-color: #e0e0e0;
+}
+
+/* Sección para compartir en redes sociales */
+.sn-social-share h5 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--turquoise);
+  text-align: center;
+  /* Centra el título */
+}
+
+.sn-share-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  /* Centra los botones */
+}
+
+.sn-share-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  transition: background-color 0.3s ease;
+}
+
+.sn-share-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Noticias relacionadas (sidebar) */
+.sn-related-news header h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+  text-align: center;
+  /* Centra el título */
+}
+
+.sn-related-news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  /* Centra los items */
+}
+
+.sn-related-news-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  /* Asegura que ocupe todo el ancho disponible */
+}
+
+.sn-related-news-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sn-related-news-text h6 {
+  font-size: 1rem;
+  margin: 0;
+  text-align: center;
+  /* Centra el título */
+}
+
+.sn-related-news-text h6 a {
+  text-decoration: none;
+  color: var(--text-dark);
+  transition: color 0.3s ease;
+}
+
+.sn-related-news-text h6 a:hover {
+  color: var(--turquoise);
+}
+
+.sn-related-news-text small {
+  font-size: 0.8rem;
+  color: var(--text-dark);
+  display: block;
+  text-align: center;
+  /* Centra la fecha */
+}
+
+/* Botón para volver a la lista de noticias */
+.sn-btn-volver {
+  display: block;
+  /* Cambia a block para mejor centrado */
+  margin: 1.5rem auto 0;
+  /* Centra horizontalmente con auto */
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(45deg, var(--turquoise), var(--accent-blue));
+  color: white;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  /* Centra el texto */
+  max-width: fit-content;
+  /* Ajusta el ancho al contenido */
+}
+
+.sn-btn-volver:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 184, 196, 0.5);
+}
+
 
 /* Responsive */
 @media (max-width: 1024px) {

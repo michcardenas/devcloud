@@ -40,6 +40,17 @@
             </a>
         </li>
         <li class="servicio-tab-item">
+            <a href="{{ route('admin.tags.index') }}" class="servicio-tab-link">
+                <span class="servicio-tab-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 5H2v7l6.29 6.29c.94.94 2.48.94 3.42 0l3.58-3.58c.94-.94.94-2.48 0-3.42L9 5Z"></path>
+                        <path d="M6 9.01V9"></path>
+                    </svg>
+                </span>
+                Tags
+            </a>
+        </li>
+        <li class="servicio-tab-item">
             <a href="{{ route('admin.configuracion-noticias.edit') }}" class="servicio-tab-link">
                 <span class="servicio-tab-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -96,6 +107,7 @@
                             <th width="80">Imagen</th>
                             <th>Título</th>
                             <th>Categoría</th>
+                            <th>Tags</th>
                             <th>Fecha</th>
                             <th width="100">Estado</th>
                             <th width="150">Acciones</th>
@@ -125,6 +137,13 @@
                                 @else
                                 <span class="servicio-badge servicio-badge-secondary">Sin categoría</span>
                                 @endif
+                            </td>
+                            <td>
+                                @forelse($noticia->tags as $tag)
+                                <span class="servicio-badge servicio-badge-info">{{ $tag->nombre }}</span>
+                                @empty
+                                <span class="servicio-badge servicio-badge-secondary">Sin tags</span>
+                                @endforelse
                             </td>
                             <td>{{ $noticia->fecha_publicacion->format('d/m/Y') }}</td>
                             <td>
@@ -215,6 +234,17 @@
                     </select>
                 </div>
 
+                <!-- Dentro del modal de crear noticia, agregar después del campo contenido -->
+                <div class="servicio-form-group">
+                    <label for="tags" class="servicio-label">Tags</label>
+                    <select id="tags" name="tags[]" class="servicio-select" multiple>
+                        @foreach($tags as $tag)
+                        <option value="{{ $tag->id }}">{{ $tag->nombre }}</option>
+                        @endforeach
+                    </select>
+                    <span class="servicio-helper-text">Puedes seleccionar varios tags manteniendo presionada la tecla Ctrl</span>
+                </div>
+
                 <div class="servicio-form-group">
                     <label for="fecha_publicacion" class="servicio-label">Fecha de Publicación</label>
                     <input type="date" id="fecha_publicacion" name="fecha_publicacion" class="servicio-input" value="{{ date('Y-m-d') }}" required>
@@ -234,6 +264,12 @@
                 <div class="servicio-form-group">
                     <label for="contenido" class="servicio-label">Contenido</label>
                     <textarea id="contenido" name="contenido" class="servicio-textarea" rows="10" required></textarea>
+                </div>
+
+                <div class="servicio-form-group">
+                    <label for="contenido_tarjeta" class="servicio-label">Contenido de Tarjeta</label>
+                    <textarea id="contenido_tarjeta" name="contenido_tarjeta" class="servicio-textarea" rows="3" maxlength="200"></textarea>
+                    <span class="servicio-helper-text">Texto breve que introduce la noticia (máximo 200 caracteres).</span>
                 </div>
 
                 <div class="servicio-d-flex servicio-justify-between" style="margin-top: 20px;">
@@ -273,6 +309,17 @@
                     </select>
                 </div>
 
+                <!-- Dentro del modal de editar noticia, agregar antes del botón publicada -->
+                <div class="servicio-form-group">
+                    <label for="edit_tags" class="servicio-label">Tags</label>
+                    <select id="edit_tags" name="tags[]" class="servicio-select" multiple>
+                        @foreach($tags as $tag)
+                        <option value="{{ $tag->id }}">{{ $tag->nombre }}</option>
+                        @endforeach
+                    </select>
+                    <span class="servicio-helper-text">Puedes seleccionar varios tags manteniendo presionada la tecla Ctrl</span>
+                </div>
+
                 <div class="servicio-form-group">
                     <label for="edit_fecha_publicacion" class="servicio-label">Fecha de Publicación</label>
                     <input type="date" id="edit_fecha_publicacion" name="fecha_publicacion" class="servicio-input" required>
@@ -295,16 +342,14 @@
                 </div>
 
                 <div class="servicio-form-group">
-                    <label for="edit_contenido" class="servicio-label">Contenido</label>
-                    <textarea id="edit_contenido" name="contenido" class="servicio-textarea" rows="10" required></textarea>
+                    <label for="edit_contenido_tarjeta" class="servicio-label">Contenido de Tarjeta</label>
+                    <textarea id="edit_contenido_tarjeta" name="contenido_tarjeta" class="servicio-textarea" rows="3" maxlength="200"></textarea>
+                    <span class="servicio-helper-text">Texto breve que introduce la noticia (máximo 200 caracteres).</span>
                 </div>
 
-                <div class="servicio-checkbox-container">
-                    <div class="servicio-switch">
-                        <input type="checkbox" id="edit_publicada" name="publicada" class="servicio-switch-input">
-                        <span class="servicio-switch-slider"></span>
-                    </div>
-                    <label for="edit_publicada" class="servicio-label" style="margin-bottom: 0;">Publicada</label>
+                <div class="servicio-form-group">
+                    <label for="edit_contenido" class="servicio-label">Contenido</label>
+                    <textarea id="edit_contenido" name="contenido" class="servicio-textarea" rows="10" required></textarea>
                 </div>
 
                 <div class="servicio-d-flex servicio-justify-between" style="margin-top: 20px;">
@@ -317,80 +362,102 @@
 </div>
 
 
+
+
 <script>
     // Inicializar el editor WYSIWYG si se usa
     document.addEventListener('DOMContentLoaded', function() {
-        // Si usas un editor como TinyMCE, CKEditor, etc., inicialízalo aquí
-    });
+    // Si usas un editor como TinyMCE, CKEditor, etc., inicialízalo aquí
+});
 
-    // Modal para Crear Noticia
-    function openCreateModal() {
-        document.getElementById('createNoticiaModal').style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-    }
+// Modal para Crear Noticia
+function openCreateModal() {
+    document.getElementById('createNoticiaModal').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+}
 
-    function closeCreateModal() {
-        document.getElementById('createNoticiaModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restaurar scroll
-        document.getElementById('createNoticiaForm').reset();
-    }
+function closeCreateModal() {
+    document.getElementById('createNoticiaModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restaurar scroll
+    document.getElementById('createNoticiaForm').reset();
+}
 
-    // Modal para Editar Noticia
-    function openEditModal(noticiaId) {
-        // Hacer una petición AJAX para obtener los datos de la noticia
-        fetch(`{{ route('admin.noticias.index') }}/${noticiaId}/edit`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
+// Agregar esto a la función openEditModal
+function openEditModal(noticiaId) {
+    // Hacer una petición AJAX para obtener los datos de la noticia
+    fetch(`{{ route('admin.noticias.index') }}/${noticiaId}/edit`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Llenar el formulario con los datos de la noticia
+            document.getElementById('edit_noticia_id').value = data.id;
+            document.getElementById('edit_titulo').value = data.titulo;
+            document.getElementById('edit_categoria_id').value = data.categoria_id || '';
+            document.getElementById('edit_fecha_publicacion').value = data.fecha_publicacion;
+            document.getElementById('edit_tiempo_lectura').value = data.tiempo_lectura;
+            document.getElementById('edit_contenido').value = data.contenido;
+            document.getElementById('edit_contenido_tarjeta').value = data.contenido_tarjeta || '';
+            document.getElementById('edit_publicada').checked = data.publicada;
+
+            // Seleccionar los tags
+            const tagSelect = document.getElementById('edit_tags');
+            if (tagSelect) {
+                // Deseleccionar todos primero
+                Array.from(tagSelect.options).forEach(option => {
+                    option.selected = false;
+                });
+
+                // Seleccionar los tags asociados a la noticia
+                if (data.tag_ids && data.tag_ids.length > 0) {
+                    data.tag_ids.forEach(tagId => {
+                        const option = tagSelect.querySelector(`option[value="${tagId}"]`);
+                        if (option) {
+                            option.selected = true;
+                        }
+                    });
                 }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Llenar el formulario con los datos de la noticia
-                document.getElementById('edit_noticia_id').value = data.id;
-                document.getElementById('edit_titulo').value = data.titulo;
-                document.getElementById('edit_categoria_id').value = data.categoria_id || '';
-                document.getElementById('edit_fecha_publicacion').value = data.fecha_publicacion;
-                document.getElementById('edit_tiempo_lectura').value = data.tiempo_lectura;
-                document.getElementById('edit_contenido').value = data.contenido;
-                document.getElementById('edit_publicada').checked = data.publicada;
+            }
 
-                // Configurar la acción del formulario
-                document.getElementById('editNoticiaForm').action = `{{ route('admin.noticias.index') }}/${data.id}`;
+            // Configurar la acción del formulario
+            document.getElementById('editNoticiaForm').action = `{{ route('admin.noticias.index') }}/${data.id}`;
 
-                // Mostrar imagen actual si existe
-                if (data.imagen) {
-                    document.getElementById('current_image').src = "{{ asset('storage') }}/" + data.imagen;
-                    document.getElementById('current_image').style.display = 'block';
-                    document.getElementById('no_image_text').style.display = 'none';
-                } else {
-                    document.getElementById('current_image').style.display = 'none';
-                    document.getElementById('no_image_text').style.display = 'block';
-                }
+            // Mostrar imagen actual si existe
+            if (data.imagen) {
+                document.getElementById('current_image').src = "{{ asset('storage') }}/" + data.imagen;
+                document.getElementById('current_image').style.display = 'block';
+                document.getElementById('no_image_text').style.display = 'none';
+            } else {
+                document.getElementById('current_image').style.display = 'none';
+                document.getElementById('no_image_text').style.display = 'block';
+            }
 
-                // Mostrar el modal
-                document.getElementById('editNoticiaModal').style.display = 'block';
-                document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-            })
-            .catch(error => {
-                console.error('Error al cargar la noticia:', error);
-                alert('Error al cargar los datos de la noticia. Por favor, inténtalo de nuevo.');
-            });
+            // Mostrar el modal
+            document.getElementById('editNoticiaModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+        })
+        .catch(error => {
+            console.error('Error al cargar la noticia:', error);
+            alert('Error al cargar los datos de la noticia. Por favor, inténtalo de nuevo.');
+        });
+}
+
+function closeEditModal() {
+    document.getElementById('editNoticiaModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restaurar scroll
+    document.getElementById('editNoticiaForm').reset();
+}
+
+// Cerrar modales al hacer clic fuera de ellos
+window.onclick = function(event) {
+    if (event.target == document.getElementById('createNoticiaModal')) {
+        closeCreateModal();
     }
-
-    function closeEditModal() {
-        document.getElementById('editNoticiaModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restaurar scroll
-        document.getElementById('editNoticiaForm').reset();
+    if (event.target == document.getElementById('editNoticiaModal')) {
+        closeEditModal();
     }
-
-    // Cerrar modales al hacer clic fuera de ellos
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('createNoticiaModal')) {
-            closeCreateModal();
-        }
-        if (event.target == document.getElementById('editNoticiaModal')) {
-            closeEditModal();
-        }
-    }
+}
 </script>
 @endsection

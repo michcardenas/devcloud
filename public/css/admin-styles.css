@@ -31,6 +31,22 @@ body {
   line-height: 1.6;
 }
 
+.navbar-nav .nav-link {
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: var(--light-blue);
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: var(--accent-blue);
+  border-radius: 0.5rem;
+  color: var(--light-blue);
+}
+
+.collapse {
+  /* visibility:collapse; */
+}
+
 /* Estilos para el navbar */
 .admin-navbar {
   background: linear-gradient(to right, rgba(0, 0, 0, 0.95), rgb(20 91 115 / 35%), rgba(0, 0, 0, 0.95));

@@ -18,6 +18,7 @@ class Noticia extends Model
         'imagen',
         'fecha_publicacion',
         'tiempo_lectura',
+        'contenido_tarjeta', // Campo nuevo
         'publicada'
     ];
 
@@ -40,7 +41,7 @@ class Noticia extends Model
     protected static function boot()
     {
         parent::boot();
-        
+
         static::creating(function ($noticia) {
             if (empty($noticia->slug)) {
                 $noticia->slug = Str::slug($noticia->titulo);
@@ -62,7 +63,7 @@ class Noticia extends Model
     public function scopeCategoria($query, $categoria)
     {
         if ($categoria) {
-            return $query->whereHas('categoria', function($q) use ($categoria) {
+            return $query->whereHas('categoria', function ($q) use ($categoria) {
                 $q->where('slug', $categoria);
             });
         }
@@ -75,11 +76,17 @@ class Noticia extends Model
     public function scopeBuscar($query, $termino)
     {
         if ($termino) {
-            return $query->where(function($q) use ($termino) {
+            return $query->where(function ($q) use ($termino) {
                 $q->where('titulo', 'LIKE', "%{$termino}%")
-                  ->orWhere('contenido', 'LIKE', "%{$termino}%");
+                    ->orWhere('contenido', 'LIKE', "%{$termino}%");
             });
         }
         return $query;
+    }
+
+    // En el modelo Noticia.php
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'noticia_tag');
     }
 }

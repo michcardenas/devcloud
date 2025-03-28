@@ -36,6 +36,7 @@
             --turquoise: #00b8c4;
             --dark-blue: #0d2b36;
             --bg-dark: #0a1520;
+            --text-light: #f5f5f5;
         }
 
         body {
@@ -43,15 +44,17 @@
             background-color: var(--bg-dark);
             color: var(--light-blue);
         }
+
         .navbar-nav .nav-link {
     transition: all 0.3s ease;
     font-weight: 500;
+    color: var(--light-blue);
 }
 
 .navbar-nav .nav-link:hover {
     background-color: var(--accent-blue);
     border-radius: 0.5rem;
-    color: #fff !important;
+    color: var(--light-blue);
 }
 
     </style>
@@ -80,10 +83,10 @@
                     <a class="nav-link text-light" href="/admin/servicios">Servicios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Nosotros</a>
+                    <a class="nav-link text-light" href="/admin/nosotros">Nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Noticias</a>
+                    <a class="nav-link text-light" href="/admin/noticias">Noticias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="#">Prensa</a>

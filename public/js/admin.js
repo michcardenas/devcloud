@@ -1,72 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // ======== Funciones para manejar modales ========
-    function openCreateModal() {
-        document.getElementById('createCategoriaModal').style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-    }
+    console.log('🚀 Iniciando solución para modales de noticias - v1.0');
     
-    function closeCreateModal() {
-        document.getElementById('createCategoriaModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restaurar scroll
-        document.getElementById('createCategoriaForm').reset();
-    }
+    // ======== UTILIDADES ========
     
-    function openEditModal(categoriaId) {
-        // Hacer una petición AJAX para obtener los datos de la categoría
-        fetch(`${window.location.pathname}/${categoriaId}/edit`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Llenar el formulario con los datos de la categoría
-            document.getElementById('edit_categoria_id').value = data.id;
-            document.getElementById('edit_nombre').value = data.nombre;
-            document.getElementById('edit_icono').value = data.icono || '';
-            document.getElementById('edit_activa').checked = data.activa;
-            
-            // Configurar la acción del formulario
-            document.getElementById('editCategoriaForm').action = `${window.location.pathname}/${data.id}`;
-            
-            // Actualizar la vista previa del icono
-            const iconoPreview = document.getElementById('icono_preview');
-            if (data.icono) {
-                iconoPreview.className = data.icono;
-            } else {
-                iconoPreview.className = 'fas fa-icons';
-            }
-            
-            // Mostrar el modal
-            document.getElementById('editCategoriaModal').style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-        })
-        .catch(error => {
-            console.error('Error al cargar la categoría:', error);
-            showNotification('Error al cargar los datos de la categoría. Por favor, inténtalo de nuevo.', 'error');
-        });
-    }
-    
-    function closeEditModal() {
-        document.getElementById('editCategoriaModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restaurar scroll
-        document.getElementById('editCategoriaForm').reset();
-    }
-    
-    function openDeleteModal(categoriaId, nombreCategoria) {
-        document.getElementById('delete_categoria_nombre').textContent = nombreCategoria;
-        document.getElementById('deleteCategoriaForm').action = `${window.location.pathname}/${categoriaId}`;
-        document.getElementById('deleteCategoriaModal').style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-    }
-    
-    function closeDeleteModal() {
-        document.getElementById('deleteCategoriaModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restaurar scroll
-    }
-
-    // ======== Mostrar notificaciones ========
+    // Función para mostrar notificaciones informativas
     function showNotification(message, type = 'info') {
+        console.log(`[${type.toUpperCase()}] ${message}`);
+        
         // Crear elemento de notificación
         const notification = document.createElement('div');
         notification.className = `fixed top-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 ${
@@ -75,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'bg-blue-900 bg-opacity-20 border border-blue-800 text-blue-300'
         }`;
         
-        // Ícono según el tipo
+        // Icono según el tipo
         let icon = '';
         if (type === 'success') {
             icon = '<svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
@@ -98,126 +38,242 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 500);
         }, 3000);
     }
-
-    // ======== Asignar eventos a botones ========
-    // Botón para abrir modal de crear
-    const btnNuevaCategoria = document.getElementById('btnNuevaCategoria');
-    if (btnNuevaCategoria) {
-        btnNuevaCategoria.addEventListener('click', openCreateModal);
-    }
-
-    // Botón alternativo para crear primera categoría (cuando no hay categorías)
-    const btnPrimeraCategoria = document.getElementById('btnPrimeraCategoria');
-    if (btnPrimeraCategoria) {
-        btnPrimeraCategoria.addEventListener('click', openCreateModal);
-    }
-
-    // Botones para cerrar modal de crear
-    const closeCreateModalBtn = document.querySelector('#createCategoriaModal .close');
-    if (closeCreateModalBtn) {
-        closeCreateModalBtn.addEventListener('click', closeCreateModal);
-    }
-
-    const cancelCreateBtn = document.querySelector('#createCategoriaModal button[type="button"]');
-    if (cancelCreateBtn) {
-        cancelCreateBtn.addEventListener('click', closeCreateModal);
-    }
-
-    // Botones para editar categorías
-    const editButtons = document.querySelectorAll('.edit-categoria');
-    editButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const categoriaId = this.getAttribute('data-id');
-            openEditModal(categoriaId);
-        });
-    });
-
-    // Botones para cerrar modal de editar
-    const closeEditModalBtn = document.querySelector('#editCategoriaModal .close');
-    if (closeEditModalBtn) {
-        closeEditModalBtn.addEventListener('click', closeEditModal);
-    }
-
-    const cancelEditBtn = document.querySelector('#editCategoriaModal button[type="button"]');
-    if (cancelEditBtn) {
-        cancelEditBtn.addEventListener('click', closeEditModal);
-    }
-
-    // Botones para eliminar categorías
-    const deleteButtons = document.querySelectorAll('.delete-categoria');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const categoriaId = this.getAttribute('data-id');
-            const nombre = this.getAttribute('data-nombre');
-            openDeleteModal(categoriaId, nombre);
-        });
-    });
-
-    // Botones para cerrar modal de eliminar
-    const closeDeleteModalBtn = document.querySelector('#deleteCategoriaModal .close');
-    if (closeDeleteModalBtn) {
-        closeDeleteModalBtn.addEventListener('click', closeDeleteModal);
-    }
-
-    const cancelDeleteBtn = document.querySelector('#deleteCategoriaModal button[type="button"]');
-    if (cancelDeleteBtn) {
-        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
-    }
-
-    // ======== Configurar vista previa de iconos ========
-    // Para el modal de crear
-    const iconoInput = document.getElementById('icono');
-    if (iconoInput) {
-        iconoInput.addEventListener('input', function() {
-            const iconoPreview = document.querySelector('#createCategoriaModal .servicio-input-prepend i');
-            if (iconoPreview) {
-                const iconClasses = this.value.trim();
-                if (iconClasses) {
-                    iconoPreview.className = iconClasses;
-                } else {
-                    iconoPreview.className = 'fas fa-icons';
-                }
-            }
-        });
-    }
-
-    // Para el modal de editar
-    const editIconoInput = document.getElementById('edit_icono');
-    if (editIconoInput) {
-        editIconoInput.addEventListener('input', function() {
-            const iconoPreview = document.getElementById('icono_preview');
-            if (iconoPreview) {
-                const iconClasses = this.value.trim();
-                if (iconClasses) {
-                    iconoPreview.className = iconClasses;
-                } else {
-                    iconoPreview.className = 'fas fa-icons';
-                }
-            }
-        });
-    }
-
-    // ======== Cerrar modales al hacer clic fuera de ellos ========
-    window.addEventListener('click', function(event) {
-        const createModal = document.getElementById('createCategoriaModal');
-        const editModal = document.getElementById('editCategoriaModal');
-        const deleteModal = document.getElementById('deleteCategoriaModal');
-
-        if (event.target === createModal) {
-            closeCreateModal();
-        } else if (event.target === editModal) {
-            closeEditModal();
-        } else if (event.target === deleteModal) {
-            closeDeleteModal();
+    
+    // ======== DEFINICIÓN DE RUTAS ========
+    
+    // Rutas para noticias
+    const RUTAS = {
+        noticia: {
+            // Ruta de edición es /admin/noticias/{id}/editar
+            edit: '/admin/noticias/{id}/editar',
+            // Ruta de actualización es /admin/noticias/{id}
+            update: '/admin/noticias/{id}'
         }
-    });
-
-    // ======== Inicializar DataTables si está disponible ========
-    if (typeof $.fn !== 'undefined' && typeof $.fn.dataTable !== 'undefined') {
-        $('#dataTable').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+    };
+    
+    // ======== GESTIÓN DE MODALES ========
+    
+    // Función para abrir modal de NOTICIA
+    function openNoticiaEditModal(noticiaId) {
+        console.log('🔍 Abriendo modal para NOTICIA ID:', noticiaId);
+        
+        // Construir URL correcta para obtener datos
+        const url = RUTAS.noticia.edit.replace('{id}', noticiaId);
+        showNotification(`Cargando datos de noticia desde: ${url}`, 'info');
+        
+        // Realizar petición AJAX
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('✅ Datos de noticia recibidos:', data);
+            
+            // Llenar formulario con datos básicos
+            document.getElementById('edit_noticia_id').value = data.id;
+            document.getElementById('edit_titulo').value = data.titulo;
+            
+            // Nuevo campo para contenido de tarjeta
+            if (document.getElementById('edit_contenido_tarjeta')) {
+                document.getElementById('edit_contenido_tarjeta').value = data.contenido_tarjeta || '';
+            }
+            
+            // Categoría
+            if (document.getElementById('edit_categoria_id')) {
+                document.getElementById('edit_categoria_id').value = data.categoria_id || '';
+            }
+            
+            // Fecha (con manejo de diferentes formatos)
+            if (document.getElementById('edit_fecha_publicacion') && data.fecha_publicacion) {
+                let fecha;
+                if (typeof data.fecha_publicacion === 'string') {
+                    if (data.fecha_publicacion.includes('T')) {
+                        fecha = data.fecha_publicacion.split('T')[0];
+                    } else {
+                        const parts = data.fecha_publicacion.split(/[\/\-\.]/);
+                        if (parts.length === 3) {
+                            if (parts[0].length === 4) {
+                                fecha = data.fecha_publicacion;
+                            } else if (parts[2].length === 4) {
+                                fecha = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+                            }
+                        }
+                    }
+                } else if (data.fecha_publicacion instanceof Object && data.fecha_publicacion.date) {
+                    fecha = data.fecha_publicacion.date.split(' ')[0];
+                }
+                
+                if (fecha) {
+                    document.getElementById('edit_fecha_publicacion').value = fecha;
+                }
+            }
+            
+            // Otros campos de noticia
+            if (document.getElementById('edit_tiempo_lectura')) {
+                document.getElementById('edit_tiempo_lectura').value = data.tiempo_lectura || 5;
+            }
+            
+            if (document.getElementById('edit_contenido')) {
+                document.getElementById('edit_contenido').value = data.contenido || '';
+            }
+            
+            if (document.getElementById('edit_publicada')) {
+                document.getElementById('edit_publicada').checked = Boolean(data.publicada);
+            }
+            
+            // Manejo de imagen
+            const currentImage = document.getElementById('current_image');
+            const noImageText = document.getElementById('no_image_text');
+            
+            if (currentImage && noImageText) {
+                if (data.imagen) {
+                    const storageUrl = document.querySelector('meta[name="asset-url"]')?.content || '/storage/';
+                    currentImage.src = storageUrl + data.imagen;
+                    currentImage.style.display = 'block';
+                    noImageText.style.display = 'none';
+                } else {
+                    currentImage.style.display = 'none';
+                    noImageText.style.display = 'block';
+                }
+            }
+            
+            // Configurar acción del formulario
+            const formAction = RUTAS.noticia.update.replace('{id}', data.id);
+            document.getElementById('editNoticiaForm').action = formAction;
+            
+            // Mostrar modal
+            const modal = document.getElementById('editNoticiaModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                showNotification('Modal de edición de noticia abierto correctamente', 'success');
+            } else {
+                showNotification('No se encontró el modal de edición de noticia', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('❌ Error al cargar datos de noticia:', error);
+            showNotification(`Error: ${error.message}`, 'error');
+        });
+    }
+    
+    // Función para cerrar modal de NOTICIA
+    function closeNoticiaEditModal() {
+        const modal = document.getElementById('editNoticiaModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Reiniciar formulario
+            const form = document.getElementById('editNoticiaForm');
+            if (form) {
+                form.reset();
+                
+                // Restablecer vista previa de imagen
+                const currentImage = document.getElementById('current_image');
+                const noImageText = document.getElementById('no_image_text');
+                
+                if (currentImage && noImageText) {
+                    currentImage.style.display = 'none';
+                    noImageText.style.display = 'none';
+                }
+            }
+        }
+    }
+    
+    // ======== CONFIGURACIÓN DE BOTONES ========
+    
+    // Función para configurar botones de NOTICIA
+    function setupNoticiaButtons() {
+        console.log('🔄 Configurando botones de noticia...');
+        
+        // Botones con onclick para editar noticia
+        const editButtons = document.querySelectorAll('button[onclick*="openEditModal"]');
+        console.log(`Encontrados ${editButtons.length} botones con onclick para editar noticia`);
+        
+        editButtons.forEach(button => {
+            // Extraer ID del onclick
+            const onclick = button.getAttribute('onclick') || '';
+            const match = onclick.match(/openEditModal\(\s*(\d+)\s*\)/);
+            
+            if (!match || !match[1]) {
+                console.warn('⚠️ No se pudo extraer ID del onclick:', onclick);
+                return;
+            }
+            
+            const noticiaId = match[1];
+            
+            // Clonar y reemplazar para eliminar onclick
+            const clonedButton = button.cloneNode(true);
+            clonedButton.removeAttribute('onclick');
+            button.parentNode.replaceChild(clonedButton, button);
+            
+            // Agregar nuevo evento
+            clonedButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                openNoticiaEditModal(noticiaId);
+            });
+            
+            console.log(`✅ Configurado botón para noticia ID: ${noticiaId}`);
+        });
+        
+        // Configurar botones de cerrar modal
+        const closeEditBtn = document.querySelector('#editNoticiaModal .close');
+        if (closeEditBtn) {
+            closeEditBtn.removeAttribute('onclick');
+            closeEditBtn.addEventListener('click', closeNoticiaEditModal);
+        }
+        
+        const cancelEditBtn = document.querySelector('#editNoticiaModal button[onclick="closeEditModal()"]');
+        if (cancelEditBtn) {
+            cancelEditBtn.removeAttribute('onclick');
+            cancelEditBtn.addEventListener('click', closeNoticiaEditModal);
+        }
+    }
+    
+    // ======== CERRAR MODALES AL HACER CLIC FUERA ========
+    
+    // Configurar cierre de modales al hacer clic fuera
+    function setupOutsideClickClose() {
+        window.addEventListener('click', function(event) {
+            // Modal de noticia
+            if (event.target === document.getElementById('editNoticiaModal')) {
+                closeNoticiaEditModal();
             }
         });
     }
+    
+    // ======== EXPONER FUNCIONES GLOBALMENTE ========
+    
+    // Exponer funciones para que puedan ser llamadas desde HTML o console
+    window.openEditModal = openNoticiaEditModal; // Compatible con código existente
+    window.closeEditModal = closeNoticiaEditModal; // Compatible con código existente
+    
+    // ======== INICIALIZAR ========
+    
+    // Configurar todos los botones
+    setupNoticiaButtons();
+    setupOutsideClickClose();
+    
+    // Agregar botón de emergencia para re-configurar
+    const fixButton = document.createElement('button');
+    fixButton.textContent = 'Reiniciar botones';
+    fixButton.className = 'fixed bottom-4 right-4 px-4 py-2 bg-green-600 text-white rounded shadow';
+    fixButton.style.zIndex = '9999';
+    fixButton.addEventListener('click', function() {
+        setupNoticiaButtons();
+        showNotification('Todos los botones han sido reconfigurados', 'success');
+    });
+    document.body.appendChild(fixButton);
+    
+    console.log('✅ Solución para modales de noticias inicializada correctamente');
 });

@@ -40,6 +40,17 @@
             </a>
         </li>
         <li class="servicio-tab-item">
+            <a href="{{ route('admin.tags.index') }}" class="servicio-tab-link">
+                <span class="servicio-tab-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 5H2v7l6.29 6.29c.94.94 2.48.94 3.42 0l3.58-3.58c.94-.94.94-2.48 0-3.42L9 5Z"></path>
+                        <path d="M6 9.01V9"></path>
+                    </svg>
+                </span>
+                Tags
+            </a>
+        </li>
+        <li class="servicio-tab-item">
         <a href="{{ route('admin.configuracion-noticias.edit') }}" class="servicio-tab-link active">
                 <span class="servicio-tab-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -102,35 +113,6 @@
                             <label for="descripcion" class="servicio-label">Descripción <span class="servicio-text-danger">*</span></label>
                             <textarea id="descripcion" name="descripcion" class="servicio-textarea" rows="5" required>{{ $configuracion->descripcion ?? 'Mantente informado con nuestras últimas noticias y eventos. Descubre las novedades más recientes y no te pierdas ninguna actualización importante.' }}</textarea>
                             <span class="servicio-helper-text">Breve descripción que aparecerá debajo del título de la sección</span>
-                        </div>
-                        
-                        <div class="servicio-form-group">
-                            <label for="items_por_pagina" class="servicio-label">Noticias por Página</label>
-                            <select id="items_por_pagina" name="items_por_pagina" class="servicio-select">
-                                @foreach([6, 9, 12, 15, 18, 21] as $num)
-                                    <option value="{{ $num }}" {{ ($configuracion->items_por_pagina ?? 9) == $num ? 'selected' : '' }}>{{ $num }}</option>
-                                @endforeach
-                            </select>
-                            <span class="servicio-helper-text">Número de noticias a mostrar por página en el listado público</span>
-                        </div>
-                        
-                        <div class="servicio-checkbox-container">
-                            <div class="servicio-switch">
-                                <input type="checkbox" id="mostrar_destacadas" name="mostrar_destacadas" class="servicio-switch-input" 
-                                       {{ ($configuracion->mostrar_destacadas ?? true) ? 'checked' : '' }}>
-                                <span class="servicio-switch-slider"></span>
-                            </div>
-                            <label for="mostrar_destacadas" class="servicio-label" style="margin-bottom: 0;">Mostrar noticias destacadas en la página principal</label>
-                        </div>
-                        
-                        <div class="servicio-form-group" style="margin-top: 1rem;">
-                            <label for="cantidad_destacadas" class="servicio-label">Cantidad de Noticias Destacadas</label>
-                            <select id="cantidad_destacadas" name="cantidad_destacadas" class="servicio-select">
-                                @foreach([3, 4, 5, 6] as $num)
-                                    <option value="{{ $num }}" {{ ($configuracion->cantidad_destacadas ?? 3) == $num ? 'selected' : '' }}>{{ $num }}</option>
-                                @endforeach
-                            </select>
-                            <span class="servicio-helper-text">Número de noticias destacadas a mostrar en la página principal</span>
                         </div>
                         
                         <div class="servicio-d-flex servicio-justify-end" style="margin-top: 2rem;">
