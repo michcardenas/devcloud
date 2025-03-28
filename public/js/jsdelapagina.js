@@ -10,11 +10,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
   
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-        document.getElementById('mobile-menu').classList.toggle('open');
-    });
-
-
+    // Fix para el menú móvil
+    function setupMobileMenu() {
+        const menuToggle = document.getElementById("menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        
+        if (menuToggle && mobileMenu) {
+            // Asegúrate de que el menú esté cerrado al inicio
+            mobileMenu.classList.remove("open");
+            
+            menuToggle.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                mobileMenu.classList.toggle("open");
+                
+                // Opcional: Añadir una clase para cambiar el aspecto del botón hamburguesa
+                menuToggle.classList.toggle("active");
+            });
+            
+            // Cerrar menú al hacer clic en cualquier enlace del menú móvil
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove("open");
+                    menuToggle.classList.remove("active");
+                });
+            });
+            
+            // Cerrar menú al hacer clic fuera
+            document.addEventListener('click', function(e) {
+                if (!mobileMenu.contains(e.target) && e.target !== menuToggle && !menuToggle.contains(e.target)) {
+                    mobileMenu.classList.remove("open");
+                    menuToggle.classList.remove("active");
+                }
+            });
+        }
+    }
     
     // Activar animaciones con detección de visibilidad
     function setupScrollAnimations() {
@@ -103,38 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Fix para el menú móvil
-    function setupMobileMenu() {
-        const menuToggle = document.getElementById("menu-toggle");
-        const mobileMenu = document.getElementById("mobile-menu");
-        
-        if (menuToggle && mobileMenu) {
-            // Asegúrate de que el menú esté cerrado al inicio
-            mobileMenu.classList.remove("open");
-            
-            menuToggle.addEventListener("click", function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                mobileMenu.classList.toggle("open");
-            });
-            
-            // Cerrar menú al hacer clic en cualquier enlace del menú móvil
-            const mobileLinks = mobileMenu.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    mobileMenu.classList.remove("open");
-                });
-            });
-            
-            // Cerrar menú al hacer clic fuera
-            document.addEventListener('click', function(e) {
-                if (!mobileMenu.contains(e.target) && e.target !== menuToggle) {
-                    mobileMenu.classList.remove("open");
-                }
-            });
-        }
-    }
-    
     // Cambiar la apariencia del navbar al hacer scroll
     function setupNavbarScroll() {
         const navbar = document.querySelector(".navbar");
@@ -160,12 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupShapeAnimations();
     setupMobileMenu();
     setupNavbarScroll();
-});
-window.addEventListener('scroll', function () {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 20) {
-        navbar.classList.add('navbar-scrolled');
-    } else {
-        navbar.classList.remove('navbar-scrolled');
-    }
+    
+    // Eliminar el evento duplicado que se está añadiendo fuera del DOMContentLoaded
+    // Para mantener el efecto, lo integramos en setupNavbarScroll
 });

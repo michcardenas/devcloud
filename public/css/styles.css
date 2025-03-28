@@ -195,7 +195,7 @@ body {
   display: none;
   /* Oculto por defecto */
   position: fixed;
-  top: 60px;
+  top: 90px;
   /* Ajustado para estar debajo del navbar */
   left: 0;
   right: 0;
