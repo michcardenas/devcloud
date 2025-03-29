@@ -29,9 +29,9 @@
             <a href="{{ route('servicios') }}">Servicios</a>
             <a href="{{ route('nosotros') }}">Nosotros</a>
             <a href="{{ route('noticias.index') }}">Noticias</a>
-            <a href="#prensa">Prensa</a>
+            <a href="{{ route('prensa.index') }}">Prensa</a>
             <a href="#unete">Únete</a>
-            <a href="#contacto">Contacto</a>
+            <a href="{{ route('contacto.index') }}">Contacto</a>
             <a href="#presupuesto" class="btn-presupuesto">Solicitar presupuesto</a>
         </div>
 
