@@ -107,6 +107,7 @@
                             <th width="80">Imagen</th>
                             <th>Título</th>
                             <th>Categoría</th>
+                            <th>Subtipo</th>
                             <th>Tags</th>
                             <th>Fecha</th>
                             <th width="100">Estado</th>
@@ -136,6 +137,13 @@
                                 <span class="servicio-badge servicio-badge-primary">{{ $noticia->categoria->nombre }}</span>
                                 @else
                                 <span class="servicio-badge servicio-badge-secondary">Sin categoría</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($noticia->subtipo)
+                                <span class="servicio-badge servicio-badge-info">{{ $noticia->subtipo }}</span>
+                                @else
+                                <span class="servicio-badge servicio-badge-secondary">Sin subtipo</span>
                                 @endif
                             </td>
                             <td>
@@ -184,7 +192,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 2rem;">
+                            <td colspan="9" style="text-align: center; padding: 2rem;">
                                 <p>No hay noticias disponibles</p>
                                 <button type="button" class="servicio-btn servicio-btn-primary servicio-btn-sm" onclick="openCreateModal()">
                                     <span class="servicio-btn-icon">
@@ -226,7 +234,7 @@
 
                 <div class="servicio-form-group">
                     <label for="categoria_id" class="servicio-label">Categoría</label>
-                    <select id="categoria_id" name="categoria_id" class="servicio-select">
+                    <select id="categoria_id" name="categoria_id" class="servicio-select" onchange="cargarSubtipos()">
                         <option value="">Seleccionar categoría</option>
                         @foreach($categorias as $categoria)
                         <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
@@ -234,7 +242,16 @@
                     </select>
                 </div>
 
-                <!-- Dentro del modal de crear noticia, agregar después del campo contenido -->
+                <!-- Nuevo campo para subtipos -->
+                <div class="servicio-form-group">
+                    <label for="subtipo" class="servicio-label">Subtipo</label>
+                    <select id="subtipo" name="subtipo" class="servicio-select">
+                        <option value="">Seleccionar subtipo</option>
+                        <!-- Los subtipos se cargarán dinámicamente según la categoría seleccionada -->
+                    </select>
+                </div>
+
+                <!-- Campo para tags -->
                 <div class="servicio-form-group">
                     <label for="tags" class="servicio-label">Tags</label>
                     <select id="tags" name="tags[]" class="servicio-select" multiple>
@@ -301,7 +318,7 @@
 
                 <div class="servicio-form-group">
                     <label for="edit_categoria_id" class="servicio-label">Categoría</label>
-                    <select id="edit_categoria_id" name="categoria_id" class="servicio-select">
+                    <select id="edit_categoria_id" name="categoria_id" class="servicio-select" onchange="cargarSubtiposEditar()">
                         <option value="">Seleccionar categoría</option>
                         @foreach($categorias as $categoria)
                         <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
@@ -309,7 +326,16 @@
                     </select>
                 </div>
 
-                <!-- Dentro del modal de editar noticia, agregar antes del botón publicada -->
+                <!-- Nuevo campo para editar subtipos -->
+                <div class="servicio-form-group">
+                    <label for="edit_subtipo" class="servicio-label">Subtipo</label>
+                    <select id="edit_subtipo" name="subtipo" class="servicio-select">
+                        <option value="">Seleccionar subtipo</option>
+                        <!-- Los subtipos se cargarán dinámicamente según la categoría seleccionada -->
+                    </select>
+                </div>
+
+                <!-- Campo para editar tags -->
                 <div class="servicio-form-group">
                     <label for="edit_tags" class="servicio-label">Tags</label>
                     <select id="edit_tags" name="tags[]" class="servicio-select" multiple>
@@ -361,103 +387,175 @@
     </div>
 </div>
 
-
-
-
 <script>
     // Inicializar el editor WYSIWYG si se usa
     document.addEventListener('DOMContentLoaded', function() {
-    // Si usas un editor como TinyMCE, CKEditor, etc., inicialízalo aquí
-});
+        // Si usas un editor como TinyMCE, CKEditor, etc., inicialízalo aquí
+    });
 
-// Modal para Crear Noticia
-function openCreateModal() {
-    document.getElementById('createNoticiaModal').style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-}
-
-function closeCreateModal() {
-    document.getElementById('createNoticiaModal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restaurar scroll
-    document.getElementById('createNoticiaForm').reset();
-}
-
-// Agregar esto a la función openEditModal
-function openEditModal(noticiaId) {
-    // Hacer una petición AJAX para obtener los datos de la noticia
-    fetch(`{{ route('admin.noticias.index') }}/${noticiaId}/edit`, {
+    // Funciones para cargar subtipos según la categoría seleccionada
+    function cargarSubtipos() {
+        const categoriaId = document.getElementById('categoria_id').value;
+        const subtipoSelect = document.getElementById('subtipo');
+        
+        // Limpiar opciones actuales
+        subtipoSelect.innerHTML = '<option value="">Seleccionar subtipo</option>';
+        
+        if (!categoriaId) return;
+        
+        // Hacer petición AJAX para obtener subtipos de la categoría seleccionada
+        fetch(`/admin/categorias/${categoriaId}/subtipos`, {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
         .then(response => response.json())
         .then(data => {
-            // Llenar el formulario con los datos de la noticia
-            document.getElementById('edit_noticia_id').value = data.id;
-            document.getElementById('edit_titulo').value = data.titulo;
-            document.getElementById('edit_categoria_id').value = data.categoria_id || '';
-            document.getElementById('edit_fecha_publicacion').value = data.fecha_publicacion;
-            document.getElementById('edit_tiempo_lectura').value = data.tiempo_lectura;
-            document.getElementById('edit_contenido').value = data.contenido;
-            document.getElementById('edit_contenido_tarjeta').value = data.contenido_tarjeta || '';
-            document.getElementById('edit_publicada').checked = data.publicada;
-
-            // Seleccionar los tags
-            const tagSelect = document.getElementById('edit_tags');
-            if (tagSelect) {
-                // Deseleccionar todos primero
-                Array.from(tagSelect.options).forEach(option => {
-                    option.selected = false;
-                });
-
-                // Seleccionar los tags asociados a la noticia
-                if (data.tag_ids && data.tag_ids.length > 0) {
-                    data.tag_ids.forEach(tagId => {
-                        const option = tagSelect.querySelector(`option[value="${tagId}"]`);
-                        if (option) {
-                            option.selected = true;
-                        }
-                    });
-                }
-            }
-
-            // Configurar la acción del formulario
-            document.getElementById('editNoticiaForm').action = `{{ route('admin.noticias.index') }}/${data.id}`;
-
-            // Mostrar imagen actual si existe
-            if (data.imagen) {
-                document.getElementById('current_image').src = "{{ asset('storage') }}/" + data.imagen;
-                document.getElementById('current_image').style.display = 'block';
-                document.getElementById('no_image_text').style.display = 'none';
-            } else {
-                document.getElementById('current_image').style.display = 'none';
-                document.getElementById('no_image_text').style.display = 'block';
-            }
-
-            // Mostrar el modal
-            document.getElementById('editNoticiaModal').style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+            // Agregar opciones de subtipos
+            data.forEach(subtipo => {
+                const option = document.createElement('option');
+                option.value = subtipo.nombre;
+                option.textContent = subtipo.nombre;
+                subtipoSelect.appendChild(option);
+            });
         })
         .catch(error => {
-            console.error('Error al cargar la noticia:', error);
-            alert('Error al cargar los datos de la noticia. Por favor, inténtalo de nuevo.');
+            console.error('Error al cargar subtipos:', error);
         });
-}
-
-function closeEditModal() {
-    document.getElementById('editNoticiaModal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restaurar scroll
-    document.getElementById('editNoticiaForm').reset();
-}
-
-// Cerrar modales al hacer clic fuera de ellos
-window.onclick = function(event) {
-    if (event.target == document.getElementById('createNoticiaModal')) {
-        closeCreateModal();
     }
-    if (event.target == document.getElementById('editNoticiaModal')) {
-        closeEditModal();
+
+    function cargarSubtiposEditar() {
+        const categoriaId = document.getElementById('edit_categoria_id').value;
+        const subtipoSelect = document.getElementById('edit_subtipo');
+        
+        // Limpiar opciones actuales
+        subtipoSelect.innerHTML = '<option value="">Seleccionar subtipo</option>';
+        
+        if (!categoriaId) return;
+        
+        // Hacer petición AJAX para obtener subtipos de la categoría seleccionada
+        fetch(`/admin/categorias/${categoriaId}/subtipos`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Agregar opciones de subtipos
+            data.forEach(subtipo => {
+                const option = document.createElement('option');
+                option.value = subtipo.nombre;
+                option.textContent = subtipo.nombre;
+                subtipoSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar subtipos:', error);
+        });
     }
-}
+
+    // Modal para Crear Noticia
+    function openCreateModal() {
+        document.getElementById('createNoticiaModal').style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+    }
+
+    function closeCreateModal() {
+        document.getElementById('createNoticiaModal').style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restaurar scroll
+        document.getElementById('createNoticiaForm').reset();
+    }
+
+    // Agregar esto a la función openEditModal
+    function openEditModal(noticiaId) {
+        // Hacer una petición AJAX para obtener los datos de la noticia
+        fetch(`{{ route('admin.noticias.index') }}/${noticiaId}/edit`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Llenar el formulario con los datos de la noticia
+                document.getElementById('edit_noticia_id').value = data.id;
+                document.getElementById('edit_titulo').value = data.titulo;
+                document.getElementById('edit_categoria_id').value = data.categoria_id || '';
+                document.getElementById('edit_fecha_publicacion').value = data.fecha_publicacion;
+                document.getElementById('edit_tiempo_lectura').value = data.tiempo_lectura;
+                document.getElementById('edit_contenido').value = data.contenido;
+                document.getElementById('edit_contenido_tarjeta').value = data.contenido_tarjeta || '';
+                
+                // Cargar subtipos y seleccionar el correspondiente
+                cargarSubtiposEditar();
+                setTimeout(() => {
+                    if (data.subtipo) {
+                        const subtipoSelect = document.getElementById('edit_subtipo');
+                        // Buscar el subtipo en las opciones disponibles
+                        for (let i = 0; i < subtipoSelect.options.length; i++) {
+                            if (subtipoSelect.options[i].value === data.subtipo) {
+                                subtipoSelect.options[i].selected = true;
+                                break;
+                            }
+                        }
+                    }
+                }, 500); // Pequeño retraso para asegurar que los subtipos se hayan cargado
+
+                // Seleccionar los tags
+                const tagSelect = document.getElementById('edit_tags');
+                if (tagSelect) {
+                    // Deseleccionar todos primero
+                    Array.from(tagSelect.options).forEach(option => {
+                        option.selected = false;
+                    });
+
+                    // Seleccionar los tags asociados a la noticia
+                    if (data.tag_ids && data.tag_ids.length > 0) {
+                        data.tag_ids.forEach(tagId => {
+                            const option = tagSelect.querySelector(`option[value="${tagId}"]`);
+                            if (option) {
+                                option.selected = true;
+                            }
+                        });
+                    }
+                }
+
+                // Configurar la acción del formulario
+                document.getElementById('editNoticiaForm').action = `{{ route('admin.noticias.index') }}/${data.id}`;
+
+                // Mostrar imagen actual si existe
+                if (data.imagen) {
+                    document.getElementById('current_image').src = "{{ asset('storage') }}/" + data.imagen;
+                    document.getElementById('current_image').style.display = 'block';
+                    document.getElementById('no_image_text').style.display = 'none';
+                } else {
+                    document.getElementById('current_image').style.display = 'none';
+                    document.getElementById('no_image_text').style.display = 'block';
+                }
+
+                // Mostrar el modal
+                document.getElementById('editNoticiaModal').style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+            })
+            .catch(error => {
+                console.error('Error al cargar la noticia:', error);
+                alert('Error al cargar los datos de la noticia. Por favor, inténtalo de nuevo.');
+            });
+    }
+
+    function closeEditModal() {
+        document.getElementById('editNoticiaModal').style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restaurar scroll
+        document.getElementById('editNoticiaForm').reset();
+    }
+
+    // Cerrar modales al hacer clic fuera de ellos
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('createNoticiaModal')) {
+            closeCreateModal();
+        }
+        if (event.target == document.getElementById('editNoticiaModal')) {
+            closeEditModal();
+        }
+    }
 </script>
 @endsection
