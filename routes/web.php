@@ -13,6 +13,7 @@ use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PrensaController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\ColaboradorController;
 
 
 // Replaced the closure route with the controller route
@@ -121,6 +122,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/contacto/faqs/{id}', [ContactoController::class, 'adminFaqsUpdate'])->name('contacto.faqs.update');
         Route::delete('/contacto/faqs/{id}', [ContactoController::class, 'adminFaqsDestroy'])->name('contacto.faqs.destroy');
         Route::post('/contacto/faqs/update-order', [ContactoController::class, 'adminFaqsUpdateOrder'])->name('contacto.faqs.update-order');
+        Route::resource('colaboradores', ColaboradorController::class)->names('colaboradores');
+
+
     });
 });
 

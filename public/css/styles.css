@@ -2513,6 +2513,129 @@ footer p:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 184, 196, 0.5);
 }
+.nosotros-hero {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.nosotros-hero-overlay {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 80px 20px;
+}
+
+.nosotros-hero-content {
+  color: #fff;
+  max-width: 700px;
+  margin: 0 auto 0 10%; /* alineado a la izquierda */
+  padding-left: 10px;
+}
+.nosotros-tagline {
+  display: inline-block;
+  background-color: #00d1d1;
+  color: #000;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.nosotros-titulo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.nosotros-descripcion {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.nosotros-botones {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-nosotros {
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primario {
+  background-color: #00d1d1;
+  color: #fff;
+}
+
+.btn-primario:hover {
+  background-color: #00baba;
+}
+
+.btn-secundario {
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.btn-secundario:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.nosotros-stats {
+  padding: 60px 20px;
+  background-color: #fff;
+}
+
+.contenedor-flex-nosotros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tarjeta-nosotros {
+  flex: 1 1 calc(25% - 20px);
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-width: 250px;
+}
+
+.tarjeta-nosotros:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.tarjeta-icono img {
+  background-color: #e0f7fa;
+  padding: 12px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.tarjeta-titulo {
+  margin-top: 15px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.tarjeta-texto {
+  margin-top: 5px;
+  font-size: 1rem;
+  color: #555;
+}
 
 
 /* Responsive */

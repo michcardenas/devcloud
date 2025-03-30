@@ -104,8 +104,8 @@
         </div>
 
         <div class="col-md-6">
-                    <label for="imagen1" class="form-label text-light">Imagen 1</label>
-                    <input type="file" name="imagen1" class="form-control bg-secondary text-light border-0">
+                    <label for="imagen1" class="form-label text-light">Imagen 2</label>
+                    <input type="file" name="imagen2" class="form-control bg-secondary text-light border-0">
 
                     @if (!empty($data->imagen1))
                         <div class="mt-2">
@@ -121,13 +121,78 @@
         </div>
     </div>
 </div>
-{{-- Sección Principios --}}
+{{-- Sección Misión, Visión y Valores --}}
 <div class="card bg-dark text-light border-secondary mt-5 mb-4">
     <div class="card-header border-bottom border-secondary">
-        <strong>Principios y Valores</strong>
+        <strong>Misión, Visión y Valores</strong>
     </div>
 
     <div class="card-body row g-4">
+        {{-- Misión --}}
+        <div class="col-md-6">
+            <label for="mision" class="form-label text-light">Misión</label>
+            <textarea name="mision" class="form-control bg-secondary text-light border-0" rows="3">{{ old('mision', $data->mision ?? '') }}</textarea>
+        </div>
+
+        <div class="col-md-6">
+            <label for="imagen_mision" class="form-label text-light">Imagen Misión</label>
+            <input type="file" name="imagen_mision" class="form-control bg-secondary text-light border-0">
+
+            @if (!empty($data->imagen_mision))
+                <div class="mt-2">
+                    <small class="text-muted d-block">Imagen actual:</small>
+                    <img src="{{ asset($data->imagen_mision) }}" alt="Imagen Misión" class="img-thumbnail mt-1" style="max-width: 200px;">
+                </div>
+            @endif
+        </div>
+
+        {{-- Visión --}}
+        <div class="col-md-6">
+            <label for="vision" class="form-label text-light">Visión</label>
+            <textarea name="vision" class="form-control bg-secondary text-light border-0" rows="3">{{ old('vision', $data->vision ?? '') }}</textarea>
+        </div>
+
+        <div class="col-md-6">
+            <label for="imagen_vision" class="form-label text-light">Imagen Visión</label>
+            <input type="file" name="imagen_vision" class="form-control bg-secondary text-light border-0">
+
+            @if (!empty($data->imagen_vision))
+                <div class="mt-2">
+                    <small class="text-muted d-block">Imagen actual:</small>
+                    <img src="{{ asset($data->imagen_vision) }}" alt="Imagen Visión" class="img-thumbnail mt-1" style="max-width: 200px;">
+                </div>
+            @endif
+        </div>
+
+        {{-- Valores --}}
+        <div class="col-md-6">
+            <label for="valores" class="form-label text-light">Valores</label>
+            <textarea name="valores" class="form-control bg-secondary text-light border-0" rows="3">{{ old('valores', $data->valores ?? '') }}</textarea>
+        </div>
+
+        <div class="col-md-6">
+            <label for="imagen_valores" class="form-label text-light">Imagen Valores</label>
+            <input type="file" name="imagen_valores" class="form-control bg-secondary text-light border-0">
+
+            @if (!empty($data->imagen_valores))
+                <div class="mt-2">
+                    <small class="text-muted d-block">Imagen actual:</small>
+                    <img src="{{ asset($data->imagen_valores) }}" alt="Imagen Valores" class="img-thumbnail mt-1" style="max-width: 200px;">
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+
+{{-- Tarjetas 5 a 10 --}}
+{{-- Sección Principios y Tarjetas --}}
+<div class="card bg-dark text-light border-secondary mt-5 mb-4">
+    <div class="card-header border-bottom border-secondary">
+        <strong>Principios y Tarjetas</strong>
+    </div>
+
+    <div class="card-body row g-4">
+        {{-- Tagline y Título --}}
         <div class="col-md-6">
             <label for="tagline3" class="form-label text-light">Tagline 3</label>
             <input type="text" name="tagline3" class="form-control bg-secondary text-light border-0" value="{{ old('tagline3', $data->tagline3 ?? '') }}">
@@ -142,46 +207,30 @@
             <label for="contenido_principios" class="form-label text-light">Contenido Principios</label>
             <textarea name="contenido_principios" class="form-control bg-secondary text-light border-0" rows="4">{{ old('contenido_principios', $data->contenido_principios ?? '') }}</textarea>
         </div>
-    </div>
-</div>
 
-{{-- Tarjetas 5 a 10 --}}
-<div class="card bg-dark text-light border-secondary mb-4">
-    <div class="card-header border-bottom border-secondary">
-        <strong>Tarjetas 5 a 10</strong>
-    </div>
+        {{-- Repetir tarjetas 5 a 10 --}}
+        @for ($i = 5; $i <= 10; $i++)
+            <div class="col-md-6">
+                <label for="titulo_tarjeta{{ $i }}" class="form-label text-light">Título Tarjeta {{ $i }}</label>
+                <input type="text" name="titulo_tarjeta{{ $i }}" class="form-control bg-secondary text-light border-0" value="{{ old("titulo_tarjeta$i", $data->{'titulo_tarjeta' . $i} ?? '') }}">
+            </div>
 
-    <div class="card-body">
-        <div class="row g-4">
-            @for ($i = 5; $i <= 10; $i++)
             <div class="col-md-6">
                 <label for="imagen_tarjeta{{ $i }}" class="form-label text-light">Imagen Tarjeta {{ $i }}</label>
                 <input type="file" name="imagen_tarjeta{{ $i }}" class="form-control bg-secondary text-light border-0">
-
-                @if (!empty($data["imagen_tarjeta$i"]))
+                @if (!empty($data->{'imagen_tarjeta' . $i}))
                     <div class="mt-2">
                         <small class="text-muted d-block">Imagen actual:</small>
-                        <img src="{{ asset($data["imagen_tarjeta$i"]) }}" alt="Tarjeta {{ $i }}" class="img-thumbnail mt-1" style="max-width: 200px;">
+                        <img src="{{ asset($data->{'imagen_tarjeta' . $i}) }}" alt="Tarjeta {{ $i }}" class="img-thumbnail mt-1" style="max-width: 200px;">
                     </div>
                 @endif
             </div>
 
-
-                <div class="col-md-6">
-                    <label for="titulo_tarjeta{{ $i }}" class="form-label text-light">Título Tarjeta {{ $i }}</label>
-                    <input type="text" name="titulo_tarjeta{{ $i }}" class="form-control bg-secondary text-light border-0" value="{{ old("titulo_tarjeta$i", $data["titulo_tarjeta$i"] ?? '') }}">
-                </div>
-
-                <div class="col-12">
-                    <label for="contenido_tarjeta{{ $i }}" class="form-label text-light">Contenido Tarjeta {{ $i }}</label>
-                    <textarea name="contenido_tarjeta{{ $i }}" class="form-control bg-secondary text-light border-0" rows="3">{{ old("contenido_tarjeta$i", $data["contenido_tarjeta$i"] ?? '') }}</textarea>
-                </div>
-
-                @if ($i < 10)
-                    <hr class="text-secondary my-4">
-                @endif
-            @endfor
-        </div>
+            <div class="col-12">
+                <label for="contenido_tarjeta{{ $i }}" class="form-label text-light">Contenido Tarjeta {{ $i }}</label>
+                <textarea name="contenido_tarjeta{{ $i }}" class="form-control bg-secondary text-light border-0" rows="3">{{ old("contenido_tarjeta$i", $data->{'contenido_tarjeta' . $i} ?? '') }}</textarea>
+            </div>
+        @endfor
     </div>
 </div>
 
@@ -206,6 +255,12 @@
             <label for="contenido_equipo" class="form-label text-light">Contenido del Equipo</label>
             <textarea name="contenido_equipo" class="form-control bg-secondary text-light border-0" rows="4">{{ old('contenido_equipo', $data->contenido_equipo ?? '') }}</textarea>
         </div>
+        
+        <div class="col-12 text-end">
+        <a href="{{ route('admin.colaboradores.index') }}" class="btn btn-success">Agregar colaborador</a>
+    </a>
+</div>
+
     </div>
 </div>
         
