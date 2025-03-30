@@ -134,12 +134,16 @@
                             </ul>
                         </div>
                         @endif
-                        
+                        <div class="input-group">
+                                <label for="name" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Nombre de la empresa</label>
+                                <input type="text" id="name" name="nombre" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" value="{{ old('nombre') }}" placeholder="Tu nombre completo" required>
+                            </div>
                         <div class="form-row grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="input-group">
                                 <label for="name" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Nombre</label>
                                 <input type="text" id="name" name="nombre" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" value="{{ old('nombre') }}" placeholder="Tu nombre completo" required>
                             </div>
+                          
 
                             <div class="input-group">
                                 <label for="email" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Correo electrónico</label>

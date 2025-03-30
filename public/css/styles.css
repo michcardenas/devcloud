@@ -955,6 +955,17 @@ body {
   color: var(--text-light);
   transition: all 0.3s ease;
 }
+/* Input field */
+.input-fieldse {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color:gray;
+  transition: all 0.3s ease;
+}
 
 .input-field:focus {
   outline: none;

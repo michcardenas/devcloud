@@ -196,10 +196,16 @@
                     @endif
                     
                     <div class="form-row">
+                    <div class="input-group">
+                            <label for="name" class="input-label">Nombre de la empresa</label>
+                            <input type="text" id="name" name="nombre" class="input-field" value="{{ old('nombre') }}" placeholder="Nombre de la empresa" required>
+                        </div>
                         <div class="input-group">
                             <label for="name" class="input-label">Nombre</label>
                             <input type="text" id="name" name="nombre" class="input-field" value="{{ old('nombre') }}" placeholder="Tu nombre completo" required>
                         </div>
+
+                     
 
                         <div class="input-group">
                             <label for="email" class="input-label">Correo electrónico</label>
@@ -215,13 +221,14 @@
 
                         <div class="input-group">
                             <label for="servicio" class="input-label">Servicio que necesitas</label>
-                            <select id="servicio" name="servicio" class="input-field" required>
+                            <select id="servicio" name="servicio" class="input-fieldse" required>
                                 <option value="" disabled {{ old('servicio') ? '' : 'selected' }}>Selecciona un servicio</option>
                                 <option value="Desarrollo Web" {{ old('servicio') == 'Desarrollo Web' ? 'selected' : '' }}>Desarrollo Web</option>
                                 <option value="Desarrollo Móvil" {{ old('servicio') == 'Desarrollo Móvil' ? 'selected' : '' }}>Desarrollo Móvil</option>
+                                <option value="DevOps" {{ old('servicio') == 'Desarrollo Móvil' ? 'selected' : '' }}>DevOps</option>
                                 <option value="Servicios Cloud" {{ old('servicio') == 'Servicios Cloud' ? 'selected' : '' }}>Servicios Cloud</option>
-                                <option value="Consultoría Tecnológica" {{ old('servicio') == 'Consultoría Tecnológica' ? 'selected' : '' }}>Consultoría Tecnológica</option>
-                                <option value="Diseño UX/UI" {{ old('servicio') == 'Diseño UX/UI' ? 'selected' : '' }}>Diseño UX/UI</option>
+                                <option value="Consultoría Tecnológica" {{ old('servicio') == 'Consultoría Tecnológica' ? 'selected' : '' }}>Conectividad</option>
+                                <option value="Diseño UX/UI" {{ old('servicio') == 'Diseño UX/UI' ? 'selected' : '' }}>Ciberseguridad</option>
                                 <option value="Otro" {{ old('servicio') == 'Otro' ? 'selected' : '' }}>Otro</option>
                             </select>
                         </div>
@@ -229,7 +236,7 @@
 
                     <div class="input-group">
                         <label for="region" class="input-label">Región</label>
-                        <select id="region" name="region" class="input-field" required>
+                        <select id="region" name="region" class="input-fieldse" required>
                             <option value="" disabled {{ old('region') ? '' : 'selected' }}>Selecciona una región</option>
                             <option value="Madrid" {{ old('region') == 'Madrid' ? 'selected' : '' }}>Madrid</option>
                             <option value="Barcelona" {{ old('region') == 'Barcelona' ? 'selected' : '' }}>Barcelona</option>
@@ -242,7 +249,7 @@
 
                     <div class="input-group">
                         <label for="presupuesto" class="input-label">Rango de presupuesto</label>
-                        <select id="presupuesto" name="presupuesto" class="input-field" required>
+                        <select id="presupuesto" name="presupuesto" class="input-fieldse" required>
                             <option value="" disabled {{ old('presupuesto') ? '' : 'selected' }}>Selecciona un rango</option>
                             <option value="Menos de 5.000 €" {{ old('presupuesto') == 'Menos de 5.000 €' ? 'selected' : '' }}>Menos de 5.000 €</option>
                             <option value="5.000 € - 10.000 €" {{ old('presupuesto') == '5.000 € - 10.000 €' ? 'selected' : '' }}>5.000 € - 10.000 €</option>
