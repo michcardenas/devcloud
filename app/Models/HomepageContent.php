@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HomePageContent extends Model
+class HomepageContent extends Model
+
 {
     /**
      * La tabla asociada con el modelo.

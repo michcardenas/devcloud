@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Contacto;
 use App\Models\Faq;
 use App\Models\Cotizacion;
-use App\Models\HomePageContent;
+use App\Models\HomepageContent;
 use Illuminate\Support\Facades\Mail;
 
 class ContactoController extends Controller
