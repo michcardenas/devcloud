@@ -170,29 +170,7 @@ function abrirModalEditar(id, nombre, cargo, departamento, linkedin, descripcion
     document.getElementById('modalColaborador').classList.remove('hidden');
 }
 
-//Filtro departamento
-function filtrarColaboradores(departamento) {
-    const cards = document.querySelectorAll('.colaborador-card');
-    const titulo = document.getElementById('tituloEquipo');
 
-    let totalMostrados = 0;
-
-    cards.forEach(card => {
-        const depto = card.getAttribute('data-departamento');
-        
-        if (departamento === 'Todos' || depto === departamento) {
-            card.classList.remove('hidden');
-            totalMostrados++;
-        } else {
-            card.classList.add('hidden');
-        }
-    });
-
-    titulo.innerHTML = `
-        <h3 class="text-lg text-cyan-600 font-semibold">${departamento === 'Todos' ? 'Todos los miembros' : departamento}</h3>
-        <p class="text-sm text-gray-500">Mostrando ${totalMostrados} colaborador${totalMostrados === 1 ? '' : 'es'}</p>
-    `;
-}
 
 
 

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <section class="nosotros-hero" style="background-image: url('{{ asset($contenido->imagen1) }}');">
     <div class="nosotros-hero-overlay">
@@ -182,14 +181,23 @@
     </div>
     <div id="contenedorColaboradores" class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
     @foreach($colaboradores as $colaborador)
-        <div class="w-full max-w-xs bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-lg transition duration-300 ease-in-out colaborador-card" data-departamento="{{ $colaborador->departamento }}">
-            <div class="h-52 w-full overflow-hidden">
+        <div class="relative group w-full max-w-xs bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-lg transition duration-300 ease-in-out colaborador-card" data-departamento="{{ $colaborador->departamento }}">
+            <div class="relative h-52 w-full overflow-hidden">
                 <img src="{{ asset($colaborador->imagen) }}" alt="{{ $colaborador->nombre }}" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
-            </div>
+           
+                             {{-- Descripción flotante --}}
+    @if($colaborador->descripcion)
+        <div class="absolute inset-0 bg-black bg-opacity-70 text-white opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-sm text-center p-4">
+            {{ $colaborador->descripcion }}
+        </div>
+    @endif
+
+             </div>
+
+
             <div class="p-4">
                 <h4 class="text-gray-900 font-semibold text-lg">{{ $colaborador->nombre }}</h4>
-                <p class="text-sm text-cyan-600 font-medium">{{ $colaborador->cargo }}</p>
-
+                <p class="text-sm text-cyan-600 font-medium">{{ $colaborador->cargo }}</p>  
                 @if($colaborador->linkedin)
                     <a href="{{ $colaborador->linkedin }}" target="_blank" class="inline-block mt-3 text-gray-500 hover:text-cyan-600">
                         <i class="fab fa-linkedin text-xl"></i>
@@ -199,6 +207,41 @@
         </div>
     @endforeach
 </div>
+
+<script>
+
+//Filtro departamento
+function filtrarColaboradores(departamento) {
+    const cards = document.querySelectorAll('.colaborador-card');
+    const titulo = document.getElementById('tituloEquipo');
+    const botones = document.querySelectorAll('[onclick^="filtrarColaboradores"]');
+
+    let totalMostrados = 0;
+
+    cards.forEach(card => {
+        const depto = card.getAttribute('data-departamento');
+        const visible = (departamento === 'Todos' || depto === departamento);
+        card.classList.toggle('hidden', !visible);
+        if (visible) totalMostrados++;
+    });
+
+    // Actualizar título
+    titulo.innerHTML = `
+        <h3 class="text-lg text-cyan-600 font-semibold">
+            ${departamento === 'Todos' ? 'Todos los miembros' : departamento}
+        </h3>
+        <p class="text-sm text-gray-500">Mostrando ${totalMostrados} colaborador${totalMostrados !== 1 ? 'es' : ''}</p>
+    `;
+
+    // Resaltar botón activo
+    botones.forEach(btn => btn.classList.remove('bg-cyan-100', 'text-cyan-700'));
+    const activeBtn = Array.from(botones).find(btn => btn.textContent.trim() === departamento);
+    if (activeBtn) activeBtn.classList.add('bg-cyan-100', 'text-cyan-700');
+}
+
+
+
+</script>
 
 
 </section>
