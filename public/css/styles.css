@@ -1040,7 +1040,9 @@ footer::before {
   opacity: 0.05;
   z-index: 0;
 }
-
+.swiper {
+  overflow: hidden;
+}
 footer>div {
   position: relative;
   z-index: 1;

@@ -166,10 +166,9 @@
         Descubre por qué las empresas confían en nosotros para sus necesidades tecnológicas.
     </p>
 
-    <div class="swiper mySwiper max-w-3xl mx-auto px-6">
+    <div class="swiper mySwiper max-w-xl mx-auto overflow-hidden">
         <div class="swiper-wrapper">
-
-            {{-- Testimonio 1 --}}
+            <!-- Testimonio 1 -->
             <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
                 <p class="text-gray-300 italic mb-4">
                     “La migración a la nube fue impecable. El proceso fue minucioso, bien planificado y ejecutado sin interrupciones. Además, los ahorros en costos superaron nuestras expectativas.”
@@ -179,7 +178,7 @@
                 <div class="text-cyan-400 text-sm">COO, Healthcare Systems</div>
             </div>
 
-            {{-- Testimonio 2 --}}
+            <!-- Testimonio 2 -->
             <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
                 <p class="text-gray-300 italic mb-4">
                     “El equipo fue muy profesional y atento. Nos ayudaron a escalar nuestro sistema con soluciones innovadoras.”
@@ -189,7 +188,7 @@
                 <div class="text-cyan-400 text-sm">CEO, StartTech</div>
             </div>
 
-            {{-- Testimonio 3 --}}
+            <!-- Testimonio 3 -->
             <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
                 <p class="text-gray-300 italic mb-4">
                     “Gracias al rediseño UX/UI logramos aumentar la retención de usuarios en un 40%. ¡Excelente trabajo!”
@@ -198,10 +197,9 @@
                 <div class="text-white font-semibold">María Gómez</div>
                 <div class="text-cyan-400 text-sm">UX Lead, FinNova</div>
             </div>
-
         </div>
 
-        {{-- Paginación --}}
+        <!-- Paginación -->
         <div class="swiper-pagination mt-6"></div>
     </div>
 </section>
