@@ -79,37 +79,72 @@
     </div>
 
     <!-- Footer con el mismo gradiente que el navbar -->
-    <footer class="py-8 text-white bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+    <footer class="py-10 text-white bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 border-t border-gray-800">
     <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0 border-t border-gray-800 pt-6">
-            <div class="flex items-center space-x-4">
-                <img src="/images/logohelmcode.png" alt="Helmcode" class="h-16 md:h-20 w-auto">
-                <p class="text-gray-500 text-sm">
-                    © {{ date('Y') }} Helmcode S.L.. Todos los derechos reservados.
-                </p>
-            </div>
-            <div class="flex space-x-4">
-                <a href="{{ url('/terminos') }}" class="text-gray-500 hover:text-cyan-500 text-sm transition-colors">
+        <div class="flex flex-col items-center text-center space-y-6">
+            
+            {{-- Logo centrado --}}
+            <img src="/images/logotiporetinaHelmcode.png" alt="Helmcode" class="h-20 w-auto">
+
+            {{-- Derechos + localización --}}
+            <p class="text-sm text-white/70 leading-snug tracking-wide">
+                © {{ date('Y') }} Helmcode S.L. · Todos los derechos reservados. <br>
+                <span class="text-white/50">Desde Canarias para el 🌍</span>
+            </p>
+
+            {{-- Enlaces legales --}}
+            <div class="flex flex-wrap justify-center space-x-4 text-sm text-gray-500">
+                <a href="{{ url('/terminos') }}" class="hover:text-cyan-500 transition-colors">
                     Términos y Condiciones
                 </a>
                 <span class="text-gray-700">|</span>
-                <a href="{{ url('/privacidad') }}" class="text-gray-500 hover:text-cyan-500 text-sm transition-colors">
+                <a href="{{ url('/privacidad') }}" class="hover:text-cyan-500 transition-colors">
                     Política de Privacidad
                 </a>
             </div>
+
         </div>
     </div>
 </footer>   
 
 
 
+<script>
+function cookieConsent() {
+    return {
+        visible: false,
 
+        init() {
+            const consent = localStorage.getItem('cookie-consent');
+            if (!consent) {
+                setTimeout(() => {
+                    this.visible = true;
+                }, 1000);
+            }
+        },
+
+        accept() {
+            localStorage.setItem('cookie-consent', 'accepted');
+            this.visible = false;
+        },
+
+        reject() {
+            localStorage.setItem('cookie-consent', 'rejected');
+            this.visible = false;
+        }
+    };
+}
+</script>
 
 
 
 
     <script src="{{ asset('js/jsdelapagina.js') }}"></script>
   <x-volver-arriba />
+<x-cookie-consent />
+
+
+
 </body>
 
 </html>
