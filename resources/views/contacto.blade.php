@@ -66,7 +66,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-[#00b8c4] font-medium">Email</p>
-                                <span class="contact-info-text text-white/90">{{ $content->contact_email ?? 'info@techwave.es' }}</span>
+                                <span class="contact-info-text text-white/90">{{ $content->contact_email ?? 'hola@helmcode.com' }}</span>
                             </div>
                         </div>
 
@@ -81,7 +81,17 @@
                                 <p class="text-sm text-[#00b8c4] font-medium">Dirección</p>
                                 <span class="contact-info-text text-white/90">{{ $content->contact_address ?? 'Calle Tecnología 123, 28021, Madrid' }}</span>
                             </div>
-                        </div>
+
+
+                             <div className="ml-4">
+                  <h4 className="text-white font-medium text-lg">Horario</h4>
+                  <p className="text-white/80 mt-1">
+                    Lunes a Viernes<br />
+                    9:00 - 18:00
+                  </p>
+                </div>
+
+                    </div>
                     </div>
 
                     <!-- Espacio flexible para empujar las redes sociales hacia abajo -->

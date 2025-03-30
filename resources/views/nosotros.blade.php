@@ -1,5 +1,35 @@
 @extends('layouts.app')
 @section('content')
+
+<style>
+.filtro-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151; /* gray-700 */
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    border: none;
+}
+
+.filtro-btn:hover {
+    background-color: #e0f2fe; /* hover:bg-cyan-100 */
+}
+
+.filtro-btn.active {
+    background-color: #ecfeff; /* cyan-50 */
+    border: 1px solid #06b6d4; /* border-cyan-400 */
+    color: #0e7490; /* text-cyan-700 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+</style>
+
 <section class="nosotros-hero" style="background-image: url('{{ asset($contenido->imagen1) }}');">
     <div class="nosotros-hero-overlay">
         <div class="nosotros-hero-content text-start">
@@ -38,15 +68,13 @@
         </div>
     </div>
 </section>
-<section class="bg-white py-16">
+<section id="historia" class="bg-white py-16">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
         {{-- Parte izquierda: imagen con card superpuesta --}}
         <div class="relative">
             <img src="{{ asset($contenido->imagen2) }}" alt="Equipo" class="rounded-lg shadow-md w-full object-cover">
             <div class="absolute bottom-[-2rem] left-6 bg-white rounded-xl shadow-md p-6 w-[90%] max-w-sm">
                 <h4 class="font-semibold text-lg mb-1 text-cyan-700">Nuestro equipo</h4>
-                
-                
                 <p class="text-sm text-gray-600">{{ $contenido->contenido_imagen2 }}</p>
             </div>
         </div>
@@ -140,7 +168,7 @@
         </div>
     </div>
 </section>
-<section class="text-center py-16 bg-white">
+<section id="equipo" class="text-center py-16 bg-white">
     {{-- Tagline --}}
     <span class="inline-block bg-cyan-100 text-cyan-800 px-4 py-1 rounded-full text-sm font-medium mb-4">
         {{ $contenido->tagline4 }}
@@ -161,20 +189,54 @@
     $departamentos = $colaboradores->pluck('departamento')->unique()->filter()->values();
 @endphp
 
-<div class=" px-4 py-4 rounded-lg max-w-4xl mx-auto mb-10">
+
+
+<div class="px-4 py-4 rounded-lg max-w-4xl mx-auto mb-10">
     <div class="flex flex-wrap justify-center gap-3">
-        <button onclick="filtrarColaboradores('Todos')" class="px-4 py-2 bg-white text-sm font-medium text-gray-700 rounded-lg shadow hover:bg-cyan-100 flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-600" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm3 4h6v2H9v-2zm3 4h0v2h0v-2z" /></svg>
-            Todos
+
+        {{-- Botón "Todos" --}}
+        <button 
+            onclick="filtrarColaboradores(this)" 
+            data-depto="Todos" 
+            class="filtro-btn active"
+        >
+            <i class="fas fa-users mr-1"></i> Todos
         </button>
 
+        {{-- Botones por departamento --}}
         @foreach ($departamentos as $depto)
-            <button onclick="filtrarColaboradores('{{ $depto }}')" class="px-4 py-2 bg-white text-sm font-medium text-gray-700 rounded-lg shadow hover:bg-cyan-100">
+            <button 
+                onclick="filtrarColaboradores(this)" 
+                data-depto="{{ $depto }}" 
+                class="filtro-btn"
+            >
+                @switch($depto)
+                    @case('Fundadores')
+                        <i class="fas fa-user-tie mr-1"></i>
+                        @break
+                    @case('Desarrollo')
+                        <i class="fas fa-code mr-1"></i>
+                        @break
+                    @case('Marketing')
+                        <i class="fas fa-bullhorn mr-1"></i>
+                        @break
+                    @case('Diseño')
+                        <i class="fas fa-paint-brush mr-1"></i>
+                        @break
+                    @default
+                        <i class="fas fa-briefcase mr-1"></i>
+                @endswitch
                 {{ $depto }}
             </button>
         @endforeach
+
     </div>
 </div>
+
+
+
+
+
 <div id="tituloEquipo" class="text-center mb-10">
         <h3 class="text-lg text-cyan-600 font-semibold">Todos los miembros</h3>
         <p class="text-sm text-gray-500">Mostrando {{ $colaboradores->count() }} colaboradores</p>
@@ -211,10 +273,11 @@
 <script>
 
 //Filtro departamento
-function filtrarColaboradores(departamento) {
+function filtrarColaboradores(btn) {
+    const departamento = btn.getAttribute('data-depto');
     const cards = document.querySelectorAll('.colaborador-card');
     const titulo = document.getElementById('tituloEquipo');
-    const botones = document.querySelectorAll('[onclick^="filtrarColaboradores"]');
+    const botones = document.querySelectorAll('.filtro-btn');
 
     let totalMostrados = 0;
 
@@ -228,15 +291,14 @@ function filtrarColaboradores(departamento) {
     // Actualizar título
     titulo.innerHTML = `
         <h3 class="text-lg text-cyan-600 font-semibold">
-            ${departamento === 'Todos' ? 'Todos los miembros' : departamento}
+            ${departamento}
         </h3>
         <p class="text-sm text-gray-500">Mostrando ${totalMostrados} colaborador${totalMostrados !== 1 ? 'es' : ''}</p>
     `;
 
-    // Resaltar botón activo
-    botones.forEach(btn => btn.classList.remove('bg-cyan-100', 'text-cyan-700'));
-    const activeBtn = Array.from(botones).find(btn => btn.textContent.trim() === departamento);
-    if (activeBtn) activeBtn.classList.add('bg-cyan-100', 'text-cyan-700');
+    // Marcar botón activo
+    botones.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
 }
 
 
