@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Hero Section con estadísticas -->
-<section class="hero-section scroll-reveal" data-bg-image="{{ $content->hero_bg_image ? asset('storage/'.$content->hero_bg_image) : '/images/cloud-dark-bg.jpg' }}">
+<section class="hero-section scroll-reveal" data-bg-image="{{ $content->hero_bg_image ? asset($content->hero_bg_image) : '/images/cloud-dark-bg.jpg' }}">
     <div class="hero-container">
         <div class="hero-content scroll-reveal delay-1">
             <span class="tag-line scroll-reveal delay-2">{{ $content->hero_tagline }}</span>
