@@ -163,3 +163,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Eliminar el evento duplicado que se está añadiendo fuera del DOMContentLoaded
     // Para mantener el efecto, lo integramos en setupNavbarScroll
 });
+function scrollToContacto(servicio = '') {
+    const contacto = document.getElementById('contacto');
+    const selectServicio = document.getElementById('servicio');
+
+    if (contacto) {
+        contacto.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (selectServicio && servicio) {
+        // Esperamos un poquito para asegurar que el scroll terminó
+        setTimeout(() => {
+            Array.from(selectServicio.options).forEach(option => {
+                if (option.text.trim().toLowerCase() === servicio.trim().toLowerCase()) {
+                    option.selected = true;
+                }
+            });
+        }, 500);
+    }
+}

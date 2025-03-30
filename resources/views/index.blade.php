@@ -68,7 +68,9 @@
         <div class="services-grid">
             @forelse($content->services as $index => $service)
                 <!-- Tarjeta de Servicio {{ $index + 1 }} -->
-                <div class="service-card scroll-reveal delay-{{ min($index + 1, 3) }}">
+                <div class="service-card scroll-reveal delay-{{ min($index + 1, 3) }}"
+                     onclick="scrollToContacto('{{ $service['title'] ?? 'Servicio ' . ($index + 1) }}')"
+                     style="cursor: pointer;">
                     <img src="{{ !empty($service['icon']) ? asset($service['icon']) : '/images/default_service_' . (($index % 3) + 1) . '.png' }}" 
                          alt="{{ $service['title'] ?? 'Servicio ' . ($index + 1) }}">
                     <h3>{{ $service['title'] ?? 'Servicio ' . ($index + 1) }}</h3>
@@ -83,7 +85,8 @@
                 </div>
             @empty
                 <!-- Mostrar mensaje o servicios predeterminados si no hay servicios configurados -->
-                <div class="service-card scroll-reveal delay-1">
+                <div class="service-card scroll-reveal delay-1"
+                     onclick="scrollToContacto('Servicio 1')" style="cursor: pointer;">
                     <img src="/images/cloud_done_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Servicio 1">
                     <h3>Servicio 1</h3>
                     <p>Descripción del servicio predeterminado 1</p>
@@ -100,6 +103,62 @@
     </div>
 </section>
 
+<section class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+        {{-- Parte izquierda: imagen con card superpuesta --}}
+        <div class="relative">
+            <img src="{{ asset($contenido->imagen2) }}" alt="Equipo" class="rounded-lg shadow-md w-full object-cover">
+            <div class="absolute bottom-[-2rem] left-6 bg-white rounded-xl shadow-md p-6 w-[90%] max-w-sm">
+                <h4 class="font-semibold text-lg mb-1 text-cyan-700">Nuestro equipo</h4>
+                
+                
+                <p class="text-sm text-gray-600">{{ $contenido->contenido_imagen2 }}</p>
+            </div>
+        </div>
+
+        {{-- Parte derecha: texto + cards --}}
+        <div>
+            <span class="inline-block bg-cyan-100 text-cyan-800 px-4 py-1 rounded-full text-sm font-medium mb-2">
+                {{ $contenido->tagline2 }}
+            </span>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                {{ $contenido->titulo_h2 }}
+            </h2>
+            
+            <p class="text-gray-700 mb-6">{{ $contenido->contenido2 }}</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {{-- Misión --}}
+    <div class="border rounded-xl p-4 shadow-sm text-center">
+        <div class="flex justify-center mb-3">
+            <img src="{{ asset($contenido->imagen_mision) }}" alt="Misión" class="w-10 h-10 bg-cyan-100 rounded-full p-2">
+        </div>
+        <h4 class="font-semibold text-lg mb-1 text-cyan-700">Misión</h4>
+        <p class="text-sm text-gray-600">{{ $contenido->mision }}</p>
+    </div>
+
+    {{-- Visión --}}
+    <div class="border rounded-xl p-4 shadow-sm text-center">
+        <div class="flex justify-center mb-3">
+            <img src="{{ asset($contenido->imagen_vision) }}" alt="Visión" class="w-10 h-10 bg-cyan-100 rounded-full p-2">
+        </div>
+        <h4 class="font-semibold text-lg mb-1 text-cyan-700">Visión</h4>
+        <p class="text-sm text-gray-600">{{ $contenido->vision }}</p>
+    </div>
+
+    {{-- Valores --}}
+    <div class="border rounded-xl p-4 shadow-sm text-center">
+        <div class="flex justify-center mb-3">
+            <img src="{{ asset($contenido->imagen_valores) }}" alt="Valores" class="w-10 h-10 bg-cyan-100 rounded-full p-2">
+        </div>
+        <h4 class="font-semibold text-lg mb-1 text-cyan-700">Valores</h4>
+        <p class="text-sm text-gray-600">{{ $contenido->valores }}</p>
+    </div>
+</div>
+
+        </div>
+    </div>
+</section>
 
 <!-- Sección de Contacto Modernizada -->
 <section id="contacto" class="contact-section relative">

@@ -1,14 +1,17 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\HomepageContent;
+use App\Models\PaginaNosotros;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $content = \App\Models\HomepageContent::firstOrCreate([]);
-        return view('index', compact('content'));
+        $content = HomepageContent::firstOrCreate([]);
+        $contenido = PaginaNosotros::first(); // Información de la sección "Nosotros"
+
+        return view('index', compact('content', 'contenido'));
     }
 }
