@@ -182,3 +182,16 @@ function scrollToContacto(servicio = '') {
         }, 500);
     }
 }
+const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    slidesPerView: 1,         // ✅ Solo 1 slide visible
+    spaceBetween: 0,          // ✅ Sin espacio entre slides
+    centeredSlides: false,    // ✅ No centrado (quita el borde del siguiente)
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+    autoplay: {
+        delay: 6000,
+    },
+});

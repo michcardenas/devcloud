@@ -159,6 +159,52 @@
         </div>
     </div>
 </section>
+<section class="bg-[#0B1120] py-20 text-white text-center">
+    <span class="text-sm bg-cyan-900 text-cyan-300 px-3 py-1 rounded-full mb-4 inline-block">Testimonios</span>
+    <h2 class="text-3xl md:text-4xl font-bold mb-2">Lo que dicen nuestros clientes</h2>
+    <p class="text-gray-400 max-w-xl mx-auto mb-10">
+        Descubre por qué las empresas confían en nosotros para sus necesidades tecnológicas.
+    </p>
+
+    <div class="swiper mySwiper max-w-3xl mx-auto px-6">
+        <div class="swiper-wrapper">
+
+            {{-- Testimonio 1 --}}
+            <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
+                <p class="text-gray-300 italic mb-4">
+                    “La migración a la nube fue impecable. El proceso fue minucioso, bien planificado y ejecutado sin interrupciones. Además, los ahorros en costos superaron nuestras expectativas.”
+                </p>
+                <div class="text-yellow-400 mb-4 text-lg">★★★★★</div>
+                <div class="text-white font-semibold">Lucía Fernández</div>
+                <div class="text-cyan-400 text-sm">COO, Healthcare Systems</div>
+            </div>
+
+            {{-- Testimonio 2 --}}
+            <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
+                <p class="text-gray-300 italic mb-4">
+                    “El equipo fue muy profesional y atento. Nos ayudaron a escalar nuestro sistema con soluciones innovadoras.”
+                </p>
+                <div class="text-yellow-400 mb-4 text-lg">★★★★☆</div>
+                <div class="text-white font-semibold">Carlos Ruiz</div>
+                <div class="text-cyan-400 text-sm">CEO, StartTech</div>
+            </div>
+
+            {{-- Testimonio 3 --}}
+            <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
+                <p class="text-gray-300 italic mb-4">
+                    “Gracias al rediseño UX/UI logramos aumentar la retención de usuarios en un 40%. ¡Excelente trabajo!”
+                </p>
+                <div class="text-yellow-400 mb-4 text-lg">★★★★★</div>
+                <div class="text-white font-semibold">María Gómez</div>
+                <div class="text-cyan-400 text-sm">UX Lead, FinNova</div>
+            </div>
+
+        </div>
+
+        {{-- Paginación --}}
+        <div class="swiper-pagination mt-6"></div>
+    </div>
+</section>
 
 <!-- Sección de Contacto Modernizada -->
 <section id="contacto" class="contact-section relative">
