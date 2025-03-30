@@ -1,2 +1,56 @@
 *
 !.gitignore
+# Ignorar imágenes
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+*.webp
+*.ico
+
+# Ignorar carpetas específicas que contengan imágenes
+/public/images/*
+!/public/images/.gitkeep
+
+# Laravel & PHP
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env.backup
+
+# Ignorar backups y archivos temporales
+*.bak
+*.tmp
+*.swp
+*~
+
+# Ignorar IDEs y editores
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+*.sublime-workspace
+*.sublime-project
+
+# Ignorar coverage y pruebas
+coverage/
+.phpunit.result.cache
+tests/Reports/
+
+# Ignorar logs
+/storage/logs/*.log
+
+# Ignorar archivos de compilación
+/public/js/*
+!/public/js/.gitkeep
+/public/css/*
+!/public/css/.gitkeep
