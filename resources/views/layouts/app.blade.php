@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
  <!-- Swiper CSS -->
         <link
@@ -78,20 +79,37 @@
     </div>
 
     <!-- Footer con el mismo gradiente que el navbar -->
-    <footer class="py-8 text-white">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="mb-6 md:mb-0">
-                    <img src="/images/logodev.png" alt="DevCloud Partners" class="h-10">
-                </div>
-                <div class="text-center md:text-right">
-                    <p>&copy; 2025 DevCloud Partners - Todos los derechos reservados.</p>
-                </div>
+    <footer class="py-8 text-white bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0 border-t border-gray-800 pt-6">
+            <div class="flex items-center space-x-4">
+                <img src="/images/logodev.png" alt="DevCloud Partners" class="h-10">
+                <p class="text-gray-500 text-sm">
+                    © {{ date('Y') }} Helmcode S.L.. Todos los derechos reservados.
+                </p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{{ url('/terminos') }}" class="text-gray-500 hover:text-cyan-500 text-sm transition-colors">
+                    Términos y Condiciones
+                </a>
+                <span class="text-gray-700">|</span>
+                <a href="{{ url('/privacidad') }}" class="text-gray-500 hover:text-cyan-500 text-sm transition-colors">
+                    Política de Privacidad
+                </a>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>   
+
+
+
+
+
+
+
 
     <script src="{{ asset('js/jsdelapagina.js') }}"></script>
+  <x-volver-arriba />
 </body>
 
 </html>

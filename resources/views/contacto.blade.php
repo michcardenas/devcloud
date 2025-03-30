@@ -81,19 +81,28 @@
                                 <p class="text-sm text-[#00b8c4] font-medium">Dirección</p>
                                 <span class="contact-info-text text-white/90">{{ $content->contact_address ?? 'Calle Tecnología 123, 28021, Madrid' }}</span>
                             </div>
-
-
-                             <div className="ml-4">
-                  <h4 className="text-white font-medium text-lg">Horario</h4>
-                  <p className="text-white/80 mt-1">
-                    Lunes a Viernes<br />
-                    9:00 - 18:00
-                  </p>
-                </div>
-
-                    </div>
-                    </div>
-
+                              </div>
+                                   
+                            <!-- Horario -->
+<div class="contact-info-item flex items-start">
+    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#00b8c4]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8v4l3 3"></path>
+            <circle cx="12" cy="12" r="10"></circle>
+        </svg>
+    </div>
+    <div>
+        <p class="text-sm text-[#00b8c4] font-medium">Horario</p>
+        <span class="contact-info-text text-white/90">
+            Lunes a Viernes<br />
+            9:00 - 18:00
+        </span>
+    </div>
+</div>
+                         
+                          </div> 
+ 
+                   
                     <!-- Espacio flexible para empujar las redes sociales hacia abajo -->
                     <div class="flex-spacer flex-grow min-h-[40px]"></div>
 

@@ -149,4 +149,7 @@ Route::post('/prensa/suscribir', [PrensaController::class, 'suscribir'])->name('
 
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto.index');
 
+
+Route::view('/terminos', 'legales.terminos')->name('terminos');
+Route::view('/privacidad', 'legales.privacidad')->name('privacidad');
 require __DIR__ . '/auth.php';

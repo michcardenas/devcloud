@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\File;
 
 class ServicioController extends Controller
 {
+
+ 
     /**
      * Muestra la vista pública de servicios
      */
@@ -293,6 +295,8 @@ class ServicioController extends Controller
                 }
             }
         }
+
+   
     
         // Guardar imágenes principales de bloque
         for ($j = 1; $j <= 4; $j++) {
