@@ -83,7 +83,7 @@
     <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0 border-t border-gray-800 pt-6">
             <div class="flex items-center space-x-4">
-                <img src="/images/logodev.png" alt="DevCloud Partners" class="h-10">
+                <img src="/images/logohelmcode.png" alt="Helmcode" class="h-16 md:h-20 w-auto">
                 <p class="text-gray-500 text-sm">
                     © {{ date('Y') }} Helmcode S.L.. Todos los derechos reservados.
                 </p>
