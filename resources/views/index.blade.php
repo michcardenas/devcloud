@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'DevCloud Partners - Soluciones en la Nube')
+@section('title', 'Helmcode - Soluciones en la Nube y DevOps')
 
 @section('content')
 

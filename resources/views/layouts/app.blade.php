@@ -4,13 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'DevCloud Partners')</title>
+    <title>@yield('title', 'Helmcode')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/faviconHelmcode.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    
+
 
  <!-- Swiper CSS -->
         <link
@@ -31,7 +34,7 @@
         <!-- Logo -->
         <div class="navbar-logo">
             <a href="/">
-                <img src="/images/logodev.png" alt="DevCloud Partners">
+                <img class="h-20 w-auto" src="/images/logotiporetinaHelmcode.png" alt="Helmcode">
             </a>
         </div>
 
@@ -62,12 +65,12 @@
     <!-- Menú móvil -->
     <div id="mobile-menu" class="mobile-menu">
         <a href="/">Inicio</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#noticias">Noticias</a>
-        <a href="#prensa">Prensa</a>
+        <a href="{{ route('servicios') }}">Servicios</a>
+        <a href="{{ route('nosotros') }}">Nosotros</a>
+        <a href="{{ route('noticias.index') }}">Noticias</a>
+        <a href="{{ route('prensa.index') }}">Prensa</a>
         <a href="#unete">Únete</a>
-        <a href="#contacto">Contacto</a>
+        <a href="{{ route('contacto.index') }}">Contacto</a>
         <a href="#presupuesto" class="btn-presupuesto">Solicitar presupuesto</a>
     </div>
 </nav>
@@ -134,14 +137,33 @@ function cookieConsent() {
         }
     };
 }
+
+
+
+
+
 </script>
 
 
 
 
     <script src="{{ asset('js/jsdelapagina.js') }}"></script>
-  <x-volver-arriba />
+
+
+    
+   
+   
+
+    
+    
+    
+   
+
+
+
+<x-volver-arriba />
 <x-cookie-consent />
+
 
 
 

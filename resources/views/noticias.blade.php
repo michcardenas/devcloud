@@ -163,9 +163,9 @@
             {{ $noticias->appends(request()->query())->links('vendor.pagination.custom') }}
         </div>
         @else
-        <div class="no-results">
-            <h3>No se encontraron noticias</h3>
-            <p>Intenta con otra búsqueda o categoría</p>
+        <div class="no-results text-black">
+            <h3 class="text-xl font-semibold">No se encontraron noticias</h3>
+            <p class="text-sm mt-2">Intenta con otra búsqueda o categoría</p>
         </div>
         @endif
     </div>
@@ -188,7 +188,7 @@
     
     <p class="newsletter-privacy">
         Puedes darte de baja en cualquier momento. Ver nuestra
-        <a href="#" class="privacy-link">Política de Privacidad</a>.
+        <a href="/privacidad" class="privacy-link">Política de Privacidad</a>.
     </p>
 </div>
     <!-- Fin Sección Newsletter -->
