@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\File;
 
 class ServicioController extends Controller
 {
-
- 
     /**
      * Muestra la vista pública de servicios
      */
@@ -23,27 +21,35 @@ class ServicioController extends Controller
             ->where('activo', true)
             ->orderBy('orden')
             ->get();
-    
+
         $serviciosPage = ServiciosPage::latest()->first();
-    
+
         return view('servicios', compact('servicios', 'serviciosPage'));
     }
-    
+
     /**
      * Muestra la vista administrativa de servicios
      */
     public function adminIndex()
     {
-        $servicios = Servicio::with('caracteristicas')->orderBy('orden')->get();
+        $servicios = Servicio::with('caracteristicas')->orderBy('orden')->paginate(10);
         $ultimoOrden = Servicio::max('orden') ?? 0;
         $iconos = $this->getIconosList();
-    
+
         // Obtenemos el primer (o el último) registro de ServiciosPage
         $serviciosPage = ServiciosPage::latest()->first(); // o ->first() si solo habrá uno
-    
+
         return view('admin.homepage.editservicios', compact('servicios', 'ultimoOrden', 'iconos', 'serviciosPage'));
     }
-    
+
+    /**
+     * Muestra el formulario para crear un nuevo servicio/noticia
+     */
+    public function create()
+    {
+        return view('admin.servicios.create');
+    }
+
     /**
      * Muestra el formulario para editar un servicio (parte de la vista admin)
      */
@@ -53,10 +59,10 @@ class ServicioController extends Controller
         $editarServicio = Servicio::findOrFail($id);
         $ultimoOrden = Servicio::max('orden') ?? 0;
         $iconos = $this->getIconosList();
-        
+
         return view('admin.homepage.editservicios', compact('servicios', 'editarServicio', 'ultimoOrden', 'iconos'));
     }
-    
+
     /**
      * Muestra el formulario para editar una característica (parte de la vista admin)
      */
@@ -66,10 +72,10 @@ class ServicioController extends Controller
         $editarCaracteristica = Caracteristica::findOrFail($id);
         $ultimoOrden = Servicio::max('orden') ?? 0;
         $iconos = $this->getIconosList();
-        
+
         return view('admin.homepage.editservicios', compact('servicios', 'editarCaracteristica', 'ultimoOrden', 'iconos'));
     }
-    
+
     /**
      * Muestra la lista de características de un servicio (parte de la vista admin)
      */
@@ -80,7 +86,7 @@ class ServicioController extends Controller
         $caracteristicas = $servicioActual->caracteristicas()->orderBy('orden')->get();
         $ultimoOrden = Servicio::max('orden') ?? 0;
         $iconos = $this->getIconosList();
-        
+
         return view('admin.homepage.editservicios', compact('servicios', 'servicioActual', 'caracteristicas', 'ultimoOrden', 'iconos'));
     }
 
@@ -96,10 +102,12 @@ class ServicioController extends Controller
             'descripcion' => 'required|string',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'orden' => 'required|integer',
-            'activo' => 'sometimes|boolean'
+            'titulonoticia' => 'required|string|max:255',
+            'contenido' => 'required|string',
+            'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Procesar imagen
+        // Procesar imagen principal
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
             $nombreImagen = 'servicios/' . time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
@@ -107,8 +115,18 @@ class ServicioController extends Controller
             $validated['imagen'] = 'images/' . $nombreImagen;
         }
 
-        // Establecer activo = false si no se envía
-        $validated['activo'] = $request->has('activo');
+        // Procesar imagen de noticia
+        // En el controlador, actualiza el método store/update:
+        if ($request->hasFile('imagennoticia')) {
+            // Eliminar imagen anterior si existe (en caso de update)
+            if (isset($servicio) && $servicio->imagennoticia) {
+                Storage::disk('public')->delete($servicio->imagennoticia);
+            }
+
+            // Guardar la nueva imagen
+            $path = $request->file('imagennoticia')->store('servicios/noticias', 'public');
+            $validated['imagennoticia'] = $path;
+        }
 
         Servicio::create($validated);
 
@@ -122,7 +140,7 @@ class ServicioController extends Controller
     public function update(Request $request, $id)
     {
         $servicio = Servicio::findOrFail($id);
-        
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'etiqueta' => 'required|string|max:255',
@@ -130,24 +148,37 @@ class ServicioController extends Controller
             'descripcion' => 'required|string',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'orden' => 'required|integer',
-            'activo' => 'sometimes|boolean'
+            'titulonoticia' => 'required|string|max:255',
+            'contenido' => 'required|string',
+            'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Procesar imagen
+        // Procesar imagen principal
         if ($request->hasFile('imagen')) {
             // Eliminar imagen anterior si existe
             if ($servicio->imagen && file_exists(public_path($servicio->imagen))) {
                 unlink(public_path($servicio->imagen));
             }
-            
+
             $imagen = $request->file('imagen');
             $nombreImagen = 'servicios/' . time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
             $imagen->move(public_path('images/servicios'), $nombreImagen);
             $validated['imagen'] = 'images/' . $nombreImagen;
         }
 
-        // Establecer activo = false si no se envía
-        $validated['activo'] = $request->has('activo');
+        // Procesar imagen de noticia
+        // En el controlador, actualiza el método store/update:
+        if ($request->hasFile('imagennoticia')) {
+            // Eliminar imagen anterior si existe (en caso de update)
+            if (isset($servicio) && $servicio->imagennoticia) {
+                Storage::disk('public')->delete($servicio->imagennoticia);
+            }
+
+            // Guardar la nueva imagen
+            $path = $request->file('imagennoticia')->store('servicios/noticias', 'public');
+            $validated['imagennoticia'] = $path;
+        }
+
 
         $servicio->update($validated);
 
@@ -161,19 +192,24 @@ class ServicioController extends Controller
     public function destroy($id)
     {
         $servicio = Servicio::findOrFail($id);
-        
-        // Eliminar imagen si existe
+
+        // Eliminar imagen principal si existe
         if ($servicio->imagen && file_exists(public_path($servicio->imagen))) {
             unlink(public_path($servicio->imagen));
         }
-        
+
+        // Eliminar imagen de noticia si existe
+        if ($servicio->imagennoticia && file_exists(public_path($servicio->imagennoticia))) {
+            unlink(public_path($servicio->imagennoticia));
+        }
+
         // Las características se eliminarán automáticamente por la relación onDelete('cascade')
         $servicio->delete();
 
         return redirect()->route('admin.servicios.index')
             ->with('success', 'Servicio eliminado correctamente');
     }
-    
+
     /**
      * Almacena una nueva característica
      */
@@ -192,14 +228,14 @@ class ServicioController extends Controller
         return redirect()->route('admin.servicios.caracteristicas', $request->servicio_id)
             ->with('success', 'Característica creada correctamente');
     }
-    
+
     /**
      * Actualiza una característica existente
      */
     public function updateCaracteristica(Request $request, $id)
     {
         $caracteristica = Caracteristica::findOrFail($id);
-        
+
         $validated = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -212,7 +248,7 @@ class ServicioController extends Controller
         return redirect()->route('admin.servicios.caracteristicas', $caracteristica->servicio_id)
             ->with('success', 'Característica actualizada correctamente');
     }
-    
+
     /**
      * Elimina una característica
      */
@@ -220,7 +256,7 @@ class ServicioController extends Controller
     {
         $caracteristica = Caracteristica::findOrFail($id);
         $servicio_id = $caracteristica->servicio_id;
-        
+
         $caracteristica->delete();
 
         return redirect()->route('admin.servicios.caracteristicas', $servicio_id)
@@ -233,28 +269,28 @@ class ServicioController extends Controller
     public function reorder(Request $request)
     {
         $ids = $request->input('ids', []);
-        
+
         foreach ($ids as $index => $id) {
             Servicio::where('id', $id)->update(['orden' => $index + 1]);
         }
-        
+
         return response()->json(['success' => true]);
     }
-    
+
     /**
      * Reordena las características de un servicio
      */
     public function reorderCaracteristicas(Request $request, $servicio_id)
     {
         $ids = $request->input('ids', []);
-        
+
         foreach ($ids as $index => $id) {
             Caracteristica::where('id', $id)->update(['orden' => $index + 1]);
         }
-        
+
         return response()->json(['success' => true]);
     }
-    
+
     /**
      * Obtener lista de iconos disponibles
      */
@@ -271,12 +307,13 @@ class ServicioController extends Controller
         ];
     }
 
-
-    
+    /**
+     * Actualiza la página de servicios
+     */
     public function serviciospage(Request $request)
     {
         $data = $request->all();
-    
+
         // Guardar imágenes de atributos
         for ($bloque = 1; $bloque <= 3; $bloque++) {
             for ($i = 1; $i <= 4; $i++) {
@@ -284,49 +321,69 @@ class ServicioController extends Controller
                 if ($request->hasFile($field)) {
                     $file = $request->file($field);
                     $filename = time() . "_{$field}." . $file->getClientOriginalExtension();
-    
+
                     $destinationPath = public_path('images/serviciospage');
                     if (!File::exists($destinationPath)) {
                         File::makeDirectory($destinationPath, 0755, true);
                     }
-    
+
                     $file->move($destinationPath, $filename);
                     $data[$field] = "images/serviciospage/" . $filename;
                 }
             }
         }
 
-   
-    
         // Guardar imágenes principales de bloque
         for ($j = 1; $j <= 4; $j++) {
             $field = "imagen{$j}";
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
                 $filename = time() . "_{$field}." . $file->getClientOriginalExtension();
-    
+
                 $destinationPath = public_path('images/serviciospage');
                 if (!File::exists($destinationPath)) {
                     File::makeDirectory($destinationPath, 0755, true);
                 }
-    
+
                 $file->move($destinationPath, $filename);
                 $data[$field] = "images/serviciospage/" . $filename;
             }
         }
-    
+
         // Buscar el primer registro o crear uno nuevo si no existe
         $servicioPage = ServiciosPage::first();
-    
+
         if ($servicioPage) {
             $servicioPage->update($data);
         } else {
             ServiciosPage::create($data);
         }
-    
+
         return redirect()->back()->with('success', 'Contenido guardado correctamente.');
     }
-    
-    
-    
+
+    /**
+     * Muestra un servicio específico en la vista pública
+     */
+    public function show($id, $slug = null)
+    {
+        // Obtener el servicio específico
+        $servicio = Servicio::findOrFail($id);
+
+        // Verificar si el slug proporcionado coincide con el nombre del servicio
+        // Si no coincide, redirigir a la URL correcta (opcional, para SEO)
+        $correctSlug = Str::slug($servicio->nombre);
+        if ($slug !== $correctSlug) {
+            return redirect()->route('servicios.show', ['id' => $id, 'slug' => $correctSlug]);
+        }
+
+        // Obtener servicios relacionados
+        $relacionados = Servicio::where('id', '!=', $id)
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+
+        // Retornar la vista con los datos
+        return view('showservicio', compact('servicio', 'relacionados'));
+    }
 }

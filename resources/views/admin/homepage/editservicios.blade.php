@@ -360,17 +360,8 @@
                                 <label for="orden" class="servicio-label">Orden</label>
                                 <input type="number" class="servicio-input" id="orden" name="orden" value="{{ old('orden', $editarServicio->orden) }}" required>
                             </div>
-                            
-                            <div class="servicio-checkbox-container">
-                                <div class="servicio-switch">
-                                    <input type="checkbox" class="servicio-switch-input" id="activo" name="activo" value="1" {{ old('activo', $editarServicio->activo) ? 'checked' : '' }}>
-                                    <span class="servicio-switch-slider"></span>
-                                </div>
-                                <label for="activo" class="servicio-label">Activo</label>
-                            </div>
-                        </div>
-                        
-                        <div class="servicio-col-6 servicio-col-md-12">
+
+                            <div class="servicio-col-6 servicio-col-md-12">
                             <div class="servicio-form-group">
                                 <label for="imagen" class="servicio-label">Imagen</label>
                                 @if($editarServicio->imagen)
@@ -381,13 +372,61 @@
                                 <input type="file" class="servicio-input" id="imagen" name="imagen">
                                 <small class="servicio-helper-text">Deja en blanco para mantener la imagen actual</small>
                             </div>
-                            
+
                             <div class="servicio-form-group">
                                 <label for="descripcion" class="servicio-label">Descripción</label>
                                 <textarea class="servicio-textarea" id="descripcion" name="descripcion" rows="5" required>{{ old('descripcion', $editarServicio->descripcion) }}</textarea>
                             </div>
                         </div>
                     </div>
+
+                    <h1>Vista dentro de la noticia<h1>
+                            
+                                                        <!-- Campos editables para la tabla servicio -->
+<div class="servicio-row">
+    <div class="servicio-col-md-12 mb-3">
+        <label class="servicio-label">Título de la Noticia</label>
+        <input type="text" name="titulonoticia" class="servicio-input" value="{{ old('titulonoticia', $servicio->titulonoticia ?? '') }}" required>
+        <small class="servicio-helper-text">Título principal que se mostrará en la página</small>
+    </div>
+    
+    <div class="servicio-col-md-12 mb-3">
+        <label class="servicio-label">Imagen de la Noticia</label>
+        <input type="file" name="imagennoticia" class="servicio-input">
+        @if(isset($servicio) && $servicio->imagennoticia)
+            <div class="mt-2">
+                <img src="{{ asset('storage/' . $servicio->imagennoticia) }}" alt="{{ $servicio->titulonoticia }}" class="img-thumbnail" style="max-height: 150px;">
+                <small class="servicio-helper-text d-block">Imagen actual. Sube una nueva para reemplazarla.</small>
+            </div>
+        @endif
+        <small class="servicio-helper-text">Imagen destacada que aparecerá en el listado y cabecera de la noticia</small>
+    </div>
+    
+    <div class="servicio-col-md-12 mb-3">
+        <label class="servicio-label">Contenido</label>
+        <textarea name="contenido" id="editor" rows="10" class="servicio-textarea">{{ old('contenido', $servicio->contenido ?? '') }}</textarea>
+        <small class="servicio-helper-text">Contenido principal de la noticia con formato HTML</small>
+    </div>
+</div>
+
+<div class="servicio-row">
+    <div class="servicio-col-md-6 mb-3">
+        <div class="servicio-form-group mb-3">
+            <label class="servicio-label d-block">Estado</label>
+            <div class="servicio-switch mt-2">
+                <input type="checkbox" class="servicio-switch-input" id="activo" name="activo" 
+                    {{ (isset($servicio) && $servicio->activo) || old('activo') ? 'checked' : '' }}>
+                <span class="servicio-switch-slider"></span>
+            </div>
+            <label for="activo" class="servicio-label">Activo</label>
+        </div>
+    </div>
+</div>
+                        </div>
+                        
+
+                            
+
                     
                     <div class="servicio-d-flex servicio-justify-between servicio-my-3">
                         <a href="{{ route('admin.servicios.index') }}" class="servicio-btn servicio-btn-secondary">
@@ -510,15 +549,6 @@
                                 <label for="orden" class="servicio-label">Orden</label>
                                 <input type="number" class="servicio-input" id="orden" name="orden" value="{{ old('orden', $ultimoOrden + 1) }}" required>
                             </div>
-                            
-                            <div class="servicio-checkbox-container">
-                                <div class="servicio-switch">
-                                    <input type="checkbox" class="servicio-switch-input" id="activo" name="activo" value="1" checked>
-                                    <span class="servicio-switch-slider"></span>
-                                </div>
-                                <label for="activo" class="servicio-label">Activo</label>
-                            </div>
-                        </div>
                         
                         <div class="servicio-col-6 servicio-col-md-12">
                             <div class="servicio-form-group">
@@ -530,6 +560,33 @@
                             <div class="servicio-form-group">
                                 <label for="descripcion" class="servicio-label">Descripción</label>
                                 <textarea class="servicio-textarea" id="descripcion" name="descripcion" rows="5" required>{{ old('descripcion') }}</textarea>
+                            </div>
+                            <!-- Campos editables para la tabla servicio -->
+                            <h1>Vista dentro de la noticia<h1>
+                            <div class="servicio-row">
+                                <div class="servicio-col-md-12 mb-3">
+                                    <label class="servicio-label">Título de la Noticia</label>
+                                    <input type="text" name="titulonoticia" class="servicio-input" value="{{ old('titulonoticia', $servicio->titulonoticia ?? '') }}" required>
+                                    <small class="servicio-helper-text">Título principal que se mostrará en la página</small>
+                                </div>
+                                
+                                <div class="servicio-col-md-12 mb-3">
+                                    <label class="servicio-label">Imagen de la Noticia</label>
+                                    <input type="file" name="imagennoticia" class="servicio-input">
+                                    @if(isset($servicio) && $servicio->imagennoticia)
+                                        <div class="mt-2">
+                                            <img src="{{ asset('storage/' . $servicio->imagennoticia) }}" alt="{{ $servicio->titulonoticia }}" class="img-thumbnail" style="max-height: 150px;">
+                                            <small class="servicio-helper-text d-block">Imagen actual. Sube una nueva para reemplazarla.</small>
+                                        </div>
+                                    @endif
+                                    <small class="servicio-helper-text">Imagen destacada que aparecerá en el listado y cabecera de la noticia</small>
+                                </div>
+                                
+                                <div class="servicio-col-md-12 mb-3">
+                                    <label class="servicio-label">Contenido</label>
+                                    <textarea name="contenido" id="editor" rows="10" class="servicio-textarea">{{ old('contenido', $servicio->contenido ?? '') }}</textarea>
+                                    <small class="servicio-helper-text">Contenido principal de la noticia con formato HTML</small>
+                                </div>
                             </div>
                         </div>
                     </div>

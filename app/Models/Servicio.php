@@ -16,7 +16,9 @@ class Servicio extends Model
         'descripcion',
         'imagen',
         'orden',
-        'activo'
+        'titulonoticia',
+        'imagennoticia',
+        'contenido',
     ];
 
     protected $casts = [

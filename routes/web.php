@@ -137,6 +137,8 @@ Route::middleware('auth')->group(function () {
 Route::post('/enviar-cotizacion', [CotizacionController::class, 'enviar'])->name('cotizacion.enviar');
 
 Route::get('/servicios', [ServicioController::class, 'index'])->name('servicios');
+Route::get('/servicios/{id}', [ServicioController::class, 'show'])->name('servicios.show');
+Route::get('/servicios/{id}/{slug?}', [ServicioController::class, 'show'])->name('servicios.show');
 Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
 
 Route::get('/noticias', [NoticiasController::class, 'index'])->name('noticias.index');
