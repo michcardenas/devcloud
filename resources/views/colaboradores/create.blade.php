@@ -79,7 +79,8 @@
 
         <form id="formColaborador" method="POST" enctype="multipart/form-data">
         @csrf
-            <input type="hidden" name="_method" value="POST" id="metodoForm">
+        <input type="hidden" name="_method" value="POST" id="metodoForm">
+
 
             <div class="mb-4">
                 <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
@@ -154,6 +155,7 @@ function abrirModalEditar(id, nombre, cargo, departamento, linkedin, descripcion
     document.getElementById('inputCargo').value = cargo;
     document.getElementById('inputDepartamento').value = departamento;
     document.getElementById('inputLinkedin').value = linkedin;
+
 
     const preview = document.getElementById('imagenPreview');
     const previewContainer = document.getElementById('imagenPreviewContainer');

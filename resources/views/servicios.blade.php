@@ -252,9 +252,9 @@
                 </div>
                 <div class="tech-servicio-datos">
                     <div class="tech-servicio-tag">{{ $serviciosPage->tagline6 }}</div>
-                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub5_h2 }}</h2>
+                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub6_h2 }}</h2>
                     <div class="tech-servicio-separador"></div>
-                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_5 }}</p>
+                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_6 }}</p>
 
                     <div class="tech-ventajas-grid">
                         @for ($i = 1; $i <= 4; $i++)

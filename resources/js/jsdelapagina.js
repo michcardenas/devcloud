@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
+
     // Cambiar estilo de navbar al hacer scroll
     const navbar = document.querySelector(".navbar");
     
@@ -20,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 navbar.classList.remove("scrolled");
             }
-        });
-    }
+       
 });
+
+

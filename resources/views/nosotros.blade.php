@@ -189,43 +189,15 @@
     $departamentos = $colaboradores->pluck('departamento')->unique()->filter()->values();
 @endphp
 
-
-
-<div class="px-4 py-4 rounded-lg max-w-4xl mx-auto mb-10">
+<div class=" px-4 py-4 rounded-lg max-w-4xl mx-auto mb-10">
     <div class="flex flex-wrap justify-center gap-3">
-
-        {{-- Botón "Todos" --}}
-        <button 
-            onclick="filtrarColaboradores(this)" 
-            data-depto="Todos" 
-            class="filtro-btn active"
-        >
-            <i class="fas fa-users mr-1"></i> Todos
+        <button onclick="filtrarColaboradores('Todos')" class="px-4 py-2 bg-white text-sm font-medium text-gray-700 rounded-lg shadow hover:bg-cyan-100 flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-600" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm3 4h6v2H9v-2zm3 4h0v2h0v-2z" /></svg>
+            Todos
         </button>
 
-        {{-- Botones por departamento --}}
         @foreach ($departamentos as $depto)
-            <button 
-                onclick="filtrarColaboradores(this)" 
-                data-depto="{{ $depto }}" 
-                class="filtro-btn"
-            >
-                @switch($depto)
-                    @case('Fundadores')
-                        <i class="fas fa-user-tie mr-1"></i>
-                        @break
-                    @case('Desarrollo')
-                        <i class="fas fa-code mr-1"></i>
-                        @break
-                    @case('Marketing')
-                        <i class="fas fa-bullhorn mr-1"></i>
-                        @break
-                    @case('Diseño')
-                        <i class="fas fa-paint-brush mr-1"></i>
-                        @break
-                    @default
-                        <i class="fas fa-briefcase mr-1"></i>
-                @endswitch
+            <button onclick="filtrarColaboradores('{{ $depto }}')" class="px-4 py-2 bg-white text-sm font-medium text-gray-700 rounded-lg shadow hover:bg-cyan-100">
                 {{ $depto }}
             </button>
         @endforeach
@@ -253,8 +225,7 @@
             {{ $colaborador->descripcion }}
         </div>
     @endif
-
-             </div>
+            </div>
 
 
             <div class="p-4">
@@ -271,38 +242,28 @@
 </div>
 
 <script>
-
-//Filtro departamento
-function filtrarColaboradores(btn) {
-    const departamento = btn.getAttribute('data-depto');
+function filtrarColaboradores(departamento) {
     const cards = document.querySelectorAll('.colaborador-card');
     const titulo = document.getElementById('tituloEquipo');
-    const botones = document.querySelectorAll('.filtro-btn');
 
     let totalMostrados = 0;
 
     cards.forEach(card => {
         const depto = card.getAttribute('data-departamento');
+
         const visible = (departamento === 'Todos' || depto === departamento);
         card.classList.toggle('hidden', !visible);
+
         if (visible) totalMostrados++;
     });
 
-    // Actualizar título
     titulo.innerHTML = `
         <h3 class="text-lg text-cyan-600 font-semibold">
-            ${departamento}
+            ${departamento === 'Todos' ? 'Todos los miembros' : departamento}
         </h3>
         <p class="text-sm text-gray-500">Mostrando ${totalMostrados} colaborador${totalMostrados !== 1 ? 'es' : ''}</p>
     `;
-
-    // Marcar botón activo
-    botones.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
 }
-
-
-
 </script>
 
 

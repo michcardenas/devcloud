@@ -13,6 +13,7 @@
     @csrf
 
     <!-- BLOQUE PRINCIPAL -->
+ <!-- BLOQUE PRINCIPAL -->
     <div class="p-4 mb-4 rounded shadow bg-dark text-white border border-secondary">
         <h4 class="mb-3">🧱 Bloque Principal</h4>
         <div class="row">
@@ -31,7 +32,7 @@
         </div>
     </div>
 
-    <!-- BLOQUE 2 -->
+<!-- BLOQUE 2 -->
     <div class="p-4 mb-4 rounded shadow bg-dark text-white border border-secondary">
         <h4 class="mb-3">🧱 Bloque 2</h4>
         <div class="row">
@@ -50,7 +51,8 @@
         </div>
     </div>
 
-    <!-- BLOQUE 3 -->
+
+<!-- BLOQUE 3 -->
     @for ($bloque = 1; $bloque <= 3; $bloque++)
     @php
     $taglineField = "tagline" . ($bloque + 2); // tagline3, tagline5, tagline6
@@ -91,6 +93,7 @@
                 <textarea name="{{ $contenidoField }}" rows="4" class="form-control bg-dark text-white border-secondary">{{ old($contenidoField, $serviciosPage->{$contenidoField} ?? '') }}</textarea>
             </div>
         </div>
+   
 
         {{-- Atributos del bloque --}}
         <div class="row">
@@ -134,7 +137,7 @@
             @endfor
         </div>
     </div>
-@endfor
+    @endfor
 
     <!-- BLOQUE FINAL -->
     <div class="p-4 mb-4 rounded shadow bg-dark text-white border border-secondary">

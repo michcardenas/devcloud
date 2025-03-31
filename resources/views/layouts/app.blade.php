@@ -10,9 +10,7 @@
     <link rel="icon" type="image/png" href="{{ asset('images/faviconHelmcode.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    
+       
 
 
  <!-- Swiper CSS -->
@@ -23,6 +21,8 @@
 
         <!-- Swiper JS -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        
+    
 
 </head>
 
@@ -111,60 +111,27 @@
 </footer>   
 
 
-
-<script>
-function cookieConsent() {
-    return {
-        visible: false,
-
-        init() {
-            const consent = localStorage.getItem('cookie-consent');
-            if (!consent) {
-                setTimeout(() => {
-                    this.visible = true;
-                }, 1000);
-            }
-        },
-
-        accept() {
-            localStorage.setItem('cookie-consent', 'accepted');
-            this.visible = false;
-        },
-
-        reject() {
-            localStorage.setItem('cookie-consent', 'rejected');
-            this.visible = false;
-        }
-    };
-}
+ <script src="{{ asset('js/jsdelapagina.js') }}"></script>
+<!-- Alpine.js -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
 
+@php
+    $cookiePrefs = json_decode(Cookie::get('cookie-preferences') ?? '{}');
+@endphp
 
+@if($cookiePrefs->analytics ?? false)
+    <!-- Analytics script aquí -->
+@endif
 
-
-</script>
-
-
-
-
-    <script src="{{ asset('js/jsdelapagina.js') }}"></script>
-
-
-    
-   
-   
-
-    
-    
-    
-   
+@if($cookiePrefs->marketing ?? false)
+    <!-- Facebook Pixel, etc -->
+@endif
 
 
 
 <x-volver-arriba />
 <x-cookie-consent />
-
-
 
 
 </body>

@@ -195,13 +195,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleFormBtn = document.getElementById('toggleFormBtn');
     const partnershipForm = document.getElementById('partnershipForm');
     
+  if(toggleFormBtn && partnershipForm) { 
     toggleFormBtn.addEventListener('click', function() {
         const isHidden = partnershipForm.style.display === 'none';
         
         partnershipForm.style.display = isHidden ? 'block' : 'none';
         toggleFormBtn.querySelector('span').textContent = isHidden ? 'Ocultar formulario' : 'Mostrar formulario';
     });
-
+}
 
 
 });
