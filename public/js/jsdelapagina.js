@@ -162,7 +162,55 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Eliminar el evento duplicado que se está añadiendo fuera del DOMContentLoaded
     // Para mantener el efecto, lo integramos en setupNavbarScroll
+
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const partnerItems = document.querySelectorAll('.partner-item');
+    
+    // Verificar si hay elementos
+    console.log("Total de partners en la página: " + partnerItems.length);
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Actualizar estado activo de los botones
+            filterButtons.forEach(btn => btn.classList.remove('active', 'bg-cyan-500', 'text-white'));
+            filterButtons.forEach(btn => btn.classList.add('bg-white', 'text-gray-700'));
+            this.classList.remove('bg-white', 'text-gray-700');
+            this.classList.add('active', 'bg-cyan-500', 'text-white');
+            
+            const filterValue = this.getAttribute('data-filter');
+            console.log("Aplicando filtro: " + filterValue);
+            
+            // Mostrar u ocultar elementos según el filtro
+            partnerItems.forEach((item, index) => {
+                if (filterValue === 'todos' || item.classList.contains(filterValue)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+
+    const toggleFormBtn = document.getElementById('toggleFormBtn');
+    const partnershipForm = document.getElementById('partnershipForm');
+    
+    toggleFormBtn.addEventListener('click', function() {
+        const isHidden = partnershipForm.style.display === 'none';
+        
+        partnershipForm.style.display = isHidden ? 'block' : 'none';
+        toggleFormBtn.querySelector('span').textContent = isHidden ? 'Ocultar formulario' : 'Mostrar formulario';
+    });
+
+
+
 });
+
+
+
+
+
+
 function scrollToContacto(servicio = '') {
     const contacto = document.getElementById('contacto');
     const selectServicio = document.getElementById('servicio');
@@ -181,6 +229,7 @@ function scrollToContacto(servicio = '') {
             });
         }, 500);
     }
+
 }
 const swiper = new Swiper(".mySwiper", {
     slidesPerView: 1,

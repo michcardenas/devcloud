@@ -393,7 +393,208 @@
         </div>
     </div>
 </template>
-    
+    <!-- Sección Partners Tecnológicos -->
+<div class="py-3">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-[#0a0a0a] border border-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <div class="border-b border-gray-800 px-6 py-4 bg-gray-900 flex justify-between items-center">
+                <h3 class="text-lg font-medium text-[#c9fcfe]">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Partners Tecnológicos
+                </h3>
+                <button type="button" class="text-gray-500 hover:text-[#c9fcfe]" onclick="toggleSection('partnersSection')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="partnersSection" class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label for="tagline" class="block text-sm font-medium text-gray-400 mb-1">Tagline</label>
+                        <input type="text" id="tagline" name="tagline" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('tagline', $partners->tagline ?? '') }}" >
+                    </div>
+                    
+                    <div>
+                        <label for="h2" class="block text-sm font-medium text-gray-400 mb-1">Título principal (H2)</label>
+                        <input type="text" id="h2" name="h2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('h2', $partners->h2 ?? '') }}" >
+                    </div>
+                    
+                    <div class="md:col-span-3">
+                        <label for="contenido" class="block text-sm font-medium text-gray-400 mb-1">Contenido</label>
+                        <textarea id="contenido" name="contenido" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ old('contenido', $partners->contenido ?? '') }}</textarea>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-6 mt-6">
+                    <h4 class="text-md font-medium text-[#c9fcfe] mb-4">Tarjetas de partners</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        @for ($i = 1; $i <= 8; $i++)
+                            <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                                <h5 class="text-[#c9fcfe] font-medium mb-3">Tarjeta #{{ $i }}</h5>
+                                
+                                <div class="mb-3">
+                                    <label for="logo{{ $i }}" class="block text-sm font-medium text-gray-400 mb-1">Logo {{ $i }}</label>
+                                    <div class="grid grid-cols-3 gap-0">
+                                        <div class="col-span-2">
+                                            <input type="text" class="w-full bg-gray-900 border border-gray-700 rounded-l-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-blue-500" value="{{ !empty($partners->{'logo'.$i}) ? $partners->{'logo'.$i} : 'Ninguno seleccionado' }}" readonly>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <label for="logo{{ $i }}" class="w-full flex justify-center cursor-pointer bg-gray-800 text-gray-300 px-2 py-2 rounded-r-md hover:bg-gray-700 transition">
+                                                Explorar
+                                                <input type="file" id="logo{{ $i }}" name="logo{{ $i }}" class="hidden">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @if(!empty($partners->{'logo'.$i}))
+                                    <div class="mt-2">
+                                        <img src="{{ asset($partners->{'logo'.$i}) }}" alt="Logo {{ $i }}" class="h-12 object-contain rounded border border-gray-700">
+                                    </div>
+                                    @endif
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="titulo_tarjeta{{ $i }}" class="block text-sm font-medium text-gray-400 mb-1">Título Tarjeta {{ $i }}</label>
+                                    <input type="text" id="titulo_tarjeta{{ $i }}" name="titulo_tarjeta{{ $i }}" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('titulo_tarjeta'.$i, $partners->{'titulo_tarjeta'.$i} ?? '') }}" >
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="tag{{ $i }}" class="block text-sm font-medium text-gray-400 mb-1">Tag {{ $i }}</label>
+                                    <input type="text" id="tag{{ $i }}" name="tag{{ $i }}" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('tag'.$i, $partners->{'tag'.$i} ?? '') }}" >
+                                </div>
+                                
+                                <div>
+                                    <label for="posicion{{ $i }}" class="block text-sm font-medium text-gray-400 mb-1">Posición {{ $i }}</label>
+                                    <select id="posicion{{ $i }}" name="posicion{{ $i }}" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Seleccionar</option>
+                                        <option value="platinum" {{ (old('posicion'.$i, $partners->{'posicion'.$i} ?? '') == 'platinum') ? 'selected' : '' }}>Platinum</option>
+                                        <option value="gold" {{ (old('posicion'.$i, $partners->{'posicion'.$i} ?? '') == 'gold') ? 'selected' : '' }}>Gold</option>
+                                        <option value="silver" {{ (old('posicion'.$i, $partners->{'posicion'.$i} ?? '') == 'silver') ? 'selected' : '' }}>Silver</option>
+                                    </select>
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sección Nuestro Ecosistema -->
+<div class="py-3">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-[#0a0a0a] border border-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <div class="border-b border-gray-800 px-6 py-4 bg-gray-900 flex justify-between items-center">
+                <h3 class="text-lg font-medium text-[#c9fcfe]">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                    </svg>
+                    Nuestro Ecosistema
+                </h3>
+                <button type="button" class="text-gray-500 hover:text-[#c9fcfe]" onclick="toggleSection('ecosistemaSection')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="ecosistemaSection" class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label for="tagline2" class="block text-sm font-medium text-gray-400 mb-1">Tagline del Ecosistema</label>
+                        <input type="text" id="tagline2" name="tagline2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('tagline2', $partners->tagline2 ?? '') }}" >
+                    </div>
+                    
+                    <div>
+                        <label for="h2_2" class="block text-sm font-medium text-gray-400 mb-1">Título principal (H2)</label>
+                        <input type="text" id="h2_2" name="h2_2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('h2_2', $partners->h2_2 ?? '') }}" >
+                    </div>
+                    
+                    <div class="md:col-span-3">
+                        <label for="contenido2" class="block text-sm font-medium text-gray-400 mb-1">Descripción del Ecosistema</label>
+                        <textarea id="contenido2" name="contenido2" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ old('contenido2', $partners->contenido2 ?? '') }}</textarea>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-6 mt-6">
+                    <h4 class="text-md font-medium text-[#c9fcfe] mb-4">Tarjetas del Ecosistema</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Tarjeta 1 -->
+                        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                            <h5 class="text-[#c9fcfe] font-medium mb-3">Tarjeta 1</h5>
+                            
+                            <div class="mb-3">
+                                <label for="titulo_tarjeta_eco1" class="block text-sm font-medium text-gray-400 mb-1">Título</label>
+                                <input type="text" id="titulo_tarjeta_eco1" name="titulo_tarjeta_eco1" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('titulo_tarjeta_eco1', $partners->titulo_tarjeta_eco1 ?? '') }}" >
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subtitulo_eco1" class="block text-sm font-medium text-gray-400 mb-1">Subtítulo</label>
+                                <input type="text" id="subtitulo_eco1" name="subtitulo_eco1" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('subtitulo_eco1', $partners->subtitulo_eco1 ?? '') }}" >
+                            </div>
+                            
+                            <div>
+                                <label for="lista_tarjeta_eco1" class="block text-sm font-medium text-gray-400 mb-1">Lista de elementos (Separados por línea)</label>
+                                <textarea id="lista_tarjeta_eco1" name="lista_tarjeta_eco1" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Elemento 1&#10;Elemento 2&#10;Elemento 3">{{ old('lista_tarjeta_eco1', $partners->lista_tarjeta_eco1 ?? '') }}</textarea>
+                                <small class="text-gray-500">Escribe cada elemento en una línea diferente</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Tarjeta 2 -->
+                        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                            <h5 class="text-[#c9fcfe] font-medium mb-3">Tarjeta 2</h5>
+                            
+                            <div class="mb-3">
+                                <label for="titulo_tarjeta_eco2" class="block text-sm font-medium text-gray-400 mb-1">Título</label>
+                                <input type="text" id="titulo_tarjeta_eco2" name="titulo_tarjeta_eco2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('titulo_tarjeta_eco2', $partners->titulo_tarjeta_eco2 ?? '') }}" >
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subtitulo_eco2" class="block text-sm font-medium text-gray-400 mb-1">Subtítulo</label>
+                                <input type="text" id="subtitulo_eco2" name="subtitulo_eco2" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('subtitulo_eco2', $partners->subtitulo_eco2 ?? '') }}" >
+                            </div>
+                            
+                            <div>
+                                <label for="lista_tarjeta_eco2" class="block text-sm font-medium text-gray-400 mb-1">Lista de elementos (Separados por línea)</label>
+                                <textarea id="lista_tarjeta_eco2" name="lista_tarjeta_eco2" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Elemento 1&#10;Elemento 2&#10;Elemento 3">{{ old('lista_tarjeta_eco2', $partners->lista_tarjeta_eco2 ?? '') }}</textarea>
+                                <small class="text-gray-500">Escribe cada elemento en una línea diferente</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Tarjeta 3 -->
+                        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                            <h5 class="text-[#c9fcfe] font-medium mb-3">Tarjeta 3</h5>
+                            
+                            <div class="mb-3">
+                                <label for="titulo_tarjeta_eco3" class="block text-sm font-medium text-gray-400 mb-1">Título</label>
+                                <input type="text" id="titulo_tarjeta_eco3" name="titulo_tarjeta_eco3" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('titulo_tarjeta_eco3', $partners->titulo_tarjeta_eco3 ?? '') }}" >
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subtitulo_eco3" class="block text-sm font-medium text-gray-400 mb-1">Subtítulo</label>
+                                <input type="text" id="subtitulo_eco3" name="subtitulo_eco3" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('subtitulo_eco3', $partners->subtitulo_eco3 ?? '') }}" >
+                            </div>
+                            
+                            <div>
+                                <label for="lista_tarjeta_eco3" class="block text-sm font-medium text-gray-400 mb-1">Lista de elementos (Separados por línea)</label>
+                                <textarea id="lista_tarjeta_eco3" name="lista_tarjeta_eco3" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Elemento 1&#10;Elemento 2&#10;Elemento 3">{{ old('lista_tarjeta_eco3', $partners->lista_tarjeta_eco3 ?? '') }}</textarea>
+                                <small class="text-gray-500">Escribe cada elemento en una línea diferente</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- Sección Contacto -->
     <div class="py-3">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

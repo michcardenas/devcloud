@@ -2650,6 +2650,96 @@ footer p:hover {
   color: #555;
 }
 
+.partners-section {
+  background-color: #f8fafc;
+}
+
+.filter-btn {
+  transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+  font-weight: 500;
+}
+
+.partner-card {
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Estilos para las etiquetas de posición */
+.partner-position-tag.platinum {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+
+.partner-position-tag.gold {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.partner-position-tag.silver {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+.partner-item {
+  animation: fadeIn 0.4s ease forwards;
+}
+/* Versión simplificada de los estilos */
+
+/* Contenedor de la imagen */
+.partner-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+/* Estilo para la imagen (blanco y negro) */
+.partner-logo {
+  max-height: 60px;
+  max-width: 80%;
+  transition: all 0.4s ease;
+  filter: grayscale(100%);
+  opacity: 0.8;
+}
+
+/* Estilo para la tarjeta */
+.partner-card {
+  transition: all 0.4s ease;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+}
+
+/* Efectos al pasar el mouse */
+.partner-card:hover {
+  transform: scale(1.05);
+  border-color: #9ae5ee;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
+}
+
+/* La imagen cambia a color */
+.partner-card:hover .partner-logo {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
 
 /* Responsive */
 @media (max-width: 1024px) {

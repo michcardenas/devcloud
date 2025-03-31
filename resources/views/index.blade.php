@@ -204,6 +204,345 @@
     </div>
 </section>
 
+
+<section class="partners-section py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <!-- Encabezado de la sección -->
+        <div class="text-center mb-12">
+            <span class="inline-block px-4 py-1 bg-cyan-50 text-cyan-600 rounded-full text-sm font-medium mb-3">
+                {{ $partners->tagline ?? 'Nuestros colaboradores' }}
+            </span>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                {{ $partners->h2 ?? 'Partners tecnológicos de confianza' }}
+            </h2>
+            <p class="max-w-3xl mx-auto text-gray-600">
+                {{ $partners->contenido ?? 'Colaboramos con los líderes del sector tecnológico para ofrecer soluciones integrales y de máxima calidad para nuestros clientes.' }}
+            </p>
+        </div>
+
+        <!-- Filtros de categoría -->
+        <div class="flex flex-wrap justify-center gap-2 mb-10">
+            <button type="button" class="filter-btn active px-6 py-2 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition" data-filter="todos">
+                Todos
+            </button>
+            <button type="button" class="filter-btn px-6 py-2 bg-white text-gray-700 rounded-full hover:bg-gray-100 transition" data-filter="platinum">
+                Platinum
+            </button>
+            <button type="button" class="filter-btn px-6 py-2 bg-white text-gray-700 rounded-full hover:bg-gray-100 transition" data-filter="gold">
+                Gold
+            </button>
+            <button type="button" class="filter-btn px-6 py-2 bg-white text-gray-700 rounded-full hover:bg-gray-100 transition" data-filter="silver">
+                Silver
+            </button>
+        </div>
+
+        <!-- Cuadrícula de partners -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 partner-grid">
+            @php
+                // Para depuración, revisemos los datos de cada partner
+                echo "<!-- Debugging partner data: -->";
+                
+                $partnerItems = [];
+                
+                // Recopilar información de los partners desde 1 hasta 8
+                for ($i = 1; $i <= 8; $i++) {
+                    $logo = $partners->{"logo$i"} ?? '';
+                    $titulo = $partners->{"titulo_tarjeta$i"} ?? '';
+                    $tag = $partners->{"tag$i"} ?? '';
+                    $posicion = $partners->{"posicion$i"} ?? '';
+                    
+                    echo "<!-- Partner $i: Título='$titulo', Tag='$tag', Posición='$posicion', Logo='$logo' -->";
+                    
+                    // Solo agregar si tiene título y posición
+                    if (!empty($titulo) && !empty($posicion)) {
+                        $partnerItems[] = [
+                            'logo' => $logo,
+                            'titulo' => $titulo,
+                            'tag' => $tag,
+                            'posicion' => $posicion,
+                            'index' => $i  // Agregamos el índice para depuración
+                        ];
+                        echo "<!-- ✅ Partner $i añadido al array -->";
+                    } else {
+                        echo "<!-- ❌ Partner $i NO añadido (falta título o posición) -->";
+                    }
+                }
+                
+                echo "<!-- Total partners añadidos: " . count($partnerItems) . " -->";
+            @endphp
+
+            @foreach($partnerItems as $partner)
+              <!-- Modificación para la tarjeta de partner individual -->
+<div class="partner-card bg-white rounded-lg shadow-sm overflow-hidden transition-transform hover:shadow-md partner-item {{ $partner['posicion'] }}">
+    <div class="p-6 text-center">
+        @if(!empty($partner['logo']))
+            <div class="partner-logo-container">
+                <img src="{{ asset($partner['logo']) }}" alt="{{ $partner['titulo'] }}" class="partner-logo">
+            </div>
+        @endif
+        <h3 class="text-xl font-semibold text-gray-800 mb-1">{{ $partner['titulo'] }}</h3>
+        @if(!empty($partner['tag']))
+            <p class="text-gray-500 text-sm mb-3">{{ $partner['tag'] }}</p>
+        @endif
+        
+        <div class="mt-4">
+            <span class="inline-block px-3 py-1 text-xs font-medium rounded-full
+                @if($partner['posicion'] == 'platinum')
+                    bg-indigo-100 text-indigo-800
+                @elseif($partner['posicion'] == 'gold')
+                    bg-yellow-100 text-yellow-800
+                @else
+                    bg-gray-100 text-gray-800
+                @endif
+            ">
+                {{ ucfirst($partner['posicion']) }} Partner
+            </span>
+        </div>
+    </div>
+</div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<section class="partners-program-section py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <!-- Encabezado de la sección -->
+        <div class="text-center mb-12">
+            <span class="inline-block px-4 py-1 bg-cyan-50 text-cyan-600 rounded-full text-sm font-medium mb-3">
+                {{ $partners->tagline2 ?? 'Programa de Partners' }}
+            </span>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                {{ $partners->h2_2 ?? 'Forma parte de nuestro ecosistema' }}
+            </h2>
+            <p class="max-w-3xl mx-auto text-gray-600 mb-8">
+                {{ $partners->contenido2 ?? 'Potencia tu negocio uniéndote a nuestro programa de partners. Trabajemos juntos para crear soluciones innovadoras y abrir nuevas oportunidades de mercado.' }}
+            </p>
+        </div>
+
+        <!-- Tarjetas de niveles de partnership -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <!-- Nivel Platinum -->
+    <div class="rounded-lg overflow-hidden border border-indigo-100 shadow-sm">
+        <div class="p-5 bg-indigo-50">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">
+                {{ $partners->titulo_tarjeta_eco1 ?? 'Platinum' }}
+            </h3>
+            <p class="text-indigo-600">
+                {{ $partners->subtitulo_eco1 ?? 'Colaboración estratégica' }}
+            </p>
+        </div>
+        <div class="p-5 bg-white">
+            <ul class="space-y-3">
+                @if(!empty($partners->lista_tarjeta_eco1))
+                    @foreach(explode("\n", $partners->lista_tarjeta_eco1) as $item)
+                        @if(!empty(trim($item)))
+                        <li class="flex items-start">
+                            <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-gray-700">{{ trim($item) }}</span>
+                        </li>
+                        @endif
+                    @endforeach
+                @else
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Acceso prioritario a eventos exclusivos</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Desarrollo conjunto de soluciones</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Equipo de soporte dedicado 24/7</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Posición destacada en nuestra web y materiales</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Acceso a nuestro programa de innovación</span>
+                    </li>
+                @endif
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Nivel Gold -->
+    <div class="rounded-lg overflow-hidden border border-yellow-100 shadow-sm">
+        <div class="p-5 bg-yellow-50">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">
+                {{ $partners->titulo_tarjeta_eco2 ?? 'Gold' }}
+            </h3>
+            <p class="text-yellow-600">
+                {{ $partners->subtitulo_eco2 ?? 'Alianza avanzada' }}
+            </p>
+        </div>
+        <div class="p-5 bg-white">
+            <ul class="space-y-3">
+                @if(!empty($partners->lista_tarjeta_eco2))
+                    @foreach(explode("\n", $partners->lista_tarjeta_eco2) as $item)
+                        @if(!empty(trim($item)))
+                        <li class="flex items-start">
+                            <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-gray-700">{{ trim($item) }}</span>
+                        </li>
+                        @endif
+                    @endforeach
+                @else
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Participación en eventos premium</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Oportunidades de co-marketing</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Soporte técnico prioritario</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Visibilidad en nuestra web y materiales</span>
+                    </li>
+                @endif
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Nivel Silver -->
+    <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+        <div class="p-5 bg-gray-50">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">
+                {{ $partners->titulo_tarjeta_eco3 ?? 'Silver' }}
+            </h3>
+            <p class="text-gray-600">
+                {{ $partners->subtitulo_eco3 ?? 'Colaboración básica' }}
+            </p>
+        </div>
+        <div class="p-5 bg-white">
+            <ul class="space-y-3">
+                @if(!empty($partners->lista_tarjeta_eco3))
+                    @foreach(explode("\n", $partners->lista_tarjeta_eco3) as $item)
+                        @if(!empty(trim($item)))
+                        <li class="flex items-start">
+                            <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-gray-700">{{ trim($item) }}</span>
+                        </li>
+                        @endif
+                    @endforeach
+                @else
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Networking con otros partners</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Recursos técnicos y de marketing</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700">Acceso a nuestro programa de certificación</span>
+                    </li>
+                @endif
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <!-- Toggle del formulario -->
+        <div class="text-center mb-4">
+            <button id="toggleFormBtn" class="inline-flex items-center px-5 py-2.5 bg-cyan-500 text-white font-medium rounded-full hover:bg-cyan-600 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                <span>Mostrar formulario</span>
+            </button>
+        </div>
+
+        <!-- Formulario de solicitud -->
+        <div id="partnershipForm" class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8 border border-gray-200 mt-4" style="display: none;">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Solicitud de partnership</h3>
+            
+            <form action="{{ route('partnership.submit') }}" method="POST" class="space-y-4">
+                @csrf
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" class="text-gray-600 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" placeholder="Tu nombre" required>
+                    </div>
+                    
+                    <div>
+                        <label for="empresa" class="block text-sm font-medium text-gray-700 mb-1">Empresa</label>
+                        <input type="text" id="empresa" name="empresa" class="text-gray-600 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" placeholder="Nombre de la empresa" required>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+                    <input type="email" id="email" name="email" class="w-full text-gray-600 border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" placeholder="tu@email.com" required>
+                </div>
+                
+                <div>
+                    <label for="nivel" class="block text-sm font-medium text-gray-700 mb-1">Nivel de partnership deseado</label>
+                    <select id="nivel" name="nivel" class="w-full border text-gray-600 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="platinum">Platinum</option>
+                        <option value="gold" selected>Gold</option>
+                        <option value="silver">Silver</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="mensaje" class="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="4" class="text-gray-600 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" placeholder="Cuéntanos sobre tu empresa y cómo podemos colaborar..."></textarea>
+                </div>
+                
+                <div class="text-right">
+                    <button type="submit" class="inline-flex items-center px-5 py-2.5 bg-cyan-500 text-white font-medium rounded-md hover:bg-cyan-600 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                        Enviar solicitud
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
 <!-- Sección de Contacto Modernizada -->
 <section id="contacto" class="contact-section relative">
     <!-- Formas geométricas disruptivas -->

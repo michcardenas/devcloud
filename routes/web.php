@@ -146,6 +146,8 @@ Route::get('/noticias/{slug}', [NoticiasController::class, 'show'])->name('notic
 Route::get('/prensa', [PrensaController::class, 'salaPrensaPublica'])->name('prensa.index');
 Route::get('prensa/pdf/{filename}', [App\Http\Controllers\PrensaController::class, 'descargarPdf'])->name('prensa.descargar.pdf');
 Route::post('/prensa/suscribir', [PrensaController::class, 'suscribir'])->name('prensa.suscribir');
+Route::post('/partnership/submit', [App\Http\Controllers\PartnershipController::class, 'submit'])->name('partnership.submit');
+
 
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto.index');
 
