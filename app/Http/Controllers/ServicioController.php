@@ -116,16 +116,18 @@ class ServicioController extends Controller
         }
 
         // Procesar imagen de noticia
-        // En el controlador, actualiza el método store/update:
         if ($request->hasFile('imagennoticia')) {
-            // Eliminar imagen anterior si existe (en caso de update)
-            if (isset($servicio) && $servicio->imagennoticia) {
-                Storage::disk('public')->delete($servicio->imagennoticia);
+            $imagen = $request->file('imagennoticia');
+            $nombreImagen = 'servicios/noticias/' . time() . '-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
+            
+            // Asegurar que el directorio existe
+            $directorio = public_path('images/servicios/noticias');
+            if (!File::exists($directorio)) {
+                File::makeDirectory($directorio, 0755, true);
             }
-
-            // Guardar la nueva imagen
-            $path = $request->file('imagennoticia')->store('servicios/noticias', 'public');
-            $validated['imagennoticia'] = $path;
+            
+            $imagen->move($directorio, basename($nombreImagen));
+            $validated['imagennoticia'] = 'images/' . $nombreImagen;
         }
 
         Servicio::create($validated);
@@ -167,16 +169,23 @@ class ServicioController extends Controller
         }
 
         // Procesar imagen de noticia
-        // En el controlador, actualiza el método store/update:
         if ($request->hasFile('imagennoticia')) {
-            // Eliminar imagen anterior si existe (en caso de update)
-            if (isset($servicio) && $servicio->imagennoticia) {
-                Storage::disk('public')->delete($servicio->imagennoticia);
+            // Eliminar imagen anterior si existe
+            if ($servicio->imagennoticia && file_exists(public_path($servicio->imagennoticia))) {
+                unlink(public_path($servicio->imagennoticia));
             }
 
-            // Guardar la nueva imagen
-            $path = $request->file('imagennoticia')->store('servicios/noticias', 'public');
-            $validated['imagennoticia'] = $path;
+            $imagen = $request->file('imagennoticia');
+            $nombreImagen = 'servicios/noticias/' . time() . '-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
+            
+            // Asegurar que el directorio existe
+            $directorio = public_path('images/servicios/noticias');
+            if (!File::exists($directorio)) {
+                File::makeDirectory($directorio, 0755, true);
+            }
+            
+            $imagen->move($directorio, basename($nombreImagen));
+            $validated['imagennoticia'] = 'images/' . $nombreImagen;
         }
 
 
@@ -369,20 +378,20 @@ class ServicioController extends Controller
     {
         // Obtener el servicio específico
         $servicio = Servicio::findOrFail($id);
-
+        
         // Verificar si el slug proporcionado coincide con el nombre del servicio
         // Si no coincide, redirigir a la URL correcta (opcional, para SEO)
         $correctSlug = Str::slug($servicio->nombre);
         if ($slug !== $correctSlug) {
             return redirect()->route('servicios.show', ['id' => $id, 'slug' => $correctSlug]);
         }
-
+        
         // Obtener servicios relacionados
         $relacionados = Servicio::where('id', '!=', $id)
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
-
+                              ->inRandomOrder()
+                              ->limit(3)
+                              ->get();
+        
         // Retornar la vista con los datos
         return view('showservicio', compact('servicio', 'relacionados'));
     }
