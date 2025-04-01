@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\ServiciosPage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 
 class ServicioController extends Controller
@@ -90,7 +91,7 @@ class ServicioController extends Controller
         return view('admin.homepage.editservicios', compact('servicios', 'servicioActual', 'caracteristicas', 'ultimoOrden', 'iconos'));
     }
 /**
- * Almacena un nuevo servicio
+ * Almacena un nuevo servicio (versión con diagnóstico)
  */
 public function store(Request $request)
 {
@@ -106,34 +107,55 @@ public function store(Request $request)
         'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
+    // Para depuración
+    \Log::info('-------- DIAGNÓSTICO DE RUTAS DE IMÁGENES --------');
+    \Log::info('Base path: ' . base_path());
+    \Log::info('Public path: ' . public_path());
+    \Log::info('Storage path: ' . storage_path());
+    \Log::info('App URL: ' . config('app.url'));
+
     // Procesar imagen principal
     if ($request->hasFile('imagen')) {
         $imageFile = $request->file('imagen');
         $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
-        // Mover el archivo a public/storage/images
-        $imageFile->move(public_path('storage/images'), $imageName);
+        // Caso 1: Usar images/ como en los ejemplos que sí funcionan
+        $destinationPath = public_path('images');
+        if (!is_dir($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+        $imageFile->move($destinationPath, $imageName);
+        $validated['imagen'] = 'images/' . $imageName;
         
-        // Guardar la ruta relativa para acceso web
-        $validated['imagen'] = 'storage/images/' . $imageName;
+        \Log::info('Imagen principal guardada en: ' . $destinationPath . '/' . $imageName);
+        \Log::info('Ruta guardada en BD para imagen principal: ' . $validated['imagen']);
     }
 
-    // Procesar imagen de noticia
+    // Procesar imagen de noticia - usamos otro enfoque intentando evitar la duplicación
     if ($request->hasFile('imagennoticia')) {
         $imageFile = $request->file('imagennoticia');
         $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
-        // Mover el archivo a public/storage/images
-        $imageFile->move(public_path('storage/images'), $imageName);
+        // Caso 2: Probar con una ruta diferente para identificar patrón
+        $destinationPath = public_path('img');
+        if (!is_dir($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+        $imageFile->move($destinationPath, $imageName);
+        $validated['imagennoticia'] = 'img/' . $imageName;
         
-        // Guardar la ruta relativa para acceso web
-        $validated['imagennoticia'] = 'storage/images/' . $imageName;
+        \Log::info('Imagen noticia guardada en: ' . $destinationPath . '/' . $imageName);
+        \Log::info('Ruta guardada en BD para imagen noticia: ' . $validated['imagennoticia']);
     }
 
-    Servicio::create($validated);
+    $servicio = Servicio::create($validated);
+    \Log::info('Servicio creado con ID: ' . $servicio->id);
+    \Log::info('URL final imagen principal: ' . asset($servicio->imagen));
+    \Log::info('URL final imagen noticia: ' . asset($servicio->imagennoticia));
+    \Log::info('-------- FIN DIAGNÓSTICO --------');
 
     return redirect()->route('admin.servicios.index')
-        ->with('success', 'Servicio creado correctamente');
+        ->with('success', 'Servicio creado correctamente. Se ha registrado información de diagnóstico en el log.');
 }
 
 /**
