@@ -89,137 +89,137 @@ class ServicioController extends Controller
 
         return view('admin.homepage.editservicios', compact('servicios', 'servicioActual', 'caracteristicas', 'ultimoOrden', 'iconos'));
     }
-    /**
-     * Almacena un nuevo servicio
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'etiqueta' => 'required|string|max:255',
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'orden' => 'required|integer',
-            'titulonoticia' => 'required|string|max:255',
-            'contenido' => 'required|string',
-            'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+/**
+ * Almacena un nuevo servicio
+ */
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'etiqueta' => 'required|string|max:255',
+        'titulo' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'orden' => 'required|integer',
+        'titulonoticia' => 'required|string|max:255',
+        'contenido' => 'required|string',
+        'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // Procesar imagen principal
-        if ($request->hasFile('imagen')) {
-            $imageFile = $request->file('imagen');
-            $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
+    // Procesar imagen principal
+    if ($request->hasFile('imagen')) {
+        $imageFile = $request->file('imagen');
+        $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
 
-            // Asegurar que el directorio existe
-            $destinationPath = public_path('storage/images');
-            if (!File::exists($destinationPath)) {
-                File::makeDirectory($destinationPath, 0755, true);
-            }
-
-            // Guardar el archivo
-            $imageFile->move($destinationPath, $imageName);
-            $validated['imagen'] = 'storage/images/' . $imageName;
+        // Asegurar que el directorio existe
+        $destinationPath = public_path('images');
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
         }
 
-        // Procesar imagen de noticia
-        if ($request->hasFile('imagennoticia')) {
-            $imageFile = $request->file('imagennoticia');
-            $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
-
-            // Asegurar que el directorio existe
-            $destinationPath = public_path('storage/images');
-            if (!File::exists($destinationPath)) {
-                File::makeDirectory($destinationPath, 0755, true);
-            }
-
-            // Guardar el archivo
-            $imageFile->move($destinationPath, $imageName);
-            $validated['imagennoticia'] = 'storage/images/' . $imageName;
-        }
-
-        Servicio::create($validated);
-
-        return redirect()->route('admin.servicios.index')
-            ->with('success', 'Servicio creado correctamente');
+        // Guardar el archivo
+        $imageFile->move($destinationPath, $imageName);
+        $validated['imagen'] = 'images/' . $imageName;
     }
 
-    /**
-     * Actualiza un servicio existente
-     */
-    public function update(Request $request, $id)
-    {
-        $servicio = Servicio::findOrFail($id);
+    // Procesar imagen de noticia
+    if ($request->hasFile('imagennoticia')) {
+        $imageFile = $request->file('imagennoticia');
+        $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
 
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'etiqueta' => 'required|string|max:255',
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'orden' => 'required|integer',
-            'titulonoticia' => 'required|string|max:255',
-            'contenido' => 'required|string',
-            'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Procesar imagen principal
-        if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe - con manejo de errores
-            if ($servicio->imagen && File::exists(public_path($servicio->imagen))) {
-                try {
-                    File::delete(public_path($servicio->imagen));
-                } catch (\Exception $e) {
-                    // Registrar el error pero continuar
-                    \Log::warning('No se pudo eliminar imagen anterior: ' . $e->getMessage());
-                }
-            }
-
-            $imageFile = $request->file('imagen');
-            $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
-
-            // Asegurar que el directorio existe
-            $destinationPath = public_path('storage/images');
-            if (!File::exists($destinationPath)) {
-                File::makeDirectory($destinationPath, 0755, true);
-            }
-
-            // Guardar el archivo
-            $imageFile->move($destinationPath, $imageName);
-            $validated['imagen'] = 'storage/images/' . $imageName;
+        // Asegurar que el directorio existe
+        $destinationPath = public_path('images');
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
         }
 
-        // Procesar imagen de noticia
-        if ($request->hasFile('imagennoticia')) {
-            // Eliminar imagen anterior si existe - con manejo de errores
-            if ($servicio->imagennoticia && File::exists(public_path($servicio->imagennoticia))) {
-                try {
-                    File::delete(public_path($servicio->imagennoticia));
-                } catch (\Exception $e) {
-                    // Registrar el error pero continuar
-                    \Log::warning('No se pudo eliminar imagen de noticia anterior: ' . $e->getMessage());
-                }
-            }
-
-            $imageFile = $request->file('imagennoticia');
-            $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
-
-            // Asegurar que el directorio existe
-            $destinationPath = public_path('storage/images');
-            if (!File::exists($destinationPath)) {
-                File::makeDirectory($destinationPath, 0755, true);
-            }
-
-            // Guardar el archivo
-            $imageFile->move($destinationPath, $imageName);
-            $validated['imagennoticia'] = 'storage/images/' . $imageName;
-        }
-
-        $servicio->update($validated);
-
-        return redirect()->route('admin.servicios.index')
-            ->with('success', 'Servicio actualizado correctamente');
+        // Guardar el archivo
+        $imageFile->move($destinationPath, $imageName);
+        $validated['imagennoticia'] = 'images/' . $imageName;
     }
+
+    Servicio::create($validated);
+
+    return redirect()->route('admin.servicios.index')
+        ->with('success', 'Servicio creado correctamente');
+}
+
+/**
+ * Actualiza un servicio existente
+ */
+public function update(Request $request, $id)
+{
+    $servicio = Servicio::findOrFail($id);
+
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'etiqueta' => 'required|string|max:255',
+        'titulo' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'orden' => 'required|integer',
+        'titulonoticia' => 'required|string|max:255',
+        'contenido' => 'required|string',
+        'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Procesar imagen principal
+    if ($request->hasFile('imagen')) {
+        // Eliminar imagen anterior si existe - con manejo de errores
+        if ($servicio->imagen && File::exists(public_path($servicio->imagen))) {
+            try {
+                File::delete(public_path($servicio->imagen));
+            } catch (\Exception $e) {
+                // Registrar el error pero continuar
+                \Log::warning('No se pudo eliminar imagen anterior: ' . $e->getMessage());
+            }
+        }
+
+        $imageFile = $request->file('imagen');
+        $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
+
+        // Asegurar que el directorio existe
+        $destinationPath = public_path('images');
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
+        }
+
+        // Guardar el archivo
+        $imageFile->move($destinationPath, $imageName);
+        $validated['imagen'] = 'images/' . $imageName;
+    }
+
+    // Procesar imagen de noticia
+    if ($request->hasFile('imagennoticia')) {
+        // Eliminar imagen anterior si existe - con manejo de errores
+        if ($servicio->imagennoticia && File::exists(public_path($servicio->imagennoticia))) {
+            try {
+                File::delete(public_path($servicio->imagennoticia));
+            } catch (\Exception $e) {
+                // Registrar el error pero continuar
+                \Log::warning('No se pudo eliminar imagen de noticia anterior: ' . $e->getMessage());
+            }
+        }
+
+        $imageFile = $request->file('imagennoticia');
+        $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
+
+        // Asegurar que el directorio existe
+        $destinationPath = public_path('images');
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
+        }
+
+        // Guardar el archivo
+        $imageFile->move($destinationPath, $imageName);
+        $validated['imagennoticia'] = 'images/' . $imageName;
+    }
+
+    $servicio->update($validated);
+
+    return redirect()->route('admin.servicios.index')
+        ->with('success', 'Servicio actualizado correctamente');
+}
 
     /**
      * Elimina un servicio
@@ -404,20 +404,20 @@ class ServicioController extends Controller
     {
         // Obtener el servicio específico
         $servicio = Servicio::findOrFail($id);
-
+        
         // Verificar si el slug proporcionado coincide con el nombre del servicio
         // Si no coincide, redirigir a la URL correcta (opcional, para SEO)
         $correctSlug = Str::slug($servicio->nombre);
         if ($slug !== $correctSlug) {
             return redirect()->route('servicios.show', ['id' => $id, 'slug' => $correctSlug]);
         }
-
+        
         // Obtener servicios relacionados
         $relacionados = Servicio::where('id', '!=', $id)
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
-
+                              ->inRandomOrder()
+                              ->limit(3)
+                              ->get();
+        
         // Retornar la vista con los datos
         return view('showservicio', compact('servicio', 'relacionados'));
     }
