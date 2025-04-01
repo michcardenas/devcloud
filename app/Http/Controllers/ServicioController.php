@@ -121,7 +121,7 @@ class ServicioController extends Controller
             $nombreImagen = 'servicios/noticias/' . time() . '-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
             
             // Asegurar que el directorio existe
-            $directorio = public_path('images/servicios/noticias');
+            $directorio = public_path('images/');
             if (!File::exists($directorio)) {
                 File::makeDirectory($directorio, 0755, true);
             }
@@ -179,7 +179,7 @@ class ServicioController extends Controller
             $nombreImagen = 'servicios/noticias/' . time() . '-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
             
             // Asegurar que el directorio existe
-            $directorio = public_path('images/servicios/noticias');
+            $directorio = public_path('images/');
             if (!File::exists($directorio)) {
                 File::makeDirectory($directorio, 0755, true);
             }
