@@ -90,110 +90,109 @@ class ServicioController extends Controller
         return view('admin.homepage.editservicios', compact('servicios', 'servicioActual', 'caracteristicas', 'ultimoOrden', 'iconos'));
     }
 
-    /**
-     * Almacena un nuevo servicio
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'etiqueta' => 'required|string|max:255',
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'orden' => 'required|integer',
-            'titulonoticia' => 'required|string|max:255',
-            'contenido' => 'required|string',
-            'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+   /**
+ * Almacena un nuevo servicio
+ */
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'etiqueta' => 'required|string|max:255',
+        'titulo' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'orden' => 'required|integer',
+        'titulonoticia' => 'required|string|max:255',
+        'contenido' => 'required|string',
+        'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // Procesar imagen principal
-        if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $nombreImagen = 'servicios/' . time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('images/servicios'), $nombreImagen);
-            $validated['imagen'] = 'images/' . $nombreImagen;
-        }
-
-        // Procesar imagen de noticia
-        if ($request->hasFile('imagennoticia')) {
-            $imagen = $request->file('imagennoticia');
-            $nombreImagen = 'servicios/noticias/' . time() . '-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
-            
-            // Asegurar que el directorio existe
-            $directorio = public_path('images/');
-            if (!File::exists($directorio)) {
-                File::makeDirectory($directorio, 0755, true);
-            }
-            
-            $imagen->move($directorio, basename($nombreImagen));
-            $validated['imagennoticia'] = 'images/' . $nombreImagen;
-        }
-
-        Servicio::create($validated);
-
-        return redirect()->route('admin.servicios.index')
-            ->with('success', 'Servicio creado correctamente');
+    // Procesar imagen principal
+    if ($request->hasFile('imagen')) {
+        $imagen = $request->file('imagen');
+        $nombreImagen = time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
+        $imagen->move(public_path('images'), $nombreImagen);
+        $validated['imagen'] = 'images/' . $nombreImagen;
     }
 
-    /**
-     * Actualiza un servicio existente
-     */
-    public function update(Request $request, $id)
-    {
-        $servicio = Servicio::findOrFail($id);
-
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'etiqueta' => 'required|string|max:255',
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'orden' => 'required|integer',
-            'titulonoticia' => 'required|string|max:255',
-            'contenido' => 'required|string',
-            'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Procesar imagen principal
-        if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe
-            if ($servicio->imagen && file_exists(public_path($servicio->imagen))) {
-                unlink(public_path($servicio->imagen));
-            }
-
-            $imagen = $request->file('imagen');
-            $nombreImagen = 'servicios/' . time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('images/servicios'), $nombreImagen);
-            $validated['imagen'] = 'images/' . $nombreImagen;
+    // Procesar imagen de noticia
+    if ($request->hasFile('imagennoticia')) {
+        $imagen = $request->file('imagennoticia');
+        $nombreImagen = time() . '-noticia-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
+        
+        // Asegurar que el directorio existe
+        $directorio = public_path('images');
+        if (!File::exists($directorio)) {
+            File::makeDirectory($directorio, 0755, true);
         }
-
-        // Procesar imagen de noticia
-        if ($request->hasFile('imagennoticia')) {
-            // Eliminar imagen anterior si existe
-            if ($servicio->imagennoticia && file_exists(public_path($servicio->imagennoticia))) {
-                unlink(public_path($servicio->imagennoticia));
-            }
-
-            $imagen = $request->file('imagennoticia');
-            $nombreImagen = 'servicios/noticias/' . time() . '-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
-            
-            // Asegurar que el directorio existe
-            $directorio = public_path('images/');
-            if (!File::exists($directorio)) {
-                File::makeDirectory($directorio, 0755, true);
-            }
-            
-            $imagen->move($directorio, basename($nombreImagen));
-            $validated['imagennoticia'] = 'images/' . $nombreImagen;
-        }
-
-
-        $servicio->update($validated);
-
-        return redirect()->route('admin.servicios.index')
-            ->with('success', 'Servicio actualizado correctamente');
+        
+        $imagen->move($directorio, $nombreImagen);
+        $validated['imagennoticia'] = 'images/' . $nombreImagen;
     }
+
+    Servicio::create($validated);
+
+    return redirect()->route('admin.servicios.index')
+        ->with('success', 'Servicio creado correctamente');
+}
+
+/**
+ * Actualiza un servicio existente
+ */
+public function update(Request $request, $id)
+{
+    $servicio = Servicio::findOrFail($id);
+
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'etiqueta' => 'required|string|max:255',
+        'titulo' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'orden' => 'required|integer',
+        'titulonoticia' => 'required|string|max:255',
+        'contenido' => 'required|string',
+        'imagennoticia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Procesar imagen principal
+    if ($request->hasFile('imagen')) {
+        // Eliminar imagen anterior si existe
+        if ($servicio->imagen && file_exists(public_path($servicio->imagen))) {
+            unlink(public_path($servicio->imagen));
+        }
+
+        $imagen = $request->file('imagen');
+        $nombreImagen = time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
+        $imagen->move(public_path('images'), $nombreImagen);
+        $validated['imagen'] = 'images/' . $nombreImagen;
+    }
+
+    // Procesar imagen de noticia
+    if ($request->hasFile('imagennoticia')) {
+        // Eliminar imagen anterior si existe
+        if ($servicio->imagennoticia && file_exists(public_path($servicio->imagennoticia))) {
+            unlink(public_path($servicio->imagennoticia));
+        }
+
+        $imagen = $request->file('imagennoticia');
+        $nombreImagen = time() . '-noticia-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
+        
+        // Asegurar que el directorio existe
+        $directorio = public_path('images');
+        if (!File::exists($directorio)) {
+            File::makeDirectory($directorio, 0755, true);
+        }
+        
+        $imagen->move($directorio, $nombreImagen);
+        $validated['imagennoticia'] = 'images/' . $nombreImagen;
+    }
+
+    $servicio->update($validated);
+
+    return redirect()->route('admin.servicios.index')
+        ->with('success', 'Servicio actualizado correctamente');
+}
 
     /**
      * Elimina un servicio
