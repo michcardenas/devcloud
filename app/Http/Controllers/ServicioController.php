@@ -109,32 +109,22 @@ public function store(Request $request)
 
     // Procesar imagen principal
     if ($request->hasFile('imagen')) {
-        $imagen = $request->file('imagen');
-        $nombreImagen = time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
+        $imageFile = $request->file('imagen');
+        $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
-        // Asegurar que el directorio existe
-        $directorio = public_path('storage/images');
-        if (!File::exists($directorio)) {
-            File::makeDirectory($directorio, 0755, true);
-        }
-        
-        $imagen->move($directorio, $nombreImagen);
-        $validated['imagen'] = 'storage/images/' . $nombreImagen;
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
     // Procesar imagen de noticia
     if ($request->hasFile('imagennoticia')) {
-        $imagen = $request->file('imagennoticia');
-        $nombreImagen = time() . '-noticia-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
+        $imageFile = $request->file('imagennoticia');
+        $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
-        // Asegurar que el directorio existe
-        $directorio = public_path('storage/images');
-        if (!File::exists($directorio)) {
-            File::makeDirectory($directorio, 0755, true);
-        }
-        
-        $imagen->move($directorio, $nombreImagen);
-        $validated['imagennoticia'] = 'storage/images/' . $nombreImagen;
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagennoticia'] = 'storage/images/' . $imageName;
     }
 
     Servicio::create($validated);
@@ -169,17 +159,12 @@ public function update(Request $request, $id)
             unlink(public_path($servicio->imagen));
         }
 
-        $imagen = $request->file('imagen');
-        $nombreImagen = time() . '-' . Str::slug($request->nombre) . '.' . $imagen->getClientOriginalExtension();
+        $imageFile = $request->file('imagen');
+        $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
-        // Asegurar que el directorio existe
-        $directorio = public_path('storage/images');
-        if (!File::exists($directorio)) {
-            File::makeDirectory($directorio, 0755, true);
-        }
-        
-        $imagen->move($directorio, $nombreImagen);
-        $validated['imagen'] = 'storage/images/' . $nombreImagen;
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
     // Procesar imagen de noticia
@@ -189,17 +174,12 @@ public function update(Request $request, $id)
             unlink(public_path($servicio->imagennoticia));
         }
 
-        $imagen = $request->file('imagennoticia');
-        $nombreImagen = time() . '-noticia-' . Str::slug($request->titulonoticia) . '.' . $imagen->getClientOriginalExtension();
+        $imageFile = $request->file('imagennoticia');
+        $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
-        // Asegurar que el directorio existe
-        $directorio = public_path('storage/images');
-        if (!File::exists($directorio)) {
-            File::makeDirectory($directorio, 0755, true);
-        }
-        
-        $imagen->move($directorio, $nombreImagen);
-        $validated['imagennoticia'] = 'storage/images/' . $nombreImagen;
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagennoticia'] = 'storage/images/' . $imageName;
     }
 
     $servicio->update($validated);
