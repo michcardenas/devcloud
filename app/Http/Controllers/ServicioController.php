@@ -111,30 +111,21 @@ public function store(Request $request)
     if ($request->hasFile('imagen')) {
         $imageFile = $request->file('imagen');
         $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
-        
-        // Guardar el archivo en la ruta absoluta (solo una vez 'storage')
-        $imageFile->move(public_path('images'), $imageName);
-        
-        // Guardar la ruta relativa a public (sin 'storage')
-        $validated['imagen'] = 'images/' . $imageName;
+
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
     // Procesar imagen de noticia
     if ($request->hasFile('imagennoticia')) {
         $imageFile = $request->file('imagennoticia');
         $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
-        
-        // Guardar el archivo en la ruta absoluta (solo una vez 'storage')
-        $imageFile->move(public_path('images'), $imageName);
-        
-        // Guardar la ruta relativa a public (sin 'storage')
-        $validated['imagennoticia'] = 'images/' . $imageName;
-    }
 
-    // Para depuración
-    \Log::info('Nueva ruta de imagen: ' . ($validated['imagen'] ?? 'No hay imagen'));
-    \Log::info('Nueva ruta de imagen noticia: ' . ($validated['imagennoticia'] ?? 'No hay imagen de noticia'));
-    \Log::info('Ruta pública completa: ' . public_path('images'));
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagennoticia'] = 'storage/images/' . $imageName;
+    }
 
     Servicio::create($validated);
 
@@ -170,12 +161,10 @@ public function update(Request $request, $id)
 
         $imageFile = $request->file('imagen');
         $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
-        
-        // Guardar el archivo en la ruta absoluta (solo una vez 'storage')
-        $imageFile->move(public_path('images'), $imageName);
-        
-        // Guardar la ruta relativa a public (sin 'storage')
-        $validated['imagen'] = 'images/' . $imageName;
+
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
     // Procesar imagen de noticia
@@ -187,17 +176,11 @@ public function update(Request $request, $id)
 
         $imageFile = $request->file('imagennoticia');
         $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
-        
-        // Guardar el archivo en la ruta absoluta (solo una vez 'storage')
-        $imageFile->move(public_path('images'), $imageName);
-        
-        // Guardar la ruta relativa a public (sin 'storage')
-        $validated['imagennoticia'] = 'images/' . $imageName;
-    }
 
-    // Para depuración
-    \Log::info('Actualización - Nueva ruta de imagen: ' . ($validated['imagen'] ?? 'No se actualizó imagen'));
-    \Log::info('Actualización - Nueva ruta de imagen noticia: ' . ($validated['imagennoticia'] ?? 'No se actualizó imagen de noticia'));
+        // Guardar el archivo
+        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $validated['imagennoticia'] = 'storage/images/' . $imageName;
+    }
 
     $servicio->update($validated);
 
