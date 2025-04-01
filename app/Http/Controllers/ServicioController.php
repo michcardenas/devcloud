@@ -112,8 +112,16 @@ public function store(Request $request)
         $imageFile = $request->file('imagen');
         $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
+        // Asegurar que el directorio existe
+        $uploadPath = public_path('storage/images');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+        
         // Guardar el archivo
-        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $imageFile->move($uploadPath, $imageName);
+        
+        // Guardar solo la ruta relativa correcta en la base de datos
         $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
@@ -122,10 +130,22 @@ public function store(Request $request)
         $imageFile = $request->file('imagennoticia');
         $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
+        // Asegurar que el directorio existe
+        $uploadPath = public_path('storage/images');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+        
         // Guardar el archivo
-        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $imageFile->move($uploadPath, $imageName);
+        
+        // Guardar solo la ruta relativa correcta en la base de datos
         $validated['imagennoticia'] = 'storage/images/' . $imageName;
     }
+
+    // Para depuración en producción
+    \Log::info('Ruta de imagen guardada: ' . ($validated['imagen'] ?? 'No hay imagen'));
+    \Log::info('Ruta de imagen noticia guardada: ' . ($validated['imagennoticia'] ?? 'No hay imagen de noticia'));
 
     Servicio::create($validated);
 
@@ -162,8 +182,16 @@ public function update(Request $request, $id)
         $imageFile = $request->file('imagen');
         $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
+        // Asegurar que el directorio existe
+        $uploadPath = public_path('storage/images');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+        
         // Guardar el archivo
-        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $imageFile->move($uploadPath, $imageName);
+        
+        // Guardar solo la ruta relativa correcta en la base de datos
         $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
@@ -177,10 +205,22 @@ public function update(Request $request, $id)
         $imageFile = $request->file('imagennoticia');
         $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
         
+        // Asegurar que el directorio existe
+        $uploadPath = public_path('storage/images');
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+        
         // Guardar el archivo
-        $imagePath = $imageFile->move(public_path('storage/images'), $imageName);
+        $imageFile->move($uploadPath, $imageName);
+        
+        // Guardar solo la ruta relativa correcta en la base de datos
         $validated['imagennoticia'] = 'storage/images/' . $imageName;
     }
+
+    // Para depuración en producción
+    \Log::info('Actualización - Ruta de imagen guardada: ' . ($validated['imagen'] ?? 'No se actualizó imagen'));
+    \Log::info('Actualización - Ruta de imagen noticia guardada: ' . ($validated['imagennoticia'] ?? 'No se actualizó imagen de noticia'));
 
     $servicio->update($validated);
 
