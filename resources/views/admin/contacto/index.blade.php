@@ -345,46 +345,64 @@
 <script>
     // Modal para Crear FAQ
     function openCreateFaqModal() {
-        document.getElementById('createFaqModal').style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-    }
-
+    const modal = document.getElementById('createFaqModal');
+    
+    // Primero hacer visible el modal
+    modal.style.display = 'block';
+    
+    // Luego desplazar la página hasta el modal
+    const modalOffset = modal.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({
+        top: modalOffset - 100, // Restamos 100px para dar algo de espacio arriba
+        behavior: 'smooth' // Para un desplazamiento suave
+    });
+    
+    document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+}
     function closeCreateFaqModal() {
         document.getElementById('createFaqModal').style.display = 'none';
         document.body.style.overflow = 'auto'; // Restaurar scroll
         document.getElementById('createFaqForm').reset();
     }
 
-    // Modal para Editar FAQ
     function openEditFaqModal(faqId) {
-        // Hacer una petición AJAX para obtener los datos de la pregunta
-        fetch(`{{ route('admin.contacto.index') }}/faqs/${faqId}/edit`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Llenar el formulario con los datos de la pregunta
-                document.getElementById('edit_faq_id').value = data.id;
-                document.getElementById('edit_pregunta').value = data.pregunta;
-                document.getElementById('edit_respuesta').value = data.respuesta;
-                document.getElementById('edit_categoria').value = data.categoria || '';
-                document.getElementById('edit_orden').value = data.orden;
-                document.getElementById('edit_activo').checked = data.activo;
-                
-                // Configurar la acción del formulario
-                document.getElementById('editFaqForm').action = `{{ route('admin.contacto.faqs.update', '') }}/${data.id}`;
+    // Hacer una petición AJAX para obtener los datos de la pregunta
+    fetch(`{{ route('admin.contacto.index') }}/faqs/${faqId}/edit`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Llenar el formulario con los datos...
+            document.getElementById('edit_faq_id').value = data.id;
+            document.getElementById('edit_pregunta').value = data.pregunta;
+            document.getElementById('edit_respuesta').value = data.respuesta;
+            document.getElementById('edit_categoria').value = data.categoria || '';
+            document.getElementById('edit_orden').value = data.orden;
+            document.getElementById('edit_activo').checked = data.activo;
+            
+            // Configurar la acción del formulario
+            document.getElementById('editFaqForm').action = `{{ route('admin.contacto.faqs.update', '') }}/${data.id}`;
 
-                // Mostrar el modal
-                document.getElementById('editFaqModal').style.display = 'block';
-                document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-            })
-            .catch(error => {
-                console.error('Error al cargar la pregunta:', error);
-                alert('Error al cargar los datos de la pregunta. Por favor, inténtalo de nuevo.');
+            // Mostrar el modal
+            const modal = document.getElementById('editFaqModal');
+            modal.style.display = 'block';
+            
+            // Desplazar la página hasta el modal
+            const modalOffset = modal.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+                top: modalOffset - 100,
+                behavior: 'smooth'
             });
-    }
+            
+            document.body.style.overflow = 'hidden';
+        })
+        .catch(error => {
+            console.error('Error al cargar la pregunta:', error);
+            alert('Error al cargar los datos de la pregunta. Por favor, inténtalo de nuevo.');
+        });
+}
 
     function closeEditFaqModal() {
         document.getElementById('editFaqModal').style.display = 'none';

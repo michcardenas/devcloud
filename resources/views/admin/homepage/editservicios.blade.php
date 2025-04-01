@@ -793,71 +793,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('caracteristica-tab').click();
     @endif
     
-    // Botón para activar la pestaña de nueva característica
-    const btnActivarNuevaCaracteristica = document.getElementById('activarNuevaCaracteristica');
-    const tabNuevaCaracteristica = document.getElementById('nueva-caracteristica-tab');
-    const btnCancelarNuevaCaracteristica = document.getElementById('cancelarNuevaCaracteristica');
-    
-    if (btnActivarNuevaCaracteristica && tabNuevaCaracteristica) {
-        btnActivarNuevaCaracteristica.addEventListener('click', function() {
-            const tabActivo = document.querySelector('.servicio-tab-link.active');
-            if (tabActivo) {
-                tabActivo.classList.remove('active');
-                tabActivo.setAttribute('aria-selected', 'false');
-                
-                // Ocultar el contenido de la pestaña actual
-                const contentId = tabActivo.getAttribute('data-bs-target');
-                const currentContent = document.querySelector(contentId);
-                if (currentContent) {
-                    currentContent.classList.remove('active');
-                }
-            }
-            
-            // Activar nueva pestaña
-            tabNuevaCaracteristica.classList.add('active');
-            tabNuevaCaracteristica.setAttribute('aria-selected', 'true');
-            
-            // Mostrar el contenido de la nueva pestaña
-            const newContentId = tabNuevaCaracteristica.getAttribute('data-bs-target');
-            const newContent = document.querySelector(newContentId);
-            if (newContent) {
-                newContent.classList.add('active');
-            }
-        });
-    }
-    
-    if (btnCancelarNuevaCaracteristica) {
-        btnCancelarNuevaCaracteristica.addEventListener('click', function() {
-            // Volver a la pestaña de listado
-            const listaTab = document.getElementById('lista-tab');
-            
-            // Desactivar pestaña actual
-            const tabActivo = document.querySelector('.servicio-tab-link.active');
-            if (tabActivo) {
-                tabActivo.classList.remove('active');
-                tabActivo.setAttribute('aria-selected', 'false');
-                
-                // Ocultar el contenido de la pestaña actual
-                const contentId = tabActivo.getAttribute('data-bs-target');
-                const currentContent = document.querySelector(contentId);
-                if (currentContent) {
-                    currentContent.classList.remove('active');
-                }
-            }
-            
-            // Activar pestaña de listado
-            listaTab.classList.add('active');
-            listaTab.setAttribute('aria-selected', 'true');
-            
-            // Mostrar el contenido de la lista
-            const listContentId = listaTab.getAttribute('data-bs-target');
-            const listContent = document.querySelector(listContentId);
-            if (listContent) {
-                listContent.classList.add('active');
-            }
-        });
-    }
-    
     // Sortable para reordenar servicios
     if (document.getElementById('servicios-sortable')) {
         var serviciosSortable = Sortable.create(document.getElementById('servicios-sortable'), {
@@ -947,21 +882,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Para la pestaña de nueva característica
-    const tabSelectIcono = document.getElementById('tab-icono');
-    const tabIconPreview = document.getElementById('tabIconPreview');
+    // Para el modal
+    const modalSelectIcono = document.getElementById('modal-icono');
+    const modalIconPreview = document.getElementById('modalIconPreview');
     
-    if (tabSelectIcono && tabIconPreview) {
-        tabSelectIcono.addEventListener('change', function() {
+    if (modalSelectIcono && modalIconPreview) {
+        modalSelectIcono.addEventListener('change', function() {
             const selectedIcon = this.value;
             if (selectedIcon && iconos[selectedIcon]) {
-                tabIconPreview.innerHTML = `
+                modalIconPreview.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" class="text-primary">
                         ${iconos[selectedIcon]}
                     </svg>
                 `;
             } else {
-                tabIconPreview.innerHTML = '<div class="text-muted">Selecciona un icono para ver la vista previa</div>';
+                modalIconPreview.innerHTML = '<div class="text-muted">Selecciona un icono para ver la vista previa</div>';
             }
         });
     }

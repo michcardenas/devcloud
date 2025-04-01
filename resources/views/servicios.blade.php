@@ -213,10 +213,10 @@
                     <img src="{{ asset($serviciosPage->imagen2) }}" alt="Imagen 2" class="tech-servicio-img">
                 </div>
                 <div class="tech-servicio-datos">
-                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline5 }}</div>
-                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub4_h2 }}</h2>
+                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline4 }}</div>
+                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub3_h2 }}</h2>
                     <div class="tech-servicio-separador"></div>
-                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_5 }}</p>
+                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_4 }}</p>
 
                     <div class="tech-ventajas-grid">
                         @for ($i = 1; $i <= 4; $i++)
@@ -251,10 +251,10 @@
                     <img src="{{ asset($serviciosPage->imagen3) }}" alt="Imagen 3" class="tech-servicio-img">
                 </div>
                 <div class="tech-servicio-datos">
-                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline6 }}</div>
-                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub6_h2 }}</h2>
+                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline5 }}</div>
+                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub4_h2 }}</h2>
                     <div class="tech-servicio-separador"></div>
-                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_6 }}</p>
+                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_5 }}</p>
 
                     <div class="tech-ventajas-grid">
                         @for ($i = 1; $i <= 4; $i++)
