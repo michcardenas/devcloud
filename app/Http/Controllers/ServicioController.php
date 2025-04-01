@@ -110,32 +110,24 @@ public function store(Request $request)
     if ($request->hasFile('imagen')) {
         $imageFile = $request->file('imagen');
         $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
-
-        // Asegurar que el directorio existe
-        $destinationPath = public_path('images');
-        if (!File::exists($destinationPath)) {
-            File::makeDirectory($destinationPath, 0755, true);
-        }
-
-        // Guardar el archivo
-        $imageFile->move($destinationPath, $imageName);
-        $validated['imagen'] = 'images/' . $imageName;
+        
+        // Mover el archivo a public/storage/images
+        $imageFile->move(public_path('storage/images'), $imageName);
+        
+        // Guardar la ruta relativa para acceso web
+        $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
     // Procesar imagen de noticia
     if ($request->hasFile('imagennoticia')) {
         $imageFile = $request->file('imagennoticia');
         $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
-
-        // Asegurar que el directorio existe
-        $destinationPath = public_path('images');
-        if (!File::exists($destinationPath)) {
-            File::makeDirectory($destinationPath, 0755, true);
-        }
-
-        // Guardar el archivo
-        $imageFile->move($destinationPath, $imageName);
-        $validated['imagennoticia'] = 'images/' . $imageName;
+        
+        // Mover el archivo a public/storage/images
+        $imageFile->move(public_path('storage/images'), $imageName);
+        
+        // Guardar la ruta relativa para acceso web
+        $validated['imagennoticia'] = 'storage/images/' . $imageName;
     }
 
     Servicio::create($validated);
@@ -165,54 +157,26 @@ public function update(Request $request, $id)
 
     // Procesar imagen principal
     if ($request->hasFile('imagen')) {
-        // Eliminar imagen anterior si existe - con manejo de errores
-        if ($servicio->imagen && File::exists(public_path($servicio->imagen))) {
-            try {
-                File::delete(public_path($servicio->imagen));
-            } catch (\Exception $e) {
-                // Registrar el error pero continuar
-                \Log::warning('No se pudo eliminar imagen anterior: ' . $e->getMessage());
-            }
-        }
-
         $imageFile = $request->file('imagen');
         $imageName = 'servicio-' . time() . '.' . $imageFile->getClientOriginalExtension();
-
-        // Asegurar que el directorio existe
-        $destinationPath = public_path('images');
-        if (!File::exists($destinationPath)) {
-            File::makeDirectory($destinationPath, 0755, true);
-        }
-
-        // Guardar el archivo
-        $imageFile->move($destinationPath, $imageName);
-        $validated['imagen'] = 'images/' . $imageName;
+        
+        // Mover el archivo a public/storage/images
+        $imageFile->move(public_path('storage/images'), $imageName);
+        
+        // Guardar la ruta relativa para acceso web
+        $validated['imagen'] = 'storage/images/' . $imageName;
     }
 
     // Procesar imagen de noticia
     if ($request->hasFile('imagennoticia')) {
-        // Eliminar imagen anterior si existe - con manejo de errores
-        if ($servicio->imagennoticia && File::exists(public_path($servicio->imagennoticia))) {
-            try {
-                File::delete(public_path($servicio->imagennoticia));
-            } catch (\Exception $e) {
-                // Registrar el error pero continuar
-                \Log::warning('No se pudo eliminar imagen de noticia anterior: ' . $e->getMessage());
-            }
-        }
-
         $imageFile = $request->file('imagennoticia');
         $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
-
-        // Asegurar que el directorio existe
-        $destinationPath = public_path('images');
-        if (!File::exists($destinationPath)) {
-            File::makeDirectory($destinationPath, 0755, true);
-        }
-
-        // Guardar el archivo
-        $imageFile->move($destinationPath, $imageName);
-        $validated['imagennoticia'] = 'images/' . $imageName;
+        
+        // Mover el archivo a public/storage/images
+        $imageFile->move(public_path('storage/images'), $imageName);
+        
+        // Guardar la ruta relativa para acceso web
+        $validated['imagennoticia'] = 'storage/images/' . $imageName;
     }
 
     $servicio->update($validated);
