@@ -215,6 +215,18 @@
                 Listado
             </button>
         </li>
+        <!-- Agregar esto a la lista de pestañas pero mantenerlo oculto -->
+<li class="servicio-tab-item" role="presentation" style="display: none;">
+    <button class="servicio-tab-link" id="nueva-caracteristica-tab" data-bs-toggle="tab" data-bs-target="#nueva-caracteristica-pane" 
+        type="button" role="tab" aria-controls="nueva-caracteristica-pane" aria-selected="false">
+        <span class="servicio-tab-icon">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+        </span>
+        Nueva Característica
+    </button>
+</li>
         @if(isset($editarServicio))
             <li class="servicio-tab-item" role="presentation">
                 <button class="servicio-tab-link" id="editar-tab" data-bs-toggle="tab" data-bs-target="#editar-tab-pane" 
@@ -617,12 +629,13 @@
                 </svg>
                 <h3 class="servicio-card-title">Características del servicio: <strong>{{ $servicioActual->nombre }}</strong></h3>
             </div>
-            <button type="button" class="servicio-btn servicio-btn-primary servicio-btn-sm" data-bs-toggle="modal" data-bs-target="#nuevaCaracteristicaModal">
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg>
-                Nueva Característica
-            </button>
+            <!-- Modificar el botón -->
+<button type="button" class="servicio-btn servicio-btn-primary servicio-btn-sm" id="activarNuevaCaracteristica">
+    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+    </svg>
+    Nueva Característica
+</button>
         </div>
         <div class="servicio-card-body">
             @if($caracteristicas->count() > 0)
@@ -700,75 +713,69 @@
     </div>
     
     <!-- Modal: Nueva Característica -->
-    <div class="modal fade" id="nuevaCaracteristicaModal" tabindex="-1" aria-labelledby="nuevaCaracteristicaModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content servicio-card">
-                <div class="servicio-card-header">
-                    <h5 class="servicio-card-title" id="nuevaCaracteristicaModalLabel">Nueva Característica</h5>
-                    <button type="button" class="servicio-alert-close" data-bs-dismiss="modal" aria-label="Close">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
+    <!-- Agregar el contenido de la pestaña -->
+<div class="servicio-tab-pane" id="nueva-caracteristica-pane" role="tabpanel" aria-labelledby="nueva-caracteristica-tab" tabindex="0">
+    <div class="servicio-card-body">
+        <h4 class="mb-3">Nueva Característica</h4>
+        <form action="{{ route('admin.caracteristicas.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="servicio_id" value="{{ $servicioActual->id }}">
+            
+            <div class="servicio-row">
+                <div class="servicio-col-6 servicio-col-md-12">
+                    <div class="servicio-form-group">
+                        <label for="titulo" class="servicio-label">Título</label>
+                        <input type="text" class="servicio-input" id="titulo" name="titulo" required>
+                    </div>
+                    
+                    <div class="servicio-form-group">
+                        <label for="descripcion" class="servicio-label">Descripción</label>
+                        <textarea class="servicio-textarea" id="descripcion" name="descripcion" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="servicio-form-group">
+                        <label for="orden" class="servicio-label">Orden</label>
+                        <input type="number" class="servicio-input" id="orden" name="orden" value="{{ $caracteristicas->count() + 1 }}" required>
+                    </div>
                 </div>
-                <form action="{{ route('admin.caracteristicas.store') }}" method="POST">
-                    @csrf
-                    <div class="servicio-card-body">
-                        <input type="hidden" name="servicio_id" value="{{ $servicioActual->id }}">
-                        
-                        <div class="servicio-row">
-                            <div class="servicio-col-6 servicio-col-md-12">
-                                <div class="servicio-form-group">
-                                    <label for="titulo" class="servicio-label">Título</label>
-                                    <input type="text" class="servicio-input" id="titulo" name="titulo" required>
-                                </div>
-                                
-                                <div class="servicio-form-group">
-                                    <label for="descripcion" class="servicio-label">Descripción</label>
-                                    <textarea class="servicio-textarea" id="descripcion" name="descripcion" rows="3" required></textarea>
-                                </div>
-                                
-                                <div class="servicio-form-group">
-                                    <label for="orden" class="servicio-label">Orden</label>
-                                    <input type="number" class="servicio-input" id="orden" name="orden" value="{{ $caracteristicas->count() + 1 }}" required>
-                                </div>
-                            </div>
-                            
-                            <div class="servicio-col-6 servicio-col-md-12">
-                                <div class="servicio-form-group">
-                                    <label for="icono" class="servicio-label">Icono</label>
-                                    <select class="servicio-select" id="modal-icono" name="icono" required>
-                                        <option value="">Selecciona un icono</option>
-                                        @foreach($iconos as $key => $svg)
-                                            <option value="{{ $key }}">{{ ucfirst($key) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                
-                                <div class="servicio-form-group">
-                                    <label class="servicio-label">Vista previa del icono</label>
-                                    <div class="servicio-icon-preview" id="modalIconPreview">
-                                        <div class="text-muted">Selecciona un icono para ver la vista previa</div>
-                                    </div>
-                                </div>
-                            </div>
+                
+                <div class="servicio-col-6 servicio-col-md-12">
+                    <div class="servicio-form-group">
+                        <label for="tab-icono" class="servicio-label">Icono</label>
+                        <select class="servicio-select" id="tab-icono" name="icono" required>
+                            <option value="">Selecciona un icono</option>
+                            @foreach($iconos as $key => $svg)
+                                <option value="{{ $key }}">{{ ucfirst($key) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="servicio-form-group">
+                        <label class="servicio-label">Vista previa del icono</label>
+                        <div class="servicio-icon-preview" id="tabIconPreview">
+                            <div class="text-muted">Selecciona un icono para ver la vista previa</div>
                         </div>
                     </div>
-                    <div class="servicio-card-footer">
-                        <div class="servicio-d-flex servicio-justify-between">
-                            <button type="button" class="servicio-btn servicio-btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="servicio-btn servicio-btn-success">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                                Crear Característica
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
+            
+            <div class="servicio-d-flex servicio-justify-between servicio-my-3">
+                <button type="button" class="servicio-btn servicio-btn-secondary" id="cancelarNuevaCaracteristica">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Cancelar
+                </button>
+                <button type="submit" class="servicio-btn servicio-btn-success">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Crear Característica
+                </button>
+            </div>
+        </form>
     </div>
+</div>
     @endif
 </div>
 @endsection
@@ -785,6 +792,71 @@ document.addEventListener('DOMContentLoaded', function() {
     @if(isset($editarCaracteristica))
         document.getElementById('caracteristica-tab').click();
     @endif
+    
+    // Botón para activar la pestaña de nueva característica
+    const btnActivarNuevaCaracteristica = document.getElementById('activarNuevaCaracteristica');
+    const tabNuevaCaracteristica = document.getElementById('nueva-caracteristica-tab');
+    const btnCancelarNuevaCaracteristica = document.getElementById('cancelarNuevaCaracteristica');
+    
+    if (btnActivarNuevaCaracteristica && tabNuevaCaracteristica) {
+        btnActivarNuevaCaracteristica.addEventListener('click', function() {
+            const tabActivo = document.querySelector('.servicio-tab-link.active');
+            if (tabActivo) {
+                tabActivo.classList.remove('active');
+                tabActivo.setAttribute('aria-selected', 'false');
+                
+                // Ocultar el contenido de la pestaña actual
+                const contentId = tabActivo.getAttribute('data-bs-target');
+                const currentContent = document.querySelector(contentId);
+                if (currentContent) {
+                    currentContent.classList.remove('active');
+                }
+            }
+            
+            // Activar nueva pestaña
+            tabNuevaCaracteristica.classList.add('active');
+            tabNuevaCaracteristica.setAttribute('aria-selected', 'true');
+            
+            // Mostrar el contenido de la nueva pestaña
+            const newContentId = tabNuevaCaracteristica.getAttribute('data-bs-target');
+            const newContent = document.querySelector(newContentId);
+            if (newContent) {
+                newContent.classList.add('active');
+            }
+        });
+    }
+    
+    if (btnCancelarNuevaCaracteristica) {
+        btnCancelarNuevaCaracteristica.addEventListener('click', function() {
+            // Volver a la pestaña de listado
+            const listaTab = document.getElementById('lista-tab');
+            
+            // Desactivar pestaña actual
+            const tabActivo = document.querySelector('.servicio-tab-link.active');
+            if (tabActivo) {
+                tabActivo.classList.remove('active');
+                tabActivo.setAttribute('aria-selected', 'false');
+                
+                // Ocultar el contenido de la pestaña actual
+                const contentId = tabActivo.getAttribute('data-bs-target');
+                const currentContent = document.querySelector(contentId);
+                if (currentContent) {
+                    currentContent.classList.remove('active');
+                }
+            }
+            
+            // Activar pestaña de listado
+            listaTab.classList.add('active');
+            listaTab.setAttribute('aria-selected', 'true');
+            
+            // Mostrar el contenido de la lista
+            const listContentId = listaTab.getAttribute('data-bs-target');
+            const listContent = document.querySelector(listContentId);
+            if (listContent) {
+                listContent.classList.add('active');
+            }
+        });
+    }
     
     // Sortable para reordenar servicios
     if (document.getElementById('servicios-sortable')) {
@@ -875,21 +947,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Para el modal
-    const modalSelectIcono = document.getElementById('modal-icono');
-    const modalIconPreview = document.getElementById('modalIconPreview');
+    // Para la pestaña de nueva característica
+    const tabSelectIcono = document.getElementById('tab-icono');
+    const tabIconPreview = document.getElementById('tabIconPreview');
     
-    if (modalSelectIcono && modalIconPreview) {
-        modalSelectIcono.addEventListener('change', function() {
+    if (tabSelectIcono && tabIconPreview) {
+        tabSelectIcono.addEventListener('change', function() {
             const selectedIcon = this.value;
             if (selectedIcon && iconos[selectedIcon]) {
-                modalIconPreview.innerHTML = `
+                tabIconPreview.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" class="text-primary">
                         ${iconos[selectedIcon]}
                     </svg>
                 `;
             } else {
-                modalIconPreview.innerHTML = '<div class="text-muted">Selecciona un icono para ver la vista previa</div>';
+                tabIconPreview.innerHTML = '<div class="text-muted">Selecciona un icono para ver la vista previa</div>';
             }
         });
     }
