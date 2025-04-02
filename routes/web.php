@@ -32,10 +32,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/homepage', [HomepageController::class, 'update'])->name('admin.homepage.update');
     Route::get('admin/nosotros', [App\Http\Controllers\Admin\NosotrosController::class, 'index'])->name('admin.nosotros');
     Route::post('admin/nosotros', [App\Http\Controllers\Admin\NosotrosController::class, 'store'])->name('admin.nosotros.store');
-
-
-
-
     // Servicios - Administración
     Route::prefix('admin')->name('admin.')->group(function () {
         // Listado y gestión de servicios
@@ -46,6 +42,16 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('servicios/{servicio}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
         Route::post('servicios/reordenar', [ServicioController::class, 'reorder'])->name('servicios.reorder');
         Route::post('servicios/contenido', [ServicioController::class, 'serviciospage'])->name('servicios_page.store');
+
+          // Rutas para la gestión de testimonios
+          Route::get('homepage/testimonios', [HomepageController::class, 'testimoniosIndex'])->name('homepage.testimonios.index');
+          Route::get('homepage/testimonios/crear', [HomepageController::class, 'testimoniosCreate'])->name('homepage.testimonios.create');
+          Route::post('homepage/testimonios', [HomepageController::class, 'testimoniosStore'])->name('homepage.testimonios.store');
+          Route::get('homepage/testimonios/{id}/editar', [HomepageController::class, 'testimoniosEdit'])->name('homepage.testimonios.edit');
+          Route::put('homepage/testimonios/{id}', [HomepageController::class, 'testimoniosUpdate'])->name('homepage.testimonios.update');
+          Route::delete('homepage/testimonios/{id}', [HomepageController::class, 'testimoniosDestroy'])->name('homepage.testimonios.destroy');
+          Route::put('homepage/testimonios/config', [HomepageController::class, 'testimoniosConfigUpdate'])->name('homepage.testimonios.config.update');
+
 
         // Rutas CRUD básicas para SEO
         Route::get('/seo', [SeoController::class, 'index'])->name('seo.index');

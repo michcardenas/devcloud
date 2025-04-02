@@ -39,6 +39,9 @@ class HomepageContent extends Model
         'contact_phone',
         'contact_email',
         'contact_address',
+        'testimonios_tag',
+        'testimonios_title',
+        'testimonios_description',
     ];
 
     /**

@@ -103,106 +103,39 @@
     </div>
 </section>
 
-<section class="bg-white py-16">
-    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-        {{-- Parte izquierda: imagen con card superpuesta --}}
-        <div class="relative">
-            <img src="{{ asset($contenido->imagen2) }}" alt="Equipo" class="rounded-lg shadow-md w-full object-cover">
-            <div class="absolute bottom-[-2rem] left-6 bg-white rounded-xl shadow-md p-6 w-[90%] max-w-sm">
-                <h4 class="font-semibold text-lg mb-1 text-cyan-700">Nuestro equipo</h4>
-                
-                
-                <p class="text-sm text-gray-600">{{ $contenido->contenido_imagen2 }}</p>
-            </div>
-        </div>
-
-        {{-- Parte derecha: texto + cards --}}
-        <div>
-            <span class="inline-block bg-cyan-100 text-cyan-800 px-4 py-1 rounded-full text-sm font-medium mb-2">
-                {{ $contenido->tagline2 }}
-            </span>
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                {{ $contenido->titulo_h2 }}
-            </h2>
-            
-            <p class="text-gray-700 mb-6">{{ $contenido->contenido2 }}</p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {{-- Misión --}}
-    <div class="border rounded-xl p-4 shadow-sm text-center">
-        <div class="flex justify-center mb-3">
-            <img src="{{ asset($contenido->imagen_mision) }}" alt="Misión" class="w-10 h-10 bg-cyan-100 rounded-full p-2">
-        </div>
-        <h4 class="font-semibold text-lg mb-1 text-cyan-700">Misión</h4>
-        <p class="text-sm text-gray-600">{{ $contenido->mision }}</p>
-    </div>
-
-    {{-- Visión --}}
-    <div class="border rounded-xl p-4 shadow-sm text-center">
-        <div class="flex justify-center mb-3">
-            <img src="{{ asset($contenido->imagen_vision) }}" alt="Visión" class="w-10 h-10 bg-cyan-100 rounded-full p-2">
-        </div>
-        <h4 class="font-semibold text-lg mb-1 text-cyan-700">Visión</h4>
-        <p class="text-sm text-gray-600">{{ $contenido->vision }}</p>
-    </div>
-
-    {{-- Valores --}}
-    <div class="border rounded-xl p-4 shadow-sm text-center">
-        <div class="flex justify-center mb-3">
-            <img src="{{ asset($contenido->imagen_valores) }}" alt="Valores" class="w-10 h-10 bg-cyan-100 rounded-full p-2">
-        </div>
-        <h4 class="font-semibold text-lg mb-1 text-cyan-700">Valores</h4>
-        <p class="text-sm text-gray-600">{{ $contenido->valores }}</p>
-    </div>
-</div>
-
-        </div>
-    </div>
-</section>
 <section class="bg-[#0B1120] py-20 text-white text-center">
-    <span class="text-sm bg-cyan-900 text-cyan-300 px-3 py-1 rounded-full mb-4 inline-block">Testimonios</span>
-    <h2 class="text-3xl md:text-4xl font-bold mb-2">Lo que dicen nuestros clientes</h2>
+    <span class="text-sm bg-cyan-900 text-cyan-300 px-3 py-1 rounded-full mb-4 inline-block">
+        {{ $content->testimonios_tag ?? 'Testimonios' }}
+    </span>
+    <h2 class="text-3xl md:text-4xl font-bold mb-2">
+        {{ $content->testimonios_title ?? 'Lo que dicen nuestros clientes' }}
+    </h2>
     <p class="text-gray-400 max-w-xl mx-auto mb-10">
-        Descubre por qué las empresas confían en nosotros para sus necesidades tecnológicas.
+        {{ $content->testimonios_description ?? 'Descubre por qué las empresas confían en nosotros para sus necesidades tecnológicas.' }}
     </p>
 
     <div class="swiper mySwiper max-w-xl mx-auto overflow-hidden">
         <div class="swiper-wrapper">
-            <!-- Testimonio 1 -->
-            <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
-                <p class="text-gray-300 italic mb-4">
-                    “La migración a la nube fue impecable. El proceso fue minucioso, bien planificado y ejecutado sin interrupciones. Además, los ahorros en costos superaron nuestras expectativas.”
-                </p>
-                <div class="text-yellow-400 mb-4 text-lg">★★★★★</div>
-                <div class="text-white font-semibold">Lucía Fernández</div>
-                <div class="text-cyan-400 text-sm">COO, Healthcare Systems</div>
-            </div>
-
-            <!-- Testimonio 2 -->
-            <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
-                <p class="text-gray-300 italic mb-4">
-                    “El equipo fue muy profesional y atento. Nos ayudaron a escalar nuestro sistema con soluciones innovadoras.”
-                </p>
-                <div class="text-yellow-400 mb-4 text-lg">★★★★☆</div>
-                <div class="text-white font-semibold">Carlos Ruiz</div>
-                <div class="text-cyan-400 text-sm">CEO, StartTech</div>
-            </div>
-
-            <!-- Testimonio 3 -->
-            <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
-                <p class="text-gray-300 italic mb-4">
-                    “Gracias al rediseño UX/UI logramos aumentar la retención de usuarios en un 40%. ¡Excelente trabajo!”
-                </p>
-                <div class="text-yellow-400 mb-4 text-lg">★★★★★</div>
-                <div class="text-white font-semibold">María Gómez</div>
-                <div class="text-cyan-400 text-sm">UX Lead, FinNova</div>
-            </div>
+            @foreach($testimonios as $testimonio)
+                <div class="swiper-slide bg-[#1E293B] rounded-xl p-8 shadow-lg">
+                    <p class="text-gray-300 italic mb-4">
+                        "{{ $testimonio->contenido }}"
+                    </p>
+                    <div class="text-yellow-400 mb-4 text-lg">
+                        {!! str_repeat('★', $testimonio->numero_de_estrellas) !!}
+                        {!! str_repeat('☆', 5 - $testimonio->numero_de_estrellas) !!}
+                    </div>
+                    <div class="text-white font-semibold">{{ $testimonio->nombre }}</div>
+                    <div class="text-cyan-400 text-sm">{{ $testimonio->cargo }}</div>
+                </div>
+            @endforeach
         </div>
 
         <!-- Paginación -->
         <div class="swiper-pagination mt-6"></div>
     </div>
 </section>
+
 
 
 <section class="partners-section py-16 bg-gray-50">

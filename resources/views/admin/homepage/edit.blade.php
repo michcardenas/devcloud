@@ -595,6 +595,62 @@
 </div>
 
 
+
+<!-- Sección Testimonios -->
+<div class="py-3">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-[#0a0a0a] border border-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <div class="border-b border-gray-800 px-6 py-4 bg-gray-900 flex justify-between items-center">
+                <h3 class="text-lg font-medium text-[#c9fcfe]">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                    </svg>
+                    Sección de Testimonios
+                </h3>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('admin.homepage.testimonios.index') }}" class="px-4 py-2 bg-blue-900 text-[#c9fcfe] rounded-md hover:bg-blue-800 transition flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Agregar Testimonios
+                    </a>
+                    <button type="button" class="text-gray-500 hover:text-[#c9fcfe]" onclick="toggleSection('testimoniosSection')">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="testimoniosSection" class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label for="testimonios_tag" class="block text-sm font-medium text-gray-400 mb-1">Tag de Testimonios</label>
+                        <input type="text" id="testimonios_tag" name="testimonios_tag" 
+                               class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                               value="{{ old('testimonios_tag', $content->testimonios_tag ?? 'Testimonios') }}">
+                    </div>
+                    
+                    <div>
+                        <label for="testimonios_title" class="block text-sm font-medium text-gray-400 mb-1">Título de Testimonios</label>
+                        <input type="text" id="testimonios_title" name="testimonios_title" 
+                               class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                               value="{{ old('testimonios_title', $content->testimonios_title ?? 'Lo que dicen nuestros clientes') }}">
+                    </div>
+                    
+                    <div>
+                        <label for="testimonios_description" class="block text-sm font-medium text-gray-400 mb-1">Descripción de Testimonios</label>
+                        <textarea id="testimonios_description" name="testimonios_description" 
+                                  rows="2" 
+                                  class="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-[#c9fcfe] focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('testimonios_description', $content->testimonios_description ?? 'Descubre por qué las empresas confían en nosotros para sus necesidades tecnológicas.') }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- Sección Contacto -->
     <div class="py-3">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

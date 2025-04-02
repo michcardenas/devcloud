@@ -77,41 +77,52 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Menú colapsable -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/admin/homepage">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/admin/servicios">Servicios</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link text-light" href="{{ route('admin.nosotros') }}">Nosotros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/admin/noticias">Noticias</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Prensa</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Únete</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Contacto</a>
-                </li>
-                <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="nav-link btn btn-link text-light px-3" style="text-decoration: none;">
-                        Cerrar sesión
-                    </button>
-                </form>
-            </li>
+       <!-- Menú colapsable -->
+<div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+    <ul class="navbar-nav">
+        <!-- Inicio (Homepage) -->
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{{ route('admin.homepage.index') }}">Inicio</a>
+        </li>
+        <!-- Servicios -->
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{{ route('admin.servicios.index') }}">Servicios</a>
+        </li>
+        <!-- Nosotros -->
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{{ route('admin.nosotros') }}">Nosotros</a>
+        </li>
+        <!-- Noticias -->
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{{ route('admin.noticias.index') }}">Noticias</a>
+        </li>
+        <!-- Prensa -->
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{{ route('admin.prensa.index') }}">Prensa</a>
+        </li>
+        <!-- Únete (Sin ruta definida, se deja como "#" o se actualiza según corresponda) -->
+        <li class="nav-item">
+            <a class="nav-link text-light" href="#">Únete</a>
+        </li>
+        <!-- Contacto -->
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{{ route('admin.contacto.index') }}">Contacto</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{{ route('admin.seo.index') }}">SEO</a>
+        </li>
+        <!-- Cerrar sesión -->
+        <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="nav-link btn btn-link text-light px-3" style="text-decoration: none;">
+                    Cerrar sesión
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
 
-            </ul>
-        </div>
     </div>
 </nav>
 
