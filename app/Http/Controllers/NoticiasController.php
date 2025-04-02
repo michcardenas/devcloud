@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\NoticiasConfiguracion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\SeoMetadata;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -15,63 +16,55 @@ use Illuminate\Support\Facades\Log;
 class NoticiasController extends Controller
 {
     public function index(Request $request)
-    {
-        // Registrar información inicial de la petición
-        \Log::info('Noticias index called', [
-            'url' => $request->fullUrl(),
-            'ip' => $request->ip(),
-            'params' => $request->all(),
-        ]);
+{
+    \Log::info('Noticias index called', [
+        'url' => $request->fullUrl(),
+        'ip' => $request->ip(),
+        'params' => $request->all(),
+    ]);
 
-        // Obtener la configuración de noticias
-        $configuracion = NoticiasConfiguracion::obtenerConfiguracion();
-        \Log::info('Configuración de noticias obtenida', ['configuracion' => $configuracion]);
+    $configuracion = NoticiasConfiguracion::obtenerConfiguracion();
+    \Log::info('Configuración de noticias obtenida', ['configuracion' => $configuracion]);
 
-        // Obtener categorías activas
-        $categorias = Categoria::where('activa', true)->get();
-        \Log::info('Categorías activas obtenidas', ['categorias_count' => $categorias->count()]);
+    $categorias = Categoria::where('activa', true)->get();
+    \Log::info('Categorías activas obtenidas', ['categorias_count' => $categorias->count()]);
 
-        // Filtros
-        $busqueda = $request->input('buscar');
-        $categoriaSlug = $request->input('categoria');
-        $tagSlug = $request->input('tag');
-        \Log::info('Filtros aplicados', [
-            'buscar' => $busqueda,
-            'categoria' => $categoriaSlug,
-            'tag' => $tagSlug
-        ]);
+    $busqueda = $request->input('buscar');
+    $categoriaSlug = $request->input('categoria');
+    $tagSlug = $request->input('tag');
+    \Log::info('Filtros aplicados', [
+        'buscar' => $busqueda,
+        'categoria' => $categoriaSlug,
+        'tag' => $tagSlug
+    ]);
 
-        // Consulta base
-        $query = Noticia::with(['categoria', 'tags'])
-            ->publicadas()
-            ->latest('fecha_publicacion');
+    $query = Noticia::with(['categoria', 'tags'])
+        ->publicadas()
+        ->latest('fecha_publicacion');
 
-        // Aplicar filtros si existen
-        $query->buscar($busqueda)
-            ->categoria($categoriaSlug);
+    $query->buscar($busqueda)
+        ->categoria($categoriaSlug);
 
-        // Filtrar por tag si se especifica
-        if ($tagSlug) {
-            $query->whereHas('tags', function ($q) use ($tagSlug) {
-                $q->where('slug', $tagSlug);
-            });
-            \Log::info('Filtro por tag aplicado', ['tag' => $tagSlug]);
-        }
-
-        // Paginar resultados
-        $noticias = $query->paginate(6);
-        \Log::info('Noticias paginadas', [
-            'noticias_count' => $noticias->count(),
-            'total' => $noticias->total(),
-            'current_page' => $noticias->currentPage(),
-        ]);
-
-        return view('noticias', compact(
-            'configuracion',
-            'categorias',
-            'noticias'
-        ));
+    if ($tagSlug) {
+        $query->whereHas('tags', function ($q) use ($tagSlug) {
+            $q->where('slug', $tagSlug);
+        });
+        \Log::info('Filtro por tag aplicado', ['tag' => $tagSlug]);
     }
+
+    $noticias = $query->paginate(6);
+    \Log::info('Noticias paginadas', [
+        'noticias_count' => $noticias->count(),
+        'total' => $noticias->total(),
+        'current_page' => $noticias->currentPage(),
+    ]);
+    
+    // Obtener los metadatos SEO para la página de Noticias
+    $seo = SeoMetadata::where('page_slug', 'noticias')->first();
+
+    return view('noticias', compact('configuracion', 'categorias', 'noticias', 'seo'));
+}
+
 
 
     public function adminIndex()

@@ -31,7 +31,7 @@ public function store(Request $request)
         'nombre' => 'required|string|max:255',
         'cargo' => 'required|string|max:255',
         'departamento' => 'nullable|string|max:255',
-        'linkedin' => 'nullable|string|max:255',
+        'linkedin' => 'nullable|url|max:255',
         'descripcion' => 'nullable|string',
         'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
     ]);
@@ -52,8 +52,6 @@ public function store(Request $request)
         ->with('success', 'Colaborador creado exitosamente.');
 }
 
-    
-
     /**
      * Actualiza un colaborador existente.
      */
@@ -63,7 +61,7 @@ public function store(Request $request)
             'nombre' => 'required|string|max:255',
             'cargo' => 'required|string|max:255',
             'departamento' => 'nullable|string|max:255',
-            'linkedin' => 'nullable|string|max:255',
+            'linkedin' => 'nullable|url|max:255',
             'descripcion' => 'nullable|string',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);

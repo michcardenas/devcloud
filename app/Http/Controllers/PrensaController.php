@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Models\SeoMetadata;
 
 class PrensaController extends Controller
 {
@@ -27,88 +28,82 @@ class PrensaController extends Controller
      * Muestra la vista pública de Sala de Prensa (sin filtro destacado)
      */
     public function salaPrensaPublica()
-{
-    // Obtener todas las categorías
-    $categorias = PrensaCategoria::orderBy('nombre')->get();
-
-    // Obtener todos los elementos de prensa agrupados por categoría
-    $prensasPorCategoria = [];
+    {
+        $categorias = PrensaCategoria::orderBy('nombre')->get();
     
-    // Obtener subtipos por categoría
-    $subtiposPorCategoria = [];
-
-    foreach ($categorias as $categoria) {
-        // Obtener subtipos para esta categoría
-        $subtipos = PrensaSubtipo::where('categoria_id', $categoria->id)
-            ->orderBy('nombre')
-            ->get();
-        
-        $subtiposPorCategoria[$categoria->nombre] = $subtipos;
-
-        // Obtener elementos de prensa para esta categoría
-        $prensas = Prensa::where('categoria', $categoria->nombre)
-            ->orderBy('fecha', 'desc')
-            ->limit(3) // Limitar a 3 elementos por categoría
-            ->get();
-
-        // Formatear fechas y añadir a la colección
-        foreach ($prensas as $prensa) {
-            $prensa->fecha_formateada = Carbon::parse($prensa->fecha)->format('d/m/Y');
+        $prensasPorCategoria = [];
+        $subtiposPorCategoria = [];
+    
+        foreach ($categorias as $categoria) {
+            $subtipos = PrensaSubtipo::where('categoria_id', $categoria->id)
+                ->orderBy('nombre')
+                ->get();
+            
+            $subtiposPorCategoria[$categoria->nombre] = $subtipos;
+    
+            $prensas = Prensa::where('categoria', $categoria->nombre)
+                ->orderBy('fecha', 'desc')
+                ->limit(3)
+                ->get();
+    
+            foreach ($prensas as $prensa) {
+                $prensa->fecha_formateada = Carbon::parse($prensa->fecha)->format('d/m/Y');
+            }
+    
+            $prensasPorCategoria[$categoria->nombre] = $prensas;
         }
-
-        // Guardar en el array asociativo
-        $prensasPorCategoria[$categoria->nombre] = $prensas;
+    
+        $recursos = PrensaRecurso::orderBy('id', 'desc')->limit(3)->get();
+    
+        $configuracion = PrensaConfiguracion::first() ?? new PrensaConfiguracion();
+    
+        $bannerTextos = [
+            'etiqueta' => $configuracion->banner_etiqueta ?? 'Sala de Prensa',
+            'titulo' => $configuracion->banner_titulo ?? 'Recursos para medios',
+            'subtitulo' => $configuracion->banner_subtitulo ?? 'Toda la información relevante sobre DevCloud Partners para profesionales de los medios de comunicación.',
+        ];
+    
+        $seccionTextos = [
+            'etiqueta' => $configuracion->seccion_etiqueta ?? 'Sala de prensa',
+            'titulo' => $configuracion->seccion_titulo ?? 'Recursos para medios',
+            'subtitulo' => $configuracion->seccion_subtitulo ?? 'Todo lo que necesitas saber sobre DevCloud Partners para medios de comunicación y material de prensa.',
+        ];
+    
+        $contactoTextos = [
+            'titulo' => $configuracion->contacto_titulo ?? 'Contacto para medios',
+            'descripcion' => $configuracion->contacto_descripcion ?? 'Si eres periodista o medio de comunicación y necesitas más información, no dudes en contactar con nuestro departamento de comunicación.',
+            'email' => $configuracion->contacto_email ?? 'prensa@devcloud.es',
+            'telefono' => $configuracion->contacto_telefono ?? '+34 91 123 45 67',
+            'telefono_num' => $configuracion->contacto_telefono_num ?? '+34912345867',
+        ];
+    
+        $suscripcionTextos = [
+            'titulo' => $configuracion->suscripcion_titulo ?? 'Suscríbete a nuestras notas de prensa',
+            'descripcion' => $configuracion->suscripcion_descripcion ?? 'Recibe nuestras notas de prensa y comunicados directamente en tu email.',
+            'placeholder' => $configuracion->suscripcion_placeholder ?? 'Tu email profesional',
+            'consentimiento' => $configuracion->suscripcion_consentimiento ?? 'Acepto recibir comunicaciones y la ',
+            'boton' => $configuracion->suscripcion_boton ?? 'Suscribirse',
+        ];
+    
+        $recursosTitulo = $configuracion->recursos_titulo ?? 'Recursos de marca';
+        
+        // Obtener los metadatos SEO para la página de Prensa
+        $seo = SeoMetadata::where('page_slug', 'prensa')->first();
+    
+        return view('prensa', compact(
+            'categorias',
+            'prensasPorCategoria',
+            'subtiposPorCategoria',
+            'recursos',
+            'bannerTextos',
+            'seccionTextos',
+            'contactoTextos',
+            'suscripcionTextos',
+            'recursosTitulo',
+            'seo'
+        ));
     }
-
-    // Obtener recursos de marca
-    $recursos = PrensaRecurso::orderBy('id', 'desc')->limit(3)->get();
-
-    // Obtener textos de configuración para las diferentes secciones
-    $configuracion = PrensaConfiguracion::first() ?? new PrensaConfiguracion();
-
-    $bannerTextos = [
-        'etiqueta' => $configuracion->banner_etiqueta ?? 'Sala de Prensa',
-        'titulo' => $configuracion->banner_titulo ?? 'Recursos para medios',
-        'subtitulo' => $configuracion->banner_subtitulo ?? 'Toda la información relevante sobre DevCloud Partners para profesionales de los medios de comunicación.',
-    ];
-
-    $seccionTextos = [
-        'etiqueta' => $configuracion->seccion_etiqueta ?? 'Sala de prensa',
-        'titulo' => $configuracion->seccion_titulo ?? 'Recursos para medios',
-        'subtitulo' => $configuracion->seccion_subtitulo ?? 'Todo lo que necesitas saber sobre DevCloud Partners para medios de comunicación y material de prensa.',
-    ];
-
-    $contactoTextos = [
-        'titulo' => $configuracion->contacto_titulo ?? 'Contacto para medios',
-        'descripcion' => $configuracion->contacto_descripcion ?? 'Si eres periodista o medio de comunicación y necesitas más información, no dudes en contactar con nuestro departamento de comunicación.',
-        'email' => $configuracion->contacto_email ?? 'prensa@devcloud.es',
-        'telefono' => $configuracion->contacto_telefono ?? '+34 91 123 45 67',
-        'telefono_num' => $configuracion->contacto_telefono_num ?? '+34912345867',
-    ];
-
-    $suscripcionTextos = [
-        'titulo' => $configuracion->suscripcion_titulo ?? 'Suscríbete a nuestras notas de prensa',
-        'descripcion' => $configuracion->suscripcion_descripcion ?? 'Recibe nuestras notas de prensa y comunicados directamente en tu email.',
-        'placeholder' => $configuracion->suscripcion_placeholder ?? 'Tu email profesional',
-        'consentimiento' => $configuracion->suscripcion_consentimiento ?? 'Acepto recibir comunicaciones y la ',
-        'boton' => $configuracion->suscripcion_boton ?? 'Suscribirse',
-    ];
-
-    // Títulos personalizados para las categorías (si existen en la configuración)
-    $recursosTitulo = $configuracion->recursos_titulo ?? 'Recursos de marca';
-
-    return view('prensa', compact(
-        'categorias',
-        'prensasPorCategoria',
-        'subtiposPorCategoria',
-        'recursos',
-        'bannerTextos',
-        'seccionTextos',
-        'contactoTextos',
-        'suscripcionTextos',
-        'recursosTitulo'
-    ));
-}
+    
 
     /**
      * Muestra todas las notas de prensa

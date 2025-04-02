@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Contacto;
 use App\Models\Faq;
 use App\Models\Cotizacion;
+use App\Models\SeoMetadata;
 use App\Models\HomepageContent;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,8 +27,12 @@ class ContactoController extends Controller
             ->limit(4)
             ->get();
         
-        return view('contacto', compact('content', 'homeContent', 'faqs'));
+        // Obtener los metadatos SEO para la página de Contacto
+        $seo = SeoMetadata::where('page_slug', 'contacto')->first();
+        
+        return view('contacto', compact('content', 'homeContent', 'faqs', 'seo'));
     }
+    
     
     
     /* 

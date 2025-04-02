@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\ServiciosPage;
+use App\Models\SeoMetadata;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 
@@ -22,10 +23,13 @@ class ServicioController extends Controller
             ->where('activo', true)
             ->orderBy('orden')
             ->get();
-
+    
         $serviciosPage = ServiciosPage::latest()->first();
-
-        return view('servicios', compact('servicios', 'serviciosPage'));
+    
+        // Busca los metadatos SEO para la página de servicios
+        $seo = SeoMetadata::where('page_slug', 'servicios')->first();
+    
+        return view('servicios', compact('servicios', 'serviciosPage', 'seo'));
     }
 
     /**

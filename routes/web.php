@@ -14,6 +14,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\PrensaController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\ColaboradorController;
+use App\Http\Controllers\SeoController;
 
 
 // Replaced the closure route with the controller route
@@ -45,6 +46,19 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('servicios/{servicio}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
         Route::post('servicios/reordenar', [ServicioController::class, 'reorder'])->name('servicios.reorder');
         Route::post('servicios/contenido', [ServicioController::class, 'serviciospage'])->name('servicios_page.store');
+
+        // Rutas CRUD básicas para SEO
+        Route::get('/seo', [SeoController::class, 'index'])->name('seo.index');
+        Route::post('/seo', [SeoController::class, 'store'])->name('seo.store');
+        Route::get('/seo/{seo}/edit', [SeoController::class, 'edit'])->name('seo.edit');
+        Route::put('/seo/{seo}', [SeoController::class, 'update'])->name('seo.update');
+        Route::delete('/seo/{seo}', [SeoController::class, 'destroy'])->name('seo.destroy');
+
+        // Funcionalidades adicionales para SEO
+        Route::post('/seo/generate', [SeoController::class, 'generate'])->name('seo.generate');
+        Route::get('/seo/{seo}/preview', [SeoController::class, 'preview'])->name('seo.preview');
+        Route::post('/seo/import', [SeoController::class, 'import'])->name('seo.import');
+        Route::get('/seo/export', [SeoController::class, 'export'])->name('seo.export');
 
         // Rutas para gestionar tags
         Route::get('tags', [TagController::class, 'index'])->name('tags.index');
@@ -113,18 +127,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('configuracion-noticias', [ConfiguracionController::class, 'adminEdit'])->name('configuracion-noticias.edit');
         Route::put('configuracion-noticias', [ConfiguracionController::class, 'adminUpdate'])->name('configuracion-noticias.update');
 
-        
+
         Route::get('/contacto', [ContactoController::class, 'adminIndex'])->name('contacto.index');
         Route::put('/contacto/update', [ContactoController::class, 'adminUpdate'])->name('contacto.update');
-        
+
         // Gestión de FAQs
         Route::post('/contacto/faqs', [ContactoController::class, 'adminFaqsStore'])->name('contacto.faqs.store');
         Route::put('/contacto/faqs/{id}', [ContactoController::class, 'adminFaqsUpdate'])->name('contacto.faqs.update');
         Route::delete('/contacto/faqs/{id}', [ContactoController::class, 'adminFaqsDestroy'])->name('contacto.faqs.destroy');
         Route::post('/contacto/faqs/update-order', [ContactoController::class, 'adminFaqsUpdateOrder'])->name('contacto.faqs.update-order');
         Route::resource('colaboradores', ColaboradorController::class)->names('colaboradores');
-
-
     });
 });
 

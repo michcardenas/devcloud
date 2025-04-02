@@ -1,29 +1,69 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ $seo->language_code ?? 'es' }}">
 
 <head>
-    <meta charset="UTF-8">
+    <    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Helmcode')</title>
+
+    {{-- SEO Metadata --}}
+    <title>{{ $seo->meta_title ?? 'Helmcode' }}</title>
+    <meta name="description" content="{{ $seo->meta_description ?? '' }}">
+    
+    @if($seo->meta_keywords ?? false)
+    <meta name="keywords" content="{{ $seo->meta_keywords }}">
+    @endif
+    
+    <meta name="robots" content="{{ $seo->meta_robots ?? 'index, follow' }}">
+
+    {{-- Canonical URL --}}
+    @if($seo->canonical_url ?? false)
+    <link rel="canonical" href="{{ $seo->canonical_url }}">
+    @endif
+
+    {{-- Open Graph --}}
+    <meta property="og:title" content="{{ $seo->og_title ?? $seo->meta_title ?? 'Helmcode' }}">
+    <meta property="og:description" content="{{ $seo->og_description ?? $seo->meta_description ?? '' }}">
+    <meta property="og:image" content="{{ $seo->og_image ?? asset('images/logotiporetinaHelmcode.png') }}">
+    <meta property="og:type" content="{{ $seo->og_type ?? 'website' }}">
+    <meta property="og:url" content="{{ $seo->og_url ?? url()->current() }}">
+    <meta property="og:site_name" content="{{ $seo->og_site_name ?? 'Helmcode' }}">
+    <meta property="og:locale" content="{{ $seo->og_locale ?? 'es_CO' }}">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="{{ $seo->twitter_card ?? 'summary_large_image' }}">
+    <meta name="twitter:title" content="{{ $seo->twitter_title ?? $seo->meta_title ?? 'Helmcode' }}">
+    <meta name="twitter:description" content="{{ $seo->twitter_description ?? $seo->meta_description ?? '' }}">
+    
+    @if($seo->twitter_image ?? false)
+    <meta name="twitter:image" content="{{ $seo->twitter_image }}">
+    @endif
+    
+    @if($seo->twitter_image_alt ?? false)
+    <meta name="twitter:image:alt" content="{{ $seo->twitter_image_alt }}">
+    @endif
+    
+    @if($seo->twitter_site ?? false)
+    <meta name="twitter:site" content="{{ $seo->twitter_site }}">
+    @endif
+    
+    @if($seo->twitter_creator ?? false)
+    <meta name="twitter:creator" content="{{ $seo->twitter_creator }}">
+    @endif
+    
+    {{-- Estilos y scripts --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('images/faviconHelmcode.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
        
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-
- <!-- Swiper CSS -->
-        <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-        />
-
-        <!-- Swiper JS -->
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
-
+    @yield('head') {{-- Para añadir elementos adicionales en el head desde las vistas --}}
 </head>
 
 <body class="bg-black text-white">
