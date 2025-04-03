@@ -97,21 +97,21 @@ class NoticiasController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        // Procesar imagen principal
+        // Manejar subida de imagen para noticias (modificado)
         if ($request->hasFile('imagen')) {
-            $imageFile = $request->file('imagen');
-            $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
+            $imagen = $request->file('imagen');
+            $nombreImagen = 'noticias/' . time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
 
-            // Usar images/ como directorio base
-            $destinationPath = public_path('images');
+            $destinationPath = public_path('images/noticias');
             if (!is_dir($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
-            $imageFile->move($destinationPath, $imageName);
-            $data['imagen'] = 'images/' . $imageName;
 
-            \Log::info('Imagen principal guardada en: ' . $destinationPath . '/' . $imageName);
-            \Log::info('Ruta guardada en BD para imagen principal: ' . $data['imagen']);
+            $imagen->move($destinationPath, time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension());
+            $imagenPath = 'images/' . $nombreImagen;
+
+            \Log::info('Imagen guardada en: ' . $destinationPath . '/' . time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension());
+            \Log::info('Ruta guardada en BD: ' . $imagenPath);
         }
 
         $noticia = Noticia::create([
