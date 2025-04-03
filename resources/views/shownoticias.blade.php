@@ -24,7 +24,7 @@
       <!-- Imagen destacada -->
       @if($noticia->imagen)
       <div class="mb-6 text-center">
-        <img src="{{ asset('storage/' . $noticia->imagen) }}" 
+        <img src="{{ asset($noticia->imagen) }}" 
              alt="{{ $noticia->titulo }}"
              class="max-w-full h-auto rounded-lg shadow-lg mx-auto">
       </div>
