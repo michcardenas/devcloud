@@ -100,17 +100,17 @@ class NoticiasController extends Controller
         // Manejar subida de imagen para noticias (modificado)
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
-            $nombreImagen = 'noticias/' . time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
+            $nombreImagen = 'noticia-' . time() . '.' . $imagen->getClientOriginalExtension();
 
-            $destinationPath = public_path('images/noticias');
+            $destinationPath = storage_path('images');
             if (!is_dir($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
 
-            $imagen->move($destinationPath, time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension());
-            $imagenPath = 'images/' . $nombreImagen;
+            $imagen->move($destinationPath, $nombreImagen);
+            $imagenPath = 'storage/images/' . $nombreImagen;
 
-            \Log::info('Imagen guardada en: ' . $destinationPath . '/' . time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension());
+            \Log::info('Imagen guardada en: ' . $destinationPath . '/' . $nombreImagen);
             \Log::info('Ruta guardada en BD: ' . $imagenPath);
         }
 
