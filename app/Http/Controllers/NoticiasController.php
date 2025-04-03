@@ -97,12 +97,21 @@ class NoticiasController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        // Manejar subida de imagen para noticias (modificado)
+        // Procesar imagen principal
         if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $nombreImagen = 'noticias/' . time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('images/noticias'), $nombreImagen);
-            $imagenPath = 'images/' . $nombreImagen;
+            $imageFile = $request->file('imagen');
+            $imageName = 'noticia-' . time() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Usar images/ como directorio base
+            $destinationPath = public_path('images');
+            if (!is_dir($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            $imageFile->move($destinationPath, $imageName);
+            $data['imagen'] = 'images/' . $imageName;
+
+            \Log::info('Imagen principal guardada en: ' . $destinationPath . '/' . $imageName);
+            \Log::info('Ruta guardada en BD para imagen principal: ' . $data['imagen']);
         }
 
         $noticia = Noticia::create([
