@@ -112,7 +112,7 @@ if ($request->hasFile('imagen')) {
     $imagen->move($directorioDestino, $nombreImagen);
     
     // Guardar la ruta para la base de datos (como aparecerá en la URL)
-    $imagenPath = 'storage/images/' . $nombreImagen;
+    $imagenPath = '/images/' . $nombreImagen;
     
     \Log::info('Imagen guardada en: ' . $directorioDestino . '/' . $nombreImagen);
     \Log::info('Ruta pública: ' . $imagenPath);
@@ -187,7 +187,7 @@ if ($request->hasFile('imagen')) {
     $imagen->move($directorioDestino, $nombreImagen);
     
     // Guardar la ruta para la base de datos (como aparecerá en la URL)
-    $imagenPath = 'storage/images/' . $nombreImagen;
+    $imagenPath = '/images/' . $nombreImagen;
 } else {
     $imagenPath = $noticia->imagen;
 }
