@@ -47,7 +47,7 @@
             <article class="article-card">
                 <div class="article-image">
                     @if($noticia->imagen)
-                    <img src="{{ asset('storage/' . $noticia->imagen) }}" alt="{{ $noticia->titulo }}">
+                    <img src="{{ asset($noticia->imagen) }}" alt="{{ $noticia->titulo }}">
                     @else
                     <img src="{{ asset('img/placeholder-noticia.jpg') }}" alt="{{ $noticia->titulo }}">
                     @endif
