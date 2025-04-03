@@ -97,22 +97,26 @@ class NoticiasController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        // Manejar subida de imagen para noticias (modificado)
-        if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $nombreImagen = 'noticia-' . time() . '.' . $imagen->getClientOriginalExtension();
-
-            $destinationPath = storage_path('images');
-            if (!is_dir($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
-
-            $imagen->move($destinationPath, $nombreImagen);
-            $imagenPath = 'storage/images/' . $nombreImagen;
-
-            \Log::info('Imagen guardada en: ' . $destinationPath . '/' . $nombreImagen);
-            \Log::info('Ruta guardada en BD: ' . $imagenPath);
-        }
+// Manejar subida de imagen para noticias
+if ($request->hasFile('imagen')) {
+    $imagen = $request->file('imagen');
+    $nombreImagen = 'noticia-' . time() . '.' . $imagen->getClientOriginalExtension();
+    
+    // Crear directorio si no existe
+    $directorioDestino = storage_path('app/public/images');
+    if (!is_dir($directorioDestino)) {
+        mkdir($directorioDestino, 0755, true);
+    }
+    
+    // Mover el archivo
+    $imagen->move($directorioDestino, $nombreImagen);
+    
+    // Guardar la ruta para la base de datos (como aparecerá en la URL)
+    $imagenPath = 'storage/images/' . $nombreImagen;
+    
+    \Log::info('Imagen guardada en: ' . $directorioDestino . '/' . $nombreImagen);
+    \Log::info('Ruta pública: ' . $imagenPath);
+}
 
         $noticia = Noticia::create([
             'titulo' => $request->titulo,
@@ -161,16 +165,32 @@ class NoticiasController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        // Manejar subida de imagen
-        if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe
-            if ($noticia->imagen) {
-                \Storage::disk('public')->delete($noticia->imagen);
-            }
-            $imagenPath = $request->file('imagen')->store('noticias', 'public');
-        } else {
-            $imagenPath = $noticia->imagen;
-        }
+// Manejar subida de imagen
+if ($request->hasFile('imagen')) {
+    // Eliminar imagen anterior si existe
+    if ($noticia->imagen) {
+        // Si la ruta guardada incluye "storage/" al inicio, lo removemos para el Storage::delete
+        $rutaImagen = str_replace('storage/', '', $noticia->imagen);
+        \Storage::disk('public')->delete($rutaImagen);
+    }
+    
+    $imagen = $request->file('imagen');
+    $nombreImagen = 'noticia-' . time() . '.' . $imagen->getClientOriginalExtension();
+    
+    // Crear directorio si no existe
+    $directorioDestino = storage_path('app/public/images');
+    if (!is_dir($directorioDestino)) {
+        mkdir($directorioDestino, 0755, true);
+    }
+    
+    // Mover el archivo
+    $imagen->move($directorioDestino, $nombreImagen);
+    
+    // Guardar la ruta para la base de datos (como aparecerá en la URL)
+    $imagenPath = 'storage/images/' . $nombreImagen;
+} else {
+    $imagenPath = $noticia->imagen;
+}
 
         $noticia->update([
             'titulo' => $request->titulo,
