@@ -16,54 +16,54 @@ use Illuminate\Support\Facades\Log;
 class NoticiasController extends Controller
 {
     public function index(Request $request)
-{
-    \Log::info('Noticias index called', [
-        'url' => $request->fullUrl(),
-        'ip' => $request->ip(),
-        'params' => $request->all(),
-    ]);
+    {
+        \Log::info('Noticias index called', [
+            'url' => $request->fullUrl(),
+            'ip' => $request->ip(),
+            'params' => $request->all(),
+        ]);
 
-    $configuracion = NoticiasConfiguracion::obtenerConfiguracion();
-    \Log::info('Configuración de noticias obtenida', ['configuracion' => $configuracion]);
+        $configuracion = NoticiasConfiguracion::obtenerConfiguracion();
+        \Log::info('Configuración de noticias obtenida', ['configuracion' => $configuracion]);
 
-    $categorias = Categoria::where('activa', true)->get();
-    \Log::info('Categorías activas obtenidas', ['categorias_count' => $categorias->count()]);
+        $categorias = Categoria::where('activa', true)->get();
+        \Log::info('Categorías activas obtenidas', ['categorias_count' => $categorias->count()]);
 
-    $busqueda = $request->input('buscar');
-    $categoriaSlug = $request->input('categoria');
-    $tagSlug = $request->input('tag');
-    \Log::info('Filtros aplicados', [
-        'buscar' => $busqueda,
-        'categoria' => $categoriaSlug,
-        'tag' => $tagSlug
-    ]);
+        $busqueda = $request->input('buscar');
+        $categoriaSlug = $request->input('categoria');
+        $tagSlug = $request->input('tag');
+        \Log::info('Filtros aplicados', [
+            'buscar' => $busqueda,
+            'categoria' => $categoriaSlug,
+            'tag' => $tagSlug
+        ]);
 
-    $query = Noticia::with(['categoria', 'tags'])
-        ->publicadas()
-        ->latest('fecha_publicacion');
+        $query = Noticia::with(['categoria', 'tags'])
+            ->publicadas()
+            ->latest('fecha_publicacion');
 
-    $query->buscar($busqueda)
-        ->categoria($categoriaSlug);
+        $query->buscar($busqueda)
+            ->categoria($categoriaSlug);
 
-    if ($tagSlug) {
-        $query->whereHas('tags', function ($q) use ($tagSlug) {
-            $q->where('slug', $tagSlug);
-        });
-        \Log::info('Filtro por tag aplicado', ['tag' => $tagSlug]);
+        if ($tagSlug) {
+            $query->whereHas('tags', function ($q) use ($tagSlug) {
+                $q->where('slug', $tagSlug);
+            });
+            \Log::info('Filtro por tag aplicado', ['tag' => $tagSlug]);
+        }
+
+        $noticias = $query->paginate(6);
+        \Log::info('Noticias paginadas', [
+            'noticias_count' => $noticias->count(),
+            'total' => $noticias->total(),
+            'current_page' => $noticias->currentPage(),
+        ]);
+
+        // Obtener los metadatos SEO para la página de Noticias
+        $seo = SeoMetadata::where('page_slug', 'noticias')->first();
+
+        return view('noticias', compact('configuracion', 'categorias', 'noticias', 'seo'));
     }
-
-    $noticias = $query->paginate(6);
-    \Log::info('Noticias paginadas', [
-        'noticias_count' => $noticias->count(),
-        'total' => $noticias->total(),
-        'current_page' => $noticias->currentPage(),
-    ]);
-    
-    // Obtener los metadatos SEO para la página de Noticias
-    $seo = SeoMetadata::where('page_slug', 'noticias')->first();
-
-    return view('noticias', compact('configuracion', 'categorias', 'noticias', 'seo'));
-}
 
 
 
@@ -97,10 +97,12 @@ class NoticiasController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        // Manejar subida de imagen
-        $imagenPath = null;
+        // Manejar subida de imagen para noticias (modificado)
         if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('noticias', 'public');
+            $imagen = $request->file('imagen');
+            $nombreImagen = 'noticias/' . time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
+            $imagen->move(public_path('images/noticias'), $nombreImagen);
+            $imagenPath = 'images/' . $nombreImagen;
         }
 
         $noticia = Noticia::create([
