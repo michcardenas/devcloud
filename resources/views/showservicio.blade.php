@@ -19,7 +19,7 @@
 
       <!-- Imagen destacada -->
       <div class="mb-6 text-center">
-        <img src="{{ asset('storage/' . $servicio->imagennoticia) }}" 
+        <img src="{{ asset( $servicio->imagennoticia) }}" 
              alt="{{ $servicio->titulonoticia }}"
              class="max-w-full h-auto rounded-lg shadow-lg mx-auto">
       </div>
