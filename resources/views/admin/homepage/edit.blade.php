@@ -724,7 +724,122 @@
         </div>
     </div>
 </form>
+<script>
+    // Función para alternar la visibilidad de secciones
+    function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        }
+    }
 
+    document.addEventListener('DOMContentLoaded', function() {
+        // Referencias a elementos
+        const addServiceBtn = document.getElementById('addServiceBtn');
+        const servicesContainer = document.getElementById('services-container');
+        const serviceTemplate = document.getElementById('service-template');
+
+        // Contador para nuevos servicios
+        let serviceCounter = document.querySelectorAll('.service-item').length;
+
+        // Agregar nuevo servicio
+        addServiceBtn.addEventListener('click', function() {
+            // Clonar el template
+            let templateContent = serviceTemplate.innerHTML;
+            
+            // Reemplazar el marcador de posición del índice
+            templateContent = templateContent.replaceAll('__INDEX__', serviceCounter);
+            
+            // Crear un div temporal para insertar el contenido HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = templateContent;
+            
+            // Agregar el nuevo servicio al contenedor
+            servicesContainer.appendChild(tempDiv.firstElementChild);
+            
+            // Inicializar handlers para el nuevo servicio
+            initServiceHandlers(document.querySelector(`.service-item[data-index="${serviceCounter}"]`));
+            
+            // Incrementar el contador
+            serviceCounter++;
+        });
+
+        // Inicializar handlers para servicios existentes
+        function initServiceHandlers(serviceItem) {
+            // Botón eliminar
+            const deleteBtn = serviceItem.querySelector('.delete-service');
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    if (confirm('¿Estás seguro de eliminar este servicio?')) {
+                        serviceItem.remove();
+                    }
+                });
+            }
+
+            // Botón alternar visibilidad
+            const toggleBtn = serviceItem.querySelector('.toggle-service');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    const details = serviceItem.querySelector('.service-details');
+                    if (details) {
+                        details.style.display = details.style.display === 'none' ? 'grid' : 'none';
+                    }
+                });
+            }
+
+            // Actualizar título visible cuando cambie el input
+            const titleInput = serviceItem.querySelector('.service-title');
+            const titleDisplay = serviceItem.querySelector('.service-title-display');
+            if (titleInput && titleDisplay) {
+                titleInput.addEventListener('input', function() {
+                    titleDisplay.textContent = titleInput.value ? `Servicio: ${titleInput.value}` : 'Nuevo servicio';
+                });
+            }
+
+            // Botones mover arriba/abajo
+            const moveUpBtn = serviceItem.querySelector('.move-service-up');
+            if (moveUpBtn) {
+                moveUpBtn.addEventListener('click', function() {
+                    const prev = serviceItem.previousElementSibling;
+                    if (prev && prev.classList.contains('service-item')) {
+                        servicesContainer.insertBefore(serviceItem, prev);
+                    }
+                });
+            }
+
+            const moveDownBtn = serviceItem.querySelector('.move-service-down');
+            if (moveDownBtn) {
+                moveDownBtn.addEventListener('click', function() {
+                    const next = serviceItem.nextElementSibling;
+                    if (next && next.classList.contains('service-item')) {
+                        servicesContainer.insertBefore(next, serviceItem);
+                    }
+                });
+            }
+
+            // Vista previa de imagen al cargar
+            const iconInput = serviceItem.querySelector('.service-icon-input');
+            const iconPreview = serviceItem.querySelector('.icon-preview');
+            if (iconInput && iconPreview) {
+                iconInput.addEventListener('change', function(e) {
+                    if (e.target.files && e.target.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            iconPreview.innerHTML = `<img src="${e.target.result}" alt="Vista previa" class="h-10 rounded border border-gray-700">`;
+                            iconPreview.style.display = 'block';
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                    }
+                });
+            }
+        }
+
+        // Inicializar handlers para todos los servicios existentes
+        document.querySelectorAll('.service-item').forEach(function(serviceItem) {
+            initServiceHandlers(serviceItem);
+        });
+    });
+</script>
 @endsection
 
 @push('scripts')
