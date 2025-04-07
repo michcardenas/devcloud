@@ -97,33 +97,27 @@ class NoticiasController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-// Manejar subida de imagen
-if ($request->hasFile('imagen')) {
-    // Eliminar imagen anterior si existe
-    if ($noticia->imagen) {
-        $rutaAnterior = public_path($noticia->imagen);
-        if (file_exists($rutaAnterior)) {
-            unlink($rutaAnterior);
+    
+     $imagenPath = null;
+
+    if ($request->hasFile('imagen')) {
+        $imagen = $request->file('imagen');
+        $nombreImagen = time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
+
+        // Asegurar que la carpeta existe
+        $directorioDestino = public_path('images/noticias');
+        if (!is_dir($directorioDestino)) {
+            mkdir($directorioDestino, 0755, true);
         }
+
+        // Mover el archivo
+        $imagen->move($directorioDestino, $nombreImagen);
+
+        // Guardar la ruta relativa para la base de datos
+        $imagenPath = 'images/noticias/' . $nombreImagen;
     }
     
-    $imagen = $request->file('imagen');
-    $nombreImagen = time() . '-' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
-    
-    // Asegurar que la carpeta existe
-    $directorioDestino = public_path('images/noticias');
-    if (!is_dir($directorioDestino)) {
-        mkdir($directorioDestino, 0755, true);
-    }
-    
-    // Mover el archivo
-    $imagen->move($directorioDestino, $nombreImagen);
-    
-    // Guardar la ruta relativa para la base de datos
-    $imagenPath = 'images/noticias/' . $nombreImagen;
-} else {
-    $imagenPath = $noticia->imagen;
-}
+ 
 
         $noticia = Noticia::create([
             'titulo' => $request->titulo,

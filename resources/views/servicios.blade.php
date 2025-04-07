@@ -246,44 +246,7 @@
             </div>
 
             {{-- BLOQUE 3 --}}
-            <div class="tech-servicio-bloque ">
-                <div class="tech-servicio-visual">
-                    <img src="{{ asset($serviciosPage->imagen3) }}" alt="Imagen 3" class="tech-servicio-img">
-                </div>
-                <div class="tech-servicio-datos">
-                    <div class="tech-servicio-tag">{{ $serviciosPage->tagline5 }}</div>
-                    <h2 class="tech-servicio-titulo">{{ $serviciosPage->sub4_h2 }}</h2>
-                    <div class="tech-servicio-separador"></div>
-                    <p class="tech-servicio-texto">{{ $serviciosPage->contenido_5 }}</p>
-
-                    <div class="tech-ventajas-grid">
-                        @for ($i = 1; $i <= 4; $i++)
-                            @php
-                                $titulo = $serviciosPage->{'titulo_atributo' . $i . '_3'};
-                                $contenido = $serviciosPage->{'contenido_atributo' . $i . '_3'};
-                                $imagen = $serviciosPage->{'imagen_atributo' . $i . '_3'};
-                            @endphp
-                            @if ($titulo || $contenido)
-                                <div class="tech-ventaja-item">
-                                    <div class="tech-ventaja-icono">
-                                        @if (!empty($imagen))
-                                            <img src="{{ asset($imagen) }}" alt="Icono" style="width: 32px;">
-                                        @endif
-                                    </div>
-                                    <div class="tech-ventaja-contenido">
-                                        <h3>{{ $titulo }}</h3>
-                                        <p>{{ $contenido }}</p>
-                                    </div>
-                                </div>
-                            @endif
-                        @endfor
-                    </div>
-
-                    <a href="/contacto" class="tech-btn-info">Solicitar información <span class="flecha">→</span></a>
-                </div>
-            </div>
-        @endif
-    </div>
+        @endif   
 </section>
 
 
@@ -310,3 +273,4 @@
     </div>
 </section>
 @endsection
+

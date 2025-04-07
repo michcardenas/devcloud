@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CotizacionMail;
+use App\Mail\CotizacionClienteMail;
 use Illuminate\Support\Facades\Validator;
 
 class CotizacionController extends Controller
@@ -19,6 +20,7 @@ class CotizacionController extends Controller
     {
         // Validar los datos del formulario
         $validator = Validator::make($request->all(), [
+            'name_empresa' => 'required|string|max:100',
             'nombre' => 'required|string|max:100',
             'email' => 'required|email|max:100',
             'telefono' => 'nullable|string|max:20',
@@ -28,6 +30,7 @@ class CotizacionController extends Controller
             'mensaje' => 'required|string',
             'acepto_privacidad' => 'required|accepted',
         ], [
+            'name_empresa.required' => 'El nombre de empresa es obligatorio',
             'nombre.required' => 'El nombre es obligatorio',
             'email.required' => 'El correo electrónico es obligatorio',
             'email.email' => 'Introduce un correo electrónico válido',
@@ -47,6 +50,7 @@ class CotizacionController extends Controller
 
         // Preparar los datos para el correo
         $datos = [
+            'name_empresa' => $request->name_empresa,
             'nombre' => $request->nombre,
             'email' => $request->email,
             'telefono' => $request->telefono ?: 'No proporcionado',
@@ -62,6 +66,10 @@ class CotizacionController extends Controller
         try {
             Mail::to(config('mail.from.address'))
                 ->send(new CotizacionMail($datos));
+
+           // Enviar al cliente
+Mail::to($datos['email'])
+    ->send(new CotizacionClienteMail($datos));
 
             return redirect()->back()->with('success', 'Tu solicitud de cotización ha sido enviada correctamente. Nos pondremos en contacto contigo en breve.');
         } catch (\Exception $e) {

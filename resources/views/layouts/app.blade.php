@@ -53,7 +53,7 @@
     {{-- Estilos y scripts --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('images/faviconHelmcode.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('public/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
        
@@ -74,7 +74,7 @@
         <!-- Logo -->
         <div class="navbar-logo">
             <a href="/">
-                <img class="h-20 w-auto" src="/images/logotiporetinaHelmcode.png" alt="Helmcode">
+                <img class="h-20 w-auto" src="/images/logo_transparent.png" alt="Helmcode">
             </a>
         </div>
 
@@ -127,7 +127,7 @@
         <div class="flex flex-col items-center text-center space-y-6">
             
             {{-- Logo centrado --}}
-            <img src="/images/logotiporetinaHelmcode.png" alt="Helmcode" class="h-20 w-auto">
+            <img src="/images/logo_transparent.png" alt="Helmcode" class="h-20 w-auto">
 
             {{-- Derechos + localización --}}
             <p class="text-sm text-white/70 leading-snug tracking-wide">
@@ -164,9 +164,7 @@
     <!-- Analytics script aquí -->
 @endif
 
-@if($cookiePrefs->marketing ?? false)
-    <!-- Facebook Pixel, etc -->
-@endif
+
 
 
 

@@ -206,6 +206,9 @@ public function update(Request $request, $id)
     }
 
     $servicio->update($validated);
+        
+ // AQUI LO QUE AÑADI
+ $pageSlug = 'servicios/' . $servicio->id . '/' . Str::slug($servicio->nombre);
 
     return redirect()->route('admin.servicios.index')
         ->with('success', 'Servicio actualizado correctamente');
@@ -407,8 +410,12 @@ public function update(Request $request, $id)
                               ->inRandomOrder()
                               ->limit(3)
                               ->get();
-        
+
+   
+
+           
+      
         // Retornar la vista con los datos
-        return view('showservicio', compact('servicio', 'relacionados'));
+        return view('showservicio', compact('servicio','relacionados'));
     }
 }

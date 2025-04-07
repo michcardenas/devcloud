@@ -210,6 +210,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+window.addEventListener('DOMContentLoaded', () => {
+  const navbar = document.querySelector('.navbar');
+  const hero = document.querySelector('.hero-container');
+
+  if (navbar && hero) {
+    const navbarHeight = navbar.offsetHeight;
+    hero.style.marginTop = `${navbarHeight}px`;
+  }
+});
+
+
+
+
+
 
 
 function scrollToContacto(servicio = '') {

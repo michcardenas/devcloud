@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Helmcode - Soluciones en la Nube y DevOps')
-
 @section('content')
 
 <!-- Hero Section con estadísticas -->
@@ -14,7 +12,9 @@
             <p class="hero-description scroll-reveal delay-3">{{ $content->hero_description }}</p>
 
             <div class="hero-buttons scroll-reveal delay-4">
-                <button type="button" class="btn btn-primary" onclick="location.href='#contacto'">
+                <button type="button" class="btn btn-primary relative inline-flex items-center justify-center px-6 py-3 text-white font-semibold bg-cyan-500 rounded-lg shadow-lg transition-all duration-300 ease-in-out
+         hover:bg-cyan-600 hover:shadow-cyan-500/50
+         animate-pulse focus:outline-none ring-2 ring-cyan-400 ring-offset-2 ring-offset-gray-900 " onclick="location.href='#contacto'">
                     Solicitar consulta <span class="arrow-icon">→</span>
                 </button>
                 <button type="button" class="btn btn-secondary" onclick="location.href='#servicios'">
@@ -105,10 +105,16 @@
 
 <section class="bg-white py-16">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-        {{-- Parte izquierda: imagen con card superpuesta --}}
-        <div class="relative">
-            <img src="{{ asset($contenido->imagen2) }}" alt="Equipo" class="rounded-lg shadow-md w-full object-cover">
-            <div class="absolute bottom-[-2rem] left-6 bg-white rounded-xl shadow-md p-6 w-[90%] max-w-sm">
+        
+
+
+
+{{-- Parte izquierda: imagen con card superpuesta --}}
+        <div class="relative w-full">
+                 <div class="absolute inset-0 -top-4 -left-4 right-4 bottom-4 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-xl opacity-30 z-0"></div>
+
+            <img src="{{ asset($contenido->imagen2) }}" alt="Equipo" class="relative z-10 rounded-xl shadow-md w-full object-cover">
+            <div class="absolute bottom-[-2rem] left-6 bg-white rounded-xl shadow-md p-6 w-[90%] max-w-sm z-20">
                 <h4 class="font-semibold text-lg mb-1 text-cyan-700">Nuestro equipo</h4>
                 
                 
@@ -209,7 +215,7 @@
             </p>
         </div>
 
-        <!-- Filtros de categoría -->
+        <!-- Filtros de categoría
         <div class="flex flex-wrap justify-center gap-2 mb-10">
             <button type="button" class="filter-btn active px-6 py-2 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition" data-filter="todos">
                 Todos
@@ -221,9 +227,9 @@
                 Gold
             </button>
             <button type="button" class="filter-btn px-6 py-2 bg-white text-gray-700 rounded-full hover:bg-gray-100 transition" data-filter="silver">
-                Silver
+                Herramientas
             </button>
-        </div>
+        </div> -->
 
         <!-- Cuadrícula de partners -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 partner-grid">
@@ -248,7 +254,7 @@
                             'logo' => $logo,
                             'titulo' => $titulo,
                             'tag' => $tag,
-                            'posicion' => $posicion,
+                           'posicion' => $posicion,
                             'index' => $i  // Agregamos el índice para depuración
                         ];
                         echo "<!-- ✅ Partner $i añadido al array -->";
@@ -284,7 +290,7 @@
                     bg-gray-100 text-gray-800
                 @endif
             ">
-                {{ ucfirst($partner['posicion']) }} Partner
+                {{ ucfirst($partner['posicion']) }} <!-- Tecnologías Texto que aparece en las tarjetas acompañado de silver, gold etc -->
             </span>
         </div>
     </div>
@@ -310,166 +316,11 @@
         </div>
 
         <!-- Tarjetas de niveles de partnership -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-    <!-- Nivel Platinum -->
-    <div class="rounded-lg overflow-hidden border border-indigo-100 shadow-sm">
-        <div class="p-5 bg-indigo-50">
-            <h3 class="text-xl font-bold text-gray-900 mb-1">
-                {{ $partners->titulo_tarjeta_eco1 ?? 'Platinum' }}
-            </h3>
-            <p class="text-indigo-600">
-                {{ $partners->subtitulo_eco1 ?? 'Colaboración estratégica' }}
-            </p>
-        </div>
-        <div class="p-5 bg-white">
-            <ul class="space-y-3">
-                @if(!empty($partners->lista_tarjeta_eco1))
-                    @foreach(explode("\n", $partners->lista_tarjeta_eco1) as $item)
-                        @if(!empty(trim($item)))
-                        <li class="flex items-start">
-                            <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-gray-700">{{ trim($item) }}</span>
-                        </li>
-                        @endif
-                    @endforeach
-                @else
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Acceso prioritario a eventos exclusivos</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Desarrollo conjunto de soluciones</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Equipo de soporte dedicado 24/7</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Posición destacada en nuestra web y materiales</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-indigo-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Acceso a nuestro programa de innovación</span>
-                    </li>
-                @endif
-            </ul>
-        </div>
-    </div>
+        
+        <!-- AQUI PROGRAMA PARTNERS -->
     
-    <!-- Nivel Gold -->
-    <div class="rounded-lg overflow-hidden border border-yellow-100 shadow-sm">
-        <div class="p-5 bg-yellow-50">
-            <h3 class="text-xl font-bold text-gray-900 mb-1">
-                {{ $partners->titulo_tarjeta_eco2 ?? 'Gold' }}
-            </h3>
-            <p class="text-yellow-600">
-                {{ $partners->subtitulo_eco2 ?? 'Alianza avanzada' }}
-            </p>
-        </div>
-        <div class="p-5 bg-white">
-            <ul class="space-y-3">
-                @if(!empty($partners->lista_tarjeta_eco2))
-                    @foreach(explode("\n", $partners->lista_tarjeta_eco2) as $item)
-                        @if(!empty(trim($item)))
-                        <li class="flex items-start">
-                            <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-gray-700">{{ trim($item) }}</span>
-                        </li>
-                        @endif
-                    @endforeach
-                @else
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Participación en eventos premium</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Oportunidades de co-marketing</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Soporte técnico prioritario</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Visibilidad en nuestra web y materiales</span>
-                    </li>
-                @endif
-            </ul>
-        </div>
-    </div>
     
-    <!-- Nivel Silver -->
-    <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-        <div class="p-5 bg-gray-50">
-            <h3 class="text-xl font-bold text-gray-900 mb-1">
-                {{ $partners->titulo_tarjeta_eco3 ?? 'Silver' }}
-            </h3>
-            <p class="text-gray-600">
-                {{ $partners->subtitulo_eco3 ?? 'Colaboración básica' }}
-            </p>
-        </div>
-        <div class="p-5 bg-white">
-            <ul class="space-y-3">
-                @if(!empty($partners->lista_tarjeta_eco3))
-                    @foreach(explode("\n", $partners->lista_tarjeta_eco3) as $item)
-                        @if(!empty(trim($item)))
-                        <li class="flex items-start">
-                            <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-gray-700">{{ trim($item) }}</span>
-                        </li>
-                        @endif
-                    @endforeach
-                @else
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Networking con otros partners</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Recursos técnicos y de marketing</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-gray-700">Acceso a nuestro programa de certificación</span>
-                    </li>
-                @endif
-            </ul>
-        </div>
-    </div>
-</div>
+               
 
         <!-- Toggle del formulario -->
         <div class="text-center mb-4">
@@ -480,7 +331,7 @@
 
         <!-- Formulario de solicitud -->
         <div id="partnershipForm" class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8 border border-gray-200 mt-4" style="display: none;">
-            <h3 class="text-xl font-bold text-gray-900 mb-4">Solicitud de partnership</h3>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Solicitud de Colaboración</h3>
             
             <form action="{{ route('partnership.submit') }}" method="POST" class="space-y-4">
                 @csrf
@@ -586,7 +437,7 @@
     <div>
         <span class="contact-info-text text-white/90">
             Lunes a Viernes<br />
-            9:00 - 18:00
+            8:00 - 18:00
         </span>
     </div>
 </div>
@@ -644,8 +495,8 @@
                     
                     <div class="form-row">
                     <div class="input-group">
-                            <label for="name" class="input-label">Nombre de la empresa</label>
-                            <input type="text" id="name" name="nombre" class="input-field" value="{{ old('nombre') }}" placeholder="Nombre de la empresa" required>
+                            <label for="empresa" class="input-label">Nombre de la empresa</label>
+                            <input type="text" id="empresa" name="name_empresa" class="input-field" value="{{ old('name_empresa') }}" placeholder="Nombre de la empresa" required>
                         </div>
                         <div class="input-group">
                             <label for="name" class="input-label">Nombre</label>
@@ -670,12 +521,10 @@
                             <label for="servicio" class="input-label">Servicio que necesitas</label>
                             <select id="servicio" name="servicio" class="input-fieldse" required>
                                 <option value="" disabled {{ old('servicio') ? '' : 'selected' }}>Selecciona un servicio</option>
-                                <option value="Desarrollo Web" {{ old('servicio') == 'Desarrollo Web' ? 'selected' : '' }}>Desarrollo Web</option>
-                                <option value="Desarrollo Móvil" {{ old('servicio') == 'Desarrollo Móvil' ? 'selected' : '' }}>Desarrollo Móvil</option>
+                             
+                               
                                 <option value="DevOps" {{ old('servicio') == 'Desarrollo Móvil' ? 'selected' : '' }}>DevOps</option>
                                 <option value="Servicios Cloud" {{ old('servicio') == 'Servicios Cloud' ? 'selected' : '' }}>Servicios Cloud</option>
-                                <option value="Consultoría Tecnológica" {{ old('servicio') == 'Consultoría Tecnológica' ? 'selected' : '' }}>Conectividad</option>
-                                <option value="Diseño UX/UI" {{ old('servicio') == 'Diseño UX/UI' ? 'selected' : '' }}>Ciberseguridad</option>
                                 <option value="Otro" {{ old('servicio') == 'Otro' ? 'selected' : '' }}>Otro</option>
                             </select>
                         </div>
@@ -717,7 +566,7 @@
                     </div>
 
                     <button type="submit" class="submit-button">
-                        Solicitar cotización
+                        Enviar Briefing
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>

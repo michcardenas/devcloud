@@ -95,7 +95,7 @@
         <p class="text-sm text-[#00b8c4] font-medium">Horario</p>
         <span class="contact-info-text text-white/90">
             Lunes a Viernes<br />
-            9:00 - 18:00
+            8:00 - 18:00
         </span>
     </div>
 </div>
@@ -153,57 +153,99 @@
                             </ul>
                         </div>
                         @endif
+                       
+
+                              <div class="form-row">
+                    <div class="input-group">
+                            <label for="empresa" class="input-label">Nombre de la empresa</label>
+                            <input type="text" id="empresa" name="name_empresa" class="input-field" value="{{ old('name_empresa') }}" placeholder="Nombre de la empresa" required>
+                        </div>
                         <div class="input-group">
-                                <label for="name" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Nombre de la empresa</label>
-                                <input type="text" id="name" name="nombre" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" value="{{ old('nombre') }}" placeholder="Nombre de la compañía" required>
-                            </div>
-                        <div class="form-row grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div class="input-group">
-                                <label for="name" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Nombre</label>
-                                <input type="text" id="name" name="nombre" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" value="{{ old('nombre') }}" placeholder="Tu nombre completo" required>
-                            </div>
-                          
-
-                            <div class="input-group">
-                                <label for="email" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Correo electrónico</label>
-                                <input type="email" id="email" name="email" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" value="{{ old('email') }}" placeholder="ejemplo@email.com" required>
-                            </div>
+                            <label for="name" class="input-label">Nombre</label>
+                            <input type="text" id="name" name="nombre" class="input-field" value="{{ old('nombre') }}" placeholder="Tu nombre completo" required>
                         </div>
 
-                        <div class="form-row grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div class="input-group">
-                                <label for="phone" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Teléfono (opcional)</label>
-                                <input type="tel" id="phone" name="telefono" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" value="{{ old('telefono') }}" placeholder="+34 600 000 000">
-                            </div>
 
-                            <div class="input-group">
-                                <label for="asunto" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Asunto</label>
-                                <input type="text" id="asunto" name="asunto" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" value="{{ old('asunto') }}" placeholder="Motivo de tu contacto">
-                            </div>
+
+                        <div class="input-group">
+                            <label for="email" class="input-label">Correo electrónico</label>
+                            <input type="email" id="email" name="email" class="input-field" value="{{ old('email') }}" placeholder="ejemplo@email.com" required>
+                        </div>
+                    </div>
+
+                       <div class="form-row">
+                        <div class="input-group">
+                            <label for="phone" class="input-label">Teléfono (opcional)</label>
+                            <input type="tel" id="phone" name="telefono" class="input-field" value="{{ old('telefono') }}" placeholder="+34 600 000 000">
                         </div>
 
-                        <div class="input-group mb-6">
-                            <label for="message" class="input-label block text-sm font-medium text-[#00b8c4] mb-2">Mensaje</label>
-                            <textarea id="message" name="mensaje" class="input-field w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00b8c4] focus:ring-2 focus:ring-[#00b8c4]/20 transition-all duration-300" placeholder="Escribe tu mensaje aquí" rows="4" required>{{ old('mensaje') }}</textarea>
-                        </div>
+                <div class="input-group">
+                            <label for="servicio" class="input-label">Servicio que necesitas</label>
+                            <select id="servicio" name="servicio" class="input-fieldse" required>
+                                <option value="" disabled {{ old('servicio') ? '' : 'selected' }}>Selecciona un servicio</option>
 
-                        <div class="form-legal mb-6 flex items-center">
-                            <input type="checkbox" id="privacidad" name="acepto_privacidad" required {{ old('acepto_privacidad') ? 'checked' : '' }} class="w-4 h-4 bg-white/5 border-white/10 rounded focus:ring-[#00b8c4] focus:ring-2 text-[#00b8c4]">
-                            <label for="privacidad" class="legal-label ml-2 text-sm text-white/80">He leído y acepto las <a href="#" class="text-[#00b8c4] hover:underline">condiciones de uso</a> y la <a href="#" class="text-[#00b8c4] hover:underline">política de privacidad</a></label>
-                        </div>
 
-                        <button type="submit" class="submit-button inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00b8c4] to-[#1e88e5] text-white font-semibold rounded-lg shadow-lg hover:translate-y-[-3px] transition-all duration-300 hover:shadow-[#00b8c4]/30 hover:shadow-xl">
-                            Enviar mensaje
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </button>
+                                <option value="DevOps" {{ old('servicio') == 'Desarrollo Móvil' ? 'selected' : '' }}>DevOps</option>
+                                <option value="Servicios Cloud" {{ old('servicio') == 'Servicios Cloud' ? 'selected' : '' }}>Servicios Cloud</option>
+                                <option value="Otro" {{ old('servicio') == 'Otro' ? 'selected' : '' }}>Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="region" class="input-label">Región</label>
+                        <select id="region" name="region" class="input-fieldse" required>
+                            <option value="" disabled {{ old('region') ? '' : 'selected' }}>Selecciona una región</option>
+                            <option value="Madrid" {{ old('region') == 'Madrid' ? 'selected' : '' }}>Madrid</option>
+                            <option value="Barcelona" {{ old('region') == 'Barcelona' ? 'selected' : '' }}>Barcelona</option>
+                            <option value="Valencia" {{ old('region') == 'Valencia' ? 'selected' : '' }}>Valencia</option>
+                            <option value="Sevilla" {{ old('region') == 'Sevilla' ? 'selected' : '' }}>Sevilla</option>
+                            <option value="Bilbao" {{ old('region') == 'Bilbao' ? 'selected' : '' }}>Bilbao</option>
+                            <option value="Otra" {{ old('region') == 'Otra' ? 'selected' : '' }}>Otra</option>
+                        </select>
+                    </div>
+
+
+ <div class="input-group">
+                        <label for="presupuesto" class="input-label">Rango de presupuesto</label>
+                        <select id="presupuesto" name="presupuesto" class="input-fieldse" required>
+                            <option value="" disabled {{ old('presupuesto') ? '' : 'selected' }}>Selecciona un rango</option>
+                            <option value="Menos de 5.000 €" {{ old('presupuesto') == 'Menos de 5.000 €' ? 'selected' : '' }}>Menos de 5.000 €</option>
+                            <option value="5.000 € - 10.000 €" {{ old('presupuesto') == '5.000 € - 10.000 €' ? 'selected' : '' }}>5.000 € - 10.000 €</option>
+                            <option value="10.000 € - 20.000 €" {{ old('presupuesto') == '10.000 € - 20.000 €' ? 'selected' : '' }}>10.000 € - 20.000 €</option>
+                            <option value="20.000 € - 50.000 €" {{ old('presupuesto') == '20.000 € - 50.000 €' ? 'selected' : '' }}>20.000 € - 50.000 €</option>
+                            <option value="Más de 50.000 €" {{ old('presupuesto') == 'Más de 50.000 €' ? 'selected' : '' }}>Más de 50.000 €</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="message" class="input-label">Mensaje</label>
+                        <textarea id="message" name="mensaje" class="input-field" placeholder="Cuéntanos sobre tu proyecto o consulta" required>{{ old('mensaje') }}</textarea>
+                    </div>
+
+                    <div class="form-legal">
+                        <input type="checkbox" id="privacidad" name="acepto_privacidad" required {{ old('acepto_privacidad') ? 'checked' : '' }}>
+                        <label for="privacidad" class="legal-label">He leído y acepto las condiciones de uso y la política de privacidad</label>
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        Enviar Briefing
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+
+
+
+
+
 
     <!-- Brief FAQ Section -->
     <section class="py-16 bg-gradient-to-b from-[#0d2b36]/90 to-[#0a1520] relative">

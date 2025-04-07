@@ -140,6 +140,11 @@
         <div class="content">
             <div class="section">
                 <h2>Información del Cliente</h2>
+                 
+                <div class="data-row">
+                    <div class="label">Nombre Empresa:</div>
+                    <div class="value">{{ $datos['name_empresa'] }}</div>
+                </div>
                 
                 <div class="data-row">
                     <div class="label">Nombre:</div>
@@ -194,8 +199,8 @@
         </div>
         
         <div class="footer">
-            <img src="{{ asset('img/logo.png') }}" alt="DevCloud Partners Logo">
-            <p>© {{ date('Y') }} DevCloud Partners. Todos los derechos reservados.</p>
+            <img src="{{ asset('images/twitter_header_photo_1.png') }}" alt="Helmcode Logo">
+            <p>© {{ date('Y') }} Helmcode. Todos los derechos reservados.</p>
             <p>Este correo fue generado automáticamente. Por favor no responda a este mensaje.</p>
         </div>
     </div>
